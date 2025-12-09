@@ -1,0 +1,385 @@
+{
+  "url": "https://attio-hub.vercel.app/api/webhooks/academy",
+  "enabled": true,
+  "events": {
+    "registration": true,
+    "profileUpdate": true
+  },
+  "logs": [
+    {
+      "id": "log_1765315883209_0g27g5sux",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:23.209Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315883121_bmhf8ie7e",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:23.121Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315882595_jfu95owwu",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:22.595Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315882173_h32p7gh9x",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:22.173Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315882061_3t6vle94g",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:22.061Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315881976_t0nzv632l",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:21.976Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315881907_mh8cmytvt",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:21.907Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315881848_ffbucpmjq",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:21.848Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315881405_8zqvotcze",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:21.405Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315880836_9efn2iijn",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:20.836Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315880795_6y1kgz2kb",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:20.795Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315880707_nw6a9ghf2",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:20.707Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315880704_gxhlntizf",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:20.704Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315880662_ahghwzoi2",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:20.662Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315879946_ysrunnhwo",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:19.946Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315879500_dskua92w7",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:19.500Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315879496_mz4m4lgvk",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:19.496Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315879442_up6mjoi7i",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:19.442Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315879375_1vcr4gb0a",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:19.375Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315879288_i8pg2lu7x",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:31:19.288Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Maxel Peter",
+          "job_title": "",
+          "industry": "E-Commerce",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765315315645_g1r08qm1c",
+      "event": "test",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:21:55.645Z",
+      "payload": {
+        "event": "test",
+        "user": {
+          "email": "test@example.com",
+          "full_name": "Test User",
+          "name": "Test User"
+        }
+      }
+    }
+  ]
+}
