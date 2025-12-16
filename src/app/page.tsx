@@ -14,41 +14,6 @@ const navData: Navigation[] = [
   { title: 'Checklisten', href: '/checklisten' },
 ];
 
-// Avatars für den Hero Section 27 mit Motion-Eigenschaften
-const avatarMotion = [
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png',
-    fallback: 'SM',
-    name: 'Sarah Müller',
-    duration: 15,
-    className: 'left-[15%] top-[20%]',
-    sizeClass: 'size-14 sm:size-16'
-  },
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png',
-    fallback: 'MK',
-    name: 'Michael Koch',
-    duration: 18,
-    className: 'right-[15%] top-[25%]',
-    sizeClass: 'size-12 sm:size-14'
-  },
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png',
-    fallback: 'AW',
-    name: 'Anna Weber',
-    duration: 20,
-    className: 'left-[10%] bottom-[30%]',
-    sizeClass: 'size-10 sm:size-12'
-  },
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-9.png',
-    fallback: 'TS',
-    name: 'Thomas Schmidt',
-    duration: 16,
-    className: 'right-[10%] bottom-[25%]',
-    sizeClass: 'size-14 sm:size-16'
-  },
-];
 
 export default function Home() {
   return (
@@ -71,7 +36,7 @@ export default function Home() {
       </header>
 
       <main>
-        <HeroSection27 avatarMotion={avatarMotion} />
+        <HeroSection27 />
         <BentoGrid01 />
       </main>
       <FooterComponent03 />
