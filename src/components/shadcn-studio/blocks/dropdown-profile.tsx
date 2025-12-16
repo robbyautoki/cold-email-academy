@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { useUser, useClerk } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 
-import { UserIcon, LogOutIcon } from 'lucide-react'
+import { UserIcon, LogOutIcon, SettingsIcon } from 'lucide-react'
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import {
@@ -25,7 +25,7 @@ type Props = {
 
 const ProfileDropdown = ({ trigger, defaultOpen, align = 'end' }: Props) => {
   const { user } = useUser()
-  const { signOut } = useClerk()
+  const { signOut, openUserProfile } = useClerk()
   const router = useRouter()
 
   const userName = user?.firstName || user?.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'User'
@@ -61,6 +61,10 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = 'end' }: Props) => {
           <DropdownMenuItem className='px-4 py-2.5 text-base' onClick={() => router.push('/profile')}>
             <UserIcon className='text-foreground size-5' />
             <span>Mein Profil</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem className='px-4 py-2.5 text-base' onClick={() => openUserProfile()}>
+            <SettingsIcon className='text-foreground size-5' />
+            <span>Konto-Einstellungen</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 

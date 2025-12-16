@@ -1,6 +1,8 @@
 'use client'
 
-import { ArrowRightIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useUser } from '@clerk/nextjs'
+import { ArrowRightIcon, Loader2Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,7 +16,32 @@ interface AccountDetailsStepProps {
 }
 
 const AccountDetailsStep = ({ stepper, formData, updateFormData }: AccountDetailsStepProps) => {
+  const { user } = useUser()
+  const [isLoading, setIsLoading] = useState(false)
   const canProceed = formData.firstName.trim() !== '' && formData.lastName.trim() !== ''
+
+  const handleNext = async () => {
+    if (!canProceed) return
+
+    setIsLoading(true)
+
+    // Registration Webhook mit Pflichtdaten (Vorname + Nachname)
+    try {
+      await fetch('/api/webhooks/registration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user?.primaryEmailAddress?.emailAddress || '',
+          fullName: `${formData.firstName} ${formData.lastName}`.trim()
+        })
+      })
+    } catch (err) {
+      console.error('Registration webhook error:', err)
+    }
+
+    setIsLoading(false)
+    stepper.next()
+  }
 
   return (
     <div className='flex flex-col gap-6'>
@@ -49,9 +76,9 @@ const AccountDetailsStep = ({ stepper, formData, updateFormData }: AccountDetail
         </div>
       </div>
       <div className='flex justify-end gap-4'>
-        <Button size='lg' onClick={stepper.next} disabled={!canProceed}>
-          Weiter
-          <ArrowRightIcon />
+        <Button size='lg' onClick={handleNext} disabled={!canProceed || isLoading}>
+          {isLoading ? <Loader2Icon className='animate-spin' /> : 'Weiter'}
+          {!isLoading && <ArrowRightIcon />}
         </Button>
       </div>
     </div>

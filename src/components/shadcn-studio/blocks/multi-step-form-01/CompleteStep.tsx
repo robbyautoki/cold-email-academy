@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { Loader2Icon, CheckCircle2Icon } from 'lucide-react'
@@ -20,10 +20,16 @@ const CompleteStep = ({ stepper, formData }: CompleteStepProps) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaved, setIsSaved] = useState(false)
   const [error, setError] = useState('')
+  const hasSaved = useRef(false)
 
   useEffect(() => {
+    // Verhindere mehrfache Ausführung
+    if (hasSaved.current) return
+
     const saveUserData = async () => {
       if (!user) return
+
+      hasSaved.current = true
 
       try {
         await user.update({
@@ -33,6 +39,7 @@ const CompleteStep = ({ stepper, formData }: CompleteStepProps) => {
             firstName: formData.firstName,
             lastName: formData.lastName,
             companyName: formData.companyName || undefined,
+            website: formData.website || undefined,
             industry: formData.industry || undefined,
             revenue: formData.revenue || undefined,
             referralSource: formData.referralSource || undefined,
@@ -42,26 +49,33 @@ const CompleteStep = ({ stepper, formData }: CompleteStepProps) => {
           },
         })
 
-        // Webhook für Profil-Update nach Onboarding triggern
-        try {
-          await fetch('/api/webhooks/trigger', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              event: 'profileUpdate',
-              data: {
-                email: user.primaryEmailAddress?.emailAddress || '',
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                industry: formData.industry || '',
-                revenue: formData.revenue || '',
-                linkedinUrl: formData.linkedinUrl || ''
-              }
+        // Webhook für Profil-Update NUR wenn optionale Felder ausgefüllt wurden
+        const hasOptionalData = formData.companyName || formData.website ||
+          formData.industry || formData.revenue || formData.linkedinUrl
+
+        if (hasOptionalData) {
+          try {
+            await fetch('/api/webhooks/trigger', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event: 'profileUpdate',
+                data: {
+                  email: user.primaryEmailAddress?.emailAddress || '',
+                  firstName: formData.firstName,
+                  lastName: formData.lastName,
+                  companyName: formData.companyName || '',
+                  website: formData.website || '',
+                  industry: formData.industry || '',
+                  revenue: formData.revenue || '',
+                  linkedinUrl: formData.linkedinUrl || ''
+                }
+              })
             })
-          })
-        } catch (webhookError) {
-          console.error('Webhook error:', webhookError)
-          // Fehler nicht an User zeigen, da Onboarding erfolgreich war
+          } catch (webhookError) {
+            console.error('Webhook error:', webhookError)
+            // Fehler nicht an User zeigen, da Onboarding erfolgreich war
+          }
         }
 
         setIsSaved(true)

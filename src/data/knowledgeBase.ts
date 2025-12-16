@@ -19286,7 +19286,7 @@ export const knowledgeBaseCategories: KBCategory[] = [
     title: 'Skalierung & Prozesse',
     description: 'Von einzelnen Kampagnen zu skalierbarem Outreach',
     icon: 'TrendingUpIcon',
-    color: 'emerald',
+    color: 'primary',
     articleCount: 8,
     articles: skalierungArticles
   },

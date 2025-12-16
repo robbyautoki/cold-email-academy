@@ -65,13 +65,23 @@ const PersonalInformationStep = ({ stepper, formData, updateFormData }: Personal
         <p className='text-muted-foreground'>Diese Angaben sind optional</p>
       </div>
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
-        <div className='flex flex-col items-start gap-1 sm:col-span-2'>
+        <div className='flex flex-col items-start gap-1'>
           <Label htmlFor='multi-step-personal-info-company'>Unternehmensname</Label>
           <Input
             id='multi-step-personal-info-company'
             placeholder='Meine Firma GmbH'
             value={formData.companyName}
             onChange={e => updateFormData({ companyName: e.target.value })}
+          />
+        </div>
+        <div className='flex flex-col items-start gap-1'>
+          <Label htmlFor='multi-step-personal-info-website'>Webseite</Label>
+          <Input
+            id='multi-step-personal-info-website'
+            type='url'
+            placeholder='https://meine-firma.de'
+            value={formData.website}
+            onChange={e => updateFormData({ website: e.target.value })}
           />
         </div>
         <div className='flex flex-col items-start gap-1'>

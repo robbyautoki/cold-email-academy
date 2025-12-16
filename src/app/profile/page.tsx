@@ -135,9 +135,8 @@ const ProfilePage = () => {
       title: 'Ressourcen',
       icon: <FolderOpenIcon className='text-foreground size-4 shrink-0' />,
       items: [
-        { title: 'Kurse', href: '#', icon: <GraduationCapIcon className='text-foreground size-4 shrink-0' /> },
         { title: 'Templates', href: '#', icon: <FileTextIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Checklisten', href: '#', icon: <ListChecksIcon className='text-foreground size-4 shrink-0' /> }
+        { title: 'Checklisten', href: '/checklisten', icon: <ListChecksIcon className='text-foreground size-4 shrink-0' /> }
       ]
     },
     {

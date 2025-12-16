@@ -30,6 +30,7 @@ export interface OnboardingData {
   firstName: string
   lastName: string
   companyName: string
+  website: string
   industry: string
   revenue: string
   referralSource: string
@@ -44,6 +45,7 @@ const MultiStepForm = () => {
     firstName: '',
     lastName: '',
     companyName: '',
+    website: '',
     industry: '',
     revenue: '',
     referralSource: '',

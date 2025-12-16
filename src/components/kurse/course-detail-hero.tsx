@@ -24,9 +24,9 @@ interface CourseDetailHeroProps {
 
 export function CourseDetailHero({ course, progress, continueUrl }: CourseDetailHeroProps) {
   const difficultyConfig = {
-    beginner: { label: 'Einsteiger', color: 'bg-green-500/10 text-green-700 border-green-500/20' },
-    intermediate: { label: 'Fortgeschritten', color: 'bg-amber-500/10 text-amber-700 border-amber-500/20' },
-    advanced: { label: 'Experte', color: 'bg-red-500/10 text-red-700 border-red-500/20' }
+    beginner: { label: 'Einsteiger', color: 'bg-primary/10 text-primary border-primary/20' },
+    intermediate: { label: 'Fortgeschritten', color: 'bg-muted text-muted-foreground border-muted' },
+    advanced: { label: 'Experte', color: 'bg-muted text-muted-foreground border-muted' }
   }
 
   const isCompleted = progress === 100
@@ -68,7 +68,7 @@ export function CourseDetailHero({ course, progress, continueUrl }: CourseDetail
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-2 -right-2 flex size-8 items-center justify-center rounded-full bg-green-500 shadow-lg"
+                  className="absolute -top-2 -right-2 flex size-8 items-center justify-center rounded-full bg-secondary shadow-lg"
                 >
                   <TrophyIcon className="size-4 text-white" />
                 </motion.div>
@@ -83,7 +83,7 @@ export function CourseDetailHero({ course, progress, continueUrl }: CourseDetail
                   {difficultyConfig[course.difficulty].label}
                 </Badge>
                 {isCompleted && (
-                  <Badge className="gap-1 bg-green-500/10 text-green-700 border-green-500/20 hover:bg-green-500/20">
+                  <Badge className="gap-1 bg-secondary/10 text-secondary-foreground border-secondary/20 hover:bg-secondary/20">
                     <TrophyIcon className="size-3" />
                     Abgeschlossen
                   </Badge>
@@ -137,7 +137,7 @@ export function CourseDetailHero({ course, progress, continueUrl }: CourseDetail
                         stroke="currentColor"
                         strokeWidth="4"
                         strokeLinecap="round"
-                        className={isCompleted ? 'text-green-500' : 'text-primary'}
+                        className={isCompleted ? 'text-secondary' : 'text-primary'}
                         initial={{ strokeDasharray: '0 176' }}
                         animate={{ strokeDasharray: `${(progress / 100) * 176} 176` }}
                         transition={{ duration: 1, ease: 'easeOut' }}

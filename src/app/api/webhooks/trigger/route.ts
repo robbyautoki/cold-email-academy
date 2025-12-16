@@ -73,6 +73,8 @@ export async function POST(request: Request) {
         user: {
           email: data.email,
           full_name: fullName,
+          company_name: data.companyName || '',
+          website: data.website || '',
           job_title: '',
           industry: data.industry || '',
           company_size: data.revenue || '',

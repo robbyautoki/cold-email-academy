@@ -177,6 +177,8 @@ const LoginForm = () => {
     if (!signUp) return
 
     try {
+      // signUp.authenticateWithRedirect funktioniert für neue UND bestehende User
+      // Bei bestehenden Usern transferiert Clerk automatisch zum Sign-In
       await signUp.authenticateWithRedirect({
         strategy: 'oauth_google',
         redirectUrl: '/sso-callback',

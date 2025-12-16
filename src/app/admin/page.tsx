@@ -4,35 +4,17 @@ import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import {
-  AlertTriangleIcon,
   BellIcon,
-  CalculatorIcon,
-  ChartColumnStackedIcon,
   CheckCircleIcon,
-  FileTextIcon,
-  FolderOpenIcon,
-  GlobeIcon,
-  GraduationCapIcon,
-  LanguagesIcon,
   LinkIcon,
-  ListChecksIcon,
   Loader2Icon,
-  MailCheckIcon,
   MegaphoneIcon,
-  MenuIcon,
-  PenToolIcon,
   PlayIcon,
-  PlusIcon,
-  SearchIcon,
   SendIcon,
-  ServerIcon,
   ShieldIcon,
-  ShieldCheckIcon,
-  TextSearchIcon,
   TrashIcon,
   UsersIcon,
   WebhookIcon,
-  WrenchIcon,
   XCircleIcon
 } from 'lucide-react'
 
@@ -50,23 +32,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu'
-import {
   Table,
   TableBody,
   TableCell,
@@ -78,14 +43,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
-
-import LogoSvg from '@/assets/svg/logo'
-import SearchDialog from '@/components/shadcn-studio/blocks/dialog-search'
-import LanguageDropdown from '@/components/shadcn-studio/blocks/dropdown-language'
-import NotificationDropdown from '@/components/shadcn-studio/blocks/dropdown-notification'
-import ProfileDropdown from '@/components/shadcn-studio/blocks/dropdown-profile'
-import MenuSheet from '@/components/shadcn-studio/blocks/menu-sheet'
-import type { NavigationSection } from '@/components/shadcn-studio/blocks/menu-sheet'
 
 interface UserData {
   id: string
@@ -163,46 +120,6 @@ const AdminPage = () => {
   })
 
   const isAdmin = user?.unsafeMetadata?.role === 'admin'
-
-  const navigationData: NavigationSection[] = [
-    {
-      title: 'Dashboard',
-      icon: <ChartColumnStackedIcon className='text-foreground size-4 shrink-0' />,
-      href: '/dashboard'
-    },
-    {
-      title: 'Tools',
-      icon: <WrenchIcon className='text-foreground size-4 shrink-0' />,
-      items: [
-        { title: 'SPF Generator', href: '#', icon: <ShieldCheckIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Email Signatur', href: '#', icon: <PenToolIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'MX Record Check', href: '#', icon: <ServerIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Email Verifizierung', href: '#', icon: <MailCheckIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'DNS Checker', href: '#', icon: <GlobeIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Email Kalkulator', href: '#', icon: <CalculatorIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Blacklist Prüfer', href: '#', icon: <AlertTriangleIcon className='text-foreground size-4 shrink-0' /> }
-      ]
-    },
-    {
-      title: 'Ressourcen',
-      icon: <FolderOpenIcon className='text-foreground size-4 shrink-0' />,
-      items: [
-        { title: 'Kurse', href: '#', icon: <GraduationCapIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Templates', href: '#', icon: <FileTextIcon className='text-foreground size-4 shrink-0' /> },
-        { title: 'Checklisten', href: '#', icon: <ListChecksIcon className='text-foreground size-4 shrink-0' /> }
-      ]
-    },
-    {
-      title: 'Suche',
-      icon: <TextSearchIcon className='text-foreground size-4 shrink-0' />,
-      href: '#'
-    },
-    {
-      title: 'Admin',
-      icon: <ShieldIcon className='text-foreground size-4 shrink-0' />,
-      href: '/admin'
-    }
-  ]
 
   useEffect(() => {
     if (isLoaded && !isAdmin) {
@@ -458,141 +375,18 @@ const AdminPage = () => {
   }
 
   return (
-    <div className='flex min-h-dvh flex-col'>
-      <header className='bg-card sticky top-0 z-50 border-b'>
-        <div className='border-b'>
-          <div className='mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-3 sm:px-6'>
-            <div className='flex items-center gap-4'>
-              <MenuSheet
-                logoName='Dashboard'
-                navigationData={navigationData}
-                trigger={
-                  <Button variant='outline' size='icon' className='inline-flex md:hidden'>
-                    <MenuIcon />
-                    <span className='sr-only'>Menu</span>
-                  </Button>
-                }
-              />
-              <a href='/dashboard'>
-                <div className='flex items-center'>
-                  <LogoSvg className='size-8.5' />
-                  <span className='ml-2.5 hidden text-xl font-semibold sm:block'>Dashboard</span>
-                </div>
-              </a>
-            </div>
-            <SearchDialog
-              className='hidden md:block'
-              trigger={
-                <Button variant='ghost' className='p-0 font-normal'>
-                  <div className='text-muted-foreground flex min-w-55 items-center gap-1.5 rounded-md border px-3 py-2 text-sm'>
-                    <SearchIcon />
-                    <span>Type to search...</span>
-                  </div>
-                </Button>
-              }
-            />
-            <div className='flex items-center gap-1.5'>
-              <SearchDialog
-                className='md:hidden'
-                trigger={
-                  <Button variant='ghost' size='icon'>
-                    <SearchIcon />
-                    <span className='sr-only'>Search</span>
-                  </Button>
-                }
-              />
-              <LanguageDropdown
-                trigger={
-                  <Button variant='ghost' size='icon'>
-                    <LanguagesIcon />
-                  </Button>
-                }
-              />
-              <NotificationDropdown
-                trigger={
-                  <Button variant='ghost' size='icon' className='relative'>
-                    <BellIcon />
-                    <span className='bg-destructive absolute top-2 right-2.5 size-2 rounded-full' />
-                  </Button>
-                }
-              />
-              <ProfileDropdown
-                trigger={
-                  <Button variant='ghost' className='h-full p-0'>
-                    <Avatar className='size-9.5 rounded-md'>
-                      <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png' />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                }
-              />
-            </div>
-          </div>
+    <div className='space-y-6'>
+      <div className='flex items-center gap-4'>
+        <div className='bg-primary/10 flex size-12 items-center justify-center rounded-lg'>
+          <ShieldIcon className='text-primary size-6' />
         </div>
-        <div className='mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-1.5 sm:px-6'>
-          <NavigationMenu viewport={false} className='hidden md:block'>
-            <NavigationMenuList className='flex-wrap justify-start'>
-              {navigationData.map(navItem => {
-                if (navItem.href) {
-                  return (
-                    <NavigationMenuItem key={navItem.title}>
-                      <NavigationMenuLink
-                        href={navItem.href}
-                        className={cn(navigationMenuTriggerStyle(), 'flex flex-row items-center gap-1.5')}
-                      >
-                        {navItem.icon}
-                        {navItem.title}
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  )
-                }
-
-                return (
-                  <NavigationMenuItem key={navItem.title}>
-                    <NavigationMenuTrigger className='gap-1.5'>
-                      {navItem.icon}
-                      {navItem.title}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent className='data-[motion=from-start]:slide-in-from-left-30! data-[motion=to-start]:slide-out-to-left-30! data-[motion=from-end]:slide-in-from-right-30! data-[motion=to-end]:slide-out-to-right-30! absolute w-auto'>
-                      <ul className='grid w-42 gap-4'>
-                        <li>
-                          {navItem.items?.map(item => (
-                            <NavigationMenuLink
-                              key={item.title}
-                              href={item.href}
-                              className='flex flex-row items-center gap-1.5'
-                            >
-                              {item.icon}
-                              {item.title}
-                            </NavigationMenuLink>
-                          ))}
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                )
-              })}
-            </NavigationMenuList>
-          </NavigationMenu>
-          <Button>
-            Invite Members
-            <PlusIcon />
-          </Button>
+        <div className='space-y-1'>
+          <h1 className='text-2xl font-bold'>Admin-Bereich</h1>
+          <p className='text-muted-foreground text-sm'>Benutzer verwalten und Benachrichtigungen senden</p>
         </div>
-      </header>
+      </div>
 
-      <main className='mx-auto size-full max-w-7xl flex-1 space-y-6 px-4 py-6 sm:px-6'>
-        <div className='flex items-center gap-4'>
-          <div className='bg-primary/10 flex size-12 items-center justify-center rounded-lg'>
-            <ShieldIcon className='text-primary size-6' />
-          </div>
-          <div className='space-y-1'>
-            <h1 className='text-2xl font-bold'>Admin-Bereich</h1>
-            <p className='text-muted-foreground text-sm'>Benutzer verwalten und Benachrichtigungen senden</p>
-          </div>
-        </div>
-
-        <Tabs defaultValue='users' className='space-y-6'>
+      <Tabs defaultValue='users' className='space-y-6'>
           <TabsList>
             <TabsTrigger value='users' className='gap-2'>
               <UsersIcon className='size-4' />
@@ -663,7 +457,7 @@ const AdminPage = () => {
                             <TableCell>{userData.referralSource || '-'}</TableCell>
                             <TableCell>
                               {userData.onboardingCompleted ? (
-                                <Badge variant='default' className='bg-green-600'>Aktiv</Badge>
+                                <Badge variant='default' className='bg-secondary text-secondary-foreground'>Aktiv</Badge>
                               ) : (
                                 <Badge variant='outline'>Onboarding</Badge>
                               )}
@@ -755,7 +549,7 @@ const AdminPage = () => {
                   <div className='flex items-center justify-between pt-2'>
                     <div>
                       {sendSuccess && (
-                        <span className='text-sm text-green-600'>Benachrichtigung gesendet!</span>
+                        <span className='text-sm text-primary'>Benachrichtigung gesendet!</span>
                       )}
                     </div>
                     <Button
@@ -923,7 +717,7 @@ const AdminPage = () => {
                           {testResult && (
                             <span className={cn(
                               'text-sm flex items-center gap-1',
-                              testResult.success ? 'text-green-600' : 'text-red-600'
+                              testResult.success ? 'text-primary' : 'text-destructive'
                             )}>
                               {testResult.success ? (
                                 <CheckCircleIcon className='size-4' />
@@ -988,15 +782,15 @@ const AdminPage = () => {
                           key={log.id}
                           className={cn(
                             'rounded-lg border p-3',
-                            log.status === 'success' ? 'border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-950' : 'border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950'
+                            log.status === 'success' ? 'border-secondary/30 bg-secondary/10' : 'border-destructive/30 bg-destructive/10'
                           )}
                         >
                           <div className='flex items-start justify-between gap-2'>
                             <div className='flex items-center gap-2'>
                               {log.status === 'success' ? (
-                                <CheckCircleIcon className='size-4 text-green-600' />
+                                <CheckCircleIcon className='size-4 text-primary' />
                               ) : (
-                                <XCircleIcon className='size-4 text-red-600' />
+                                <XCircleIcon className='size-4 text-destructive' />
                               )}
                               <span className='font-mono text-sm'>{log.event}</span>
                             </div>
@@ -1010,7 +804,7 @@ const AdminPage = () => {
                             </p>
                           )}
                           {log.error && (
-                            <p className='text-xs text-red-600 mt-1'>
+                            <p className='text-xs text-destructive mt-1'>
                               Fehler: {log.error}
                             </p>
                           )}
@@ -1023,34 +817,6 @@ const AdminPage = () => {
             </div>
           </TabsContent>
         </Tabs>
-      </main>
-
-      <footer>
-        <div className='mx-auto flex size-full max-w-7xl items-center justify-between gap-3 p-4 max-md:flex-col sm:px-6'>
-          <p className='text-muted-foreground text-center text-sm text-balance'>
-            {`©${new Date().getFullYear()}`}{' '}
-            <a href='#' className='text-primary'>
-              Shadcn/studio
-            </a>
-            , Made for better web design
-          </p>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href='/'>Home</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Admin</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </footer>
     </div>
   )
 }

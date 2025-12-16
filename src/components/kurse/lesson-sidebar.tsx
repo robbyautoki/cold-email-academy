@@ -25,10 +25,10 @@ interface LessonSidebarProps {
 }
 
 const lessonTypeConfig = {
-  video: { icon: PlayCircleIcon, color: 'text-red-500' },
-  text: { icon: FileTextIcon, color: 'text-blue-500' },
-  quiz: { icon: HelpCircleIcon, color: 'text-purple-500' },
-  practice: { icon: PenToolIcon, color: 'text-green-500' }
+  video: { icon: PlayCircleIcon, color: 'text-primary' },
+  text: { icon: FileTextIcon, color: 'text-primary' },
+  quiz: { icon: HelpCircleIcon, color: 'text-primary' },
+  practice: { icon: PenToolIcon, color: 'text-primary' }
 }
 
 export function LessonSidebar({
@@ -72,7 +72,7 @@ export function LessonSidebar({
                   <div
                     className={`flex size-6 shrink-0 items-center justify-center rounded-full text-xs ${
                       completed
-                        ? 'bg-green-500 text-white'
+                        ? 'bg-secondary text-secondary-foreground'
                         : isCurrent
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-muted-foreground'

@@ -68,20 +68,20 @@ export function DailyTip() {
   return (
     <MotionPreset fade blur delay={0.5}>
       <Card className="overflow-hidden border-zinc-200 dark:border-zinc-800 bg-gradient-to-r from-zinc-50 to-zinc-100/50 dark:from-zinc-900/50 dark:to-zinc-800/30">
-        <CardContent className="p-5 sm:p-6">
+        <CardContent className="p-5">
           <div className="flex items-start gap-4">
             {/* Icon with glow effect */}
             <div className="relative flex-shrink-0">
-              <div className="absolute inset-0 bg-amber-400/20 blur-xl rounded-full" />
-              <div className="relative flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/50 dark:to-amber-800/50">
-                <LightbulbIcon className="size-5 text-amber-600 dark:text-amber-400" />
+              <div className="absolute inset-0 bg-secondary/20 blur-xl rounded-full" />
+              <div className="relative flex size-11 items-center justify-center rounded-xl bg-secondary/30">
+                <LightbulbIcon className="size-5 text-secondary-foreground" />
               </div>
             </div>
 
             {/* Content */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide">
+                <span className="text-xs font-medium text-primary uppercase tracking-wide">
                   Pro Tip
                 </span>
                 <span className="text-xs text-zinc-400 dark:text-zinc-500">•</span>
@@ -98,7 +98,7 @@ export function DailyTip() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-1">
+                  <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-1 text-base">
                     {currentTip.title}
                   </h3>
                   <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
@@ -115,7 +115,7 @@ export function DailyTip() {
                   key={index}
                   className={`size-1.5 rounded-full transition-colors duration-300 ${
                     index === currentTipIndex
-                      ? 'bg-amber-500'
+                      ? 'bg-primary'
                       : 'bg-zinc-300 dark:bg-zinc-600'
                   }`}
                 />

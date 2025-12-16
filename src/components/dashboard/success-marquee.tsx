@@ -69,7 +69,7 @@ function SuccessCard({ story }: { story: SuccessStory }) {
           {story.result && (
             <>
               <span className="text-zinc-300 dark:text-zinc-600">•</span>
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
                 <TrendingUpIcon className="size-3" />
                 {story.result}
               </span>

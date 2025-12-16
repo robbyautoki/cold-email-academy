@@ -26,15 +26,15 @@ interface CourseCardProps {
 
 export function CourseCard({ course, progress, status }: CourseCardProps) {
   const difficultyConfig = {
-    beginner: { label: 'Einsteiger', color: 'bg-green-500/10 text-green-700 border-green-500/20' },
-    intermediate: { label: 'Fortgeschritten', color: 'bg-amber-500/10 text-amber-700 border-amber-500/20' },
-    advanced: { label: 'Experte', color: 'bg-red-500/10 text-red-700 border-red-500/20' }
+    beginner: { label: 'Einsteiger', color: 'bg-primary/10 text-primary border-primary/20' },
+    intermediate: { label: 'Fortgeschritten', color: 'bg-muted text-muted-foreground border-muted' },
+    advanced: { label: 'Experte', color: 'bg-muted text-muted-foreground border-muted' }
   }
 
   const statusConfig = {
     'not-started': { label: 'Nicht gestartet', icon: PlayCircleIcon, color: 'text-muted-foreground' },
-    'in-progress': { label: 'In Bearbeitung', icon: PlayCircleIcon, color: 'text-blue-600' },
-    'completed': { label: 'Abgeschlossen', icon: CheckCircleIcon, color: 'text-green-600' }
+    'in-progress': { label: 'In Bearbeitung', icon: PlayCircleIcon, color: 'text-primary' },
+    'completed': { label: 'Abgeschlossen', icon: CheckCircleIcon, color: 'text-secondary-foreground' }
   }
 
   const StatusIcon = statusConfig[status].icon
@@ -65,7 +65,7 @@ export function CourseCard({ course, progress, status }: CourseCardProps) {
 
             {/* Status Badge */}
             {status === 'completed' && (
-              <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-green-500 px-3 py-1 text-xs font-medium text-white shadow-lg">
+              <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground shadow-lg">
                 <CheckCircleIcon className="size-3" />
                 Abgeschlossen
               </div>

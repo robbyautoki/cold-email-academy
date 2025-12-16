@@ -1,105 +1,80 @@
-import Header from "@/components/shadcn-studio/blocks/hero-section-27/header";
-import HeroSection from "@/components/shadcn-studio/blocks/hero-section-13/hero-section-13";
-import SocialProof from "@/components/shadcn-studio/blocks/social-proof-03/social-proof-03";
-import BentoGrid from "@/components/shadcn-studio/blocks/bento-grid-02/bento-grid-02";
-import FeaturesSection from "@/components/shadcn-studio/blocks/features-section-17/features-section-17";
-import TestimonialsComponent from "@/components/shadcn-studio/blocks/testimonials-component-03/testimonials-component-03";
-import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-section-05";
-import Footer from "@/components/shadcn-studio/blocks/footer-component-02/footer-component-02";
+import HeroSection27 from "@/components/shadcn-studio/blocks/hero-section-27/hero-section-27";
+import BentoGrid01 from "@/components/shadcn-studio/blocks/bento-grid-01/bento-grid-01";
+import FooterComponent03 from "@/components/shadcn-studio/blocks/footer-component-03/footer-component-03";
+import { HeroNavigation01, HeroNavigation01SmallScreen, type Navigation } from "@/components/shadcn-studio/blocks/hero-navigation-01";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
-// Navigation Data
-const navigationData = [
-  {
-    title: "Kurse",
-    items: [
-      { title: "Cold Email Masterclass", href: "/kurse", description: "Lerne Cold Email von A-Z" },
-      { title: "Module", href: "/kurse/cold-email-masterclass", description: "5+ Module mit 24 Lektionen" },
-      { title: "Praxis-Übungen", href: "/kurse", description: "Direkt anwendbare Übungen" },
-    ],
-  },
-  {
-    title: "Ressourcen",
-    items: [
-      { title: "Knowledge Base", href: "/knowledge-base", description: "100+ Artikel zu Cold Email" },
-      { title: "Tools", href: "/tools", description: "7 kostenlose Tools" },
-      { title: "Vorlagen", href: "/knowledge-base", description: "Email-Templates" },
-    ],
-  },
-  {
-    title: "Tools",
-    items: [
-      { title: "SPF Generator", href: "/tools/spf-generator", description: "SPF Records erstellen" },
-      { title: "DNS Checker", href: "/tools/dns-checker", description: "DNS Records prüfen" },
-      { title: "Email Validator", href: "/tools/email-verifizierung", description: "Emails verifizieren" },
-    ],
-  },
+// Navigation Data für Landing Page
+const navData: Navigation[] = [
+  { title: 'Kurse', href: '/kurse' },
+  { title: 'Templates', href: '/templates' },
+  { title: 'Tools', href: '/tools' },
+  { title: 'Knowledge Base', href: '/knowledge-base' },
+  { title: 'Checklisten', href: '/checklisten' },
 ];
 
-// Features Section Data
-const featuresSections = [
+// Avatars für den Hero Section 27 mit Motion-Eigenschaften
+const avatarMotion = [
   {
-    badge: "Exklusive Inhalte",
-    title: "Strategien, die wirklich funktionieren",
-    description:
-      "Erhalte Zugang zu bewährten Cold Email Methoden und Insider-Wissen, das dir einen echten Vorsprung verschafft.",
-    features: [
-      {
-        title: "Praxiserprobte Strategien",
-        description: "– direkt anwendbar für schnelle Ergebnisse.",
-      },
-      {
-        title: "Exklusive Vorlagen",
-        description: "– spare Zeit mit fertigen Email-Templates.",
-      },
-      {
-        title: "Insider-Wissen",
-        description: "– lerne, was andere nicht wissen.",
-      },
-    ],
-    image: {
-      src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-      alt: "Team arbeitet zusammen",
-    },
+    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png',
+    fallback: 'SM',
+    name: 'Sarah Müller',
+    duration: 15,
+    className: 'left-[15%] top-[20%]',
+    sizeClass: 'size-14 sm:size-16'
   },
   {
-    badge: "Sofortiger Zugang",
-    title: "Starte noch heute durch",
-    description:
-      "Nach der Registrierung erhältst du sofort Zugriff auf alle Kurse, Tools und die Knowledge Base – ohne Wartezeit.",
-    features: [
-      {
-        title: "Direkter Zugang",
-        description: "– alle Inhalte sofort verfügbar.",
-      },
-      {
-        title: "Lebenslanger Zugang",
-        description: "– einmal registrieren, für immer nutzen.",
-      },
-      {
-        title: "100% Kostenlos",
-        description: "– keine versteckten Kosten.",
-      },
-    ],
-    image: {
-      src: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
-      alt: "Person am Laptop",
-    },
+    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png',
+    fallback: 'MK',
+    name: 'Michael Koch',
+    duration: 18,
+    className: 'right-[15%] top-[25%]',
+    sizeClass: 'size-12 sm:size-14'
+  },
+  {
+    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png',
+    fallback: 'AW',
+    name: 'Anna Weber',
+    duration: 20,
+    className: 'left-[10%] bottom-[30%]',
+    sizeClass: 'size-10 sm:size-12'
+  },
+  {
+    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-9.png',
+    fallback: 'TS',
+    name: 'Thomas Schmidt',
+    duration: 16,
+    className: 'right-[10%] bottom-[25%]',
+    sizeClass: 'size-14 sm:size-16'
   },
 ];
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <Header navigationData={navigationData} />
+      {/* Header Navigation */}
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
+        <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2.5">
+            <Image src="/logo-new.svg" alt="Academy" width={32} height={32} className="rounded-lg" />
+            <span className="text-xl font-semibold">Academy</span>
+          </a>
+          <HeroNavigation01 navigationData={navData} />
+          <div className="flex items-center gap-3">
+            <HeroNavigation01SmallScreen navigationData={navData} />
+            <Button asChild>
+              <a href="/login">Login</a>
+            </Button>
+          </div>
+        </div>
+      </header>
+
       <main>
-        <HeroSection />
-        <SocialProof />
-        <BentoGrid />
-        <FeaturesSection sections={featuresSections} />
-        <TestimonialsComponent />
-        <CTASection />
+        <HeroSection27 avatarMotion={avatarMotion} />
+        <BentoGrid01 />
       </main>
-      <Footer />
+      <FooterComponent03 />
     </div>
   );
 }

@@ -185,38 +185,44 @@ const DNSCheckerPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Hero with Search */}
+      {/* Hero mit Bild rechts */}
       <ToolHero
         icon={GlobeIcon}
         title="DNS Checker"
         description="Analysiere alle DNS-Records einer Domain"
-      >
-        <div className="flex w-full gap-2 md:w-96">
-          <div className="relative flex-1">
-            <Input
-              placeholder="beispiel.de"
-              value={domain}
-              onChange={e => setDomain(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && checkDNS()}
-              className="h-12 pr-4 pl-4"
-            />
+        image="/dns_records.png"
+      />
+
+      {/* Separate Input Section */}
+      <Card>
+        <CardContent className="flex justify-center p-6">
+          <div className="flex w-full gap-2 md:w-96">
+            <div className="relative flex-1">
+              <Input
+                placeholder="beispiel.de"
+                value={domain}
+                onChange={e => setDomain(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && checkDNS()}
+                className="h-12 pr-4 pl-4"
+              />
+            </div>
+            <Button
+              onClick={checkDNS}
+              disabled={isLoading || !domain.trim()}
+              className="h-12 px-6"
+            >
+              {isLoading ? (
+                <Loader2Icon className="size-5 animate-spin" />
+              ) : (
+                <>
+                  <SearchIcon className="mr-2 size-5" />
+                  Prüfen
+                </>
+              )}
+            </Button>
           </div>
-          <Button
-            onClick={checkDNS}
-            disabled={isLoading || !domain.trim()}
-            className="h-12 px-6"
-          >
-            {isLoading ? (
-              <Loader2Icon className="size-5 animate-spin" />
-            ) : (
-              <>
-                <SearchIcon className="mr-2 size-5" />
-                Prüfen
-              </>
-            )}
-          </Button>
-        </div>
-      </ToolHero>
+        </CardContent>
+      </Card>
 
       {/* Loading State */}
       <AnimatePresence>

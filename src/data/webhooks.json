@@ -7,6 +7,726 @@
   },
   "logs": [
     {
+      "id": "log_1765915180688_eley6jat3",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-16T19:59:40.688Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "fuernebenan@gmail.com",
+          "full_name": "Peter Hase",
+          "company_name": "Haga",
+          "website": "",
+          "job_title": "",
+          "industry": "",
+          "company_size": "",
+          "linkedin_url": ""
+        }
+      }
+    },
+    {
+      "id": "log_1765915171839_9e3769oro",
+      "event": "user.registration",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-16T19:59:31.839Z",
+      "payload": {
+        "event": "user.registration",
+        "user": {
+          "email": "fuernebenan@gmail.com",
+          "full_name": "Peter Hase",
+          "name": "Peter Hase"
+        }
+      }
+    },
+    {
+      "id": "log_1765321822386_d0dl6tg1p",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T23:10:22.386Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Felix Müller",
+          "company_name": "AUTOKI",
+          "website": "https://auto.ki",
+          "job_title": "",
+          "industry": "Agentur / Beratung",
+          "company_size": "100.000 - 500.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765321798788_es3mrmkre",
+      "event": "user.registration",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T23:09:58.788Z",
+      "payload": {
+        "event": "user.registration",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Felix Müller",
+          "name": "Felix Müller"
+        }
+      }
+    },
+    {
+      "id": "log_1765321500511_jolvfxop4",
+      "event": "user.registration",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T23:05:00.511Z",
+      "payload": {
+        "event": "user.registration",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "Robby Peter",
+          "name": "Robby Peter"
+        }
+      }
+    },
+    {
+      "id": "log_1765319089360_0klyvg8d2",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T22:24:49.360Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "fhgfhfhf fhgfghfhg",
+          "company_name": "fhgfhgf",
+          "website": "auto.ki",
+          "job_title": "",
+          "industry": "Coaching / Training",
+          "company_size": "100.000 - 500.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765319038403_t3bsx61br",
+      "event": "user.registration",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T22:23:58.403Z",
+      "payload": {
+        "event": "user.registration",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "fhgfhfhf fhgfghfhg",
+          "name": "fhgfhfhf fhgfghfhg"
+        }
+      }
+    },
+    {
+      "id": "log_1765318092705_pucicyylb",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T22:08:12.705Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "asdas dsad",
+          "company_name": "sadasdasdas",
+          "website": "auto.ki",
+          "job_title": "",
+          "industry": "Agentur / Beratung",
+          "company_size": "100.000 - 500.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765317832245_oq3esbo7g",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T22:03:52.245Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sdfsdf sdfsd",
+          "company_name": "dsfsdf",
+          "website": "auto.ki",
+          "job_title": "",
+          "industry": "Agentur / Beratung",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765317373819_4q6y6fsgp",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:56:13.819Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadasdasdsadas dsadasd",
+          "company_name": "sdasdas",
+          "website": "hansastadt.de",
+          "job_title": "",
+          "industry": "Agentur / Beratung",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316730015_0d565343e",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:45:30.015Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "asdas dasdasd",
+          "job_title": "",
+          "industry": "Agentur / Beratung",
+          "company_size": "50.000 - 100.000 EUR",
+          "linkedin_url": "asdasdas"
+        }
+      }
+    },
+    {
+      "id": "log_1765316549370_wsj2repkn",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:29.370Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316549354_1yvno6km0",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:29.354Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316549193_cu8ckoo90",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:29.193Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316548878_0z27hbcg4",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:28.878Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316548293_s6tdfh1x8",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:28.293Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316548116_ww0dwjmtg",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:28.116Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316548115_3g4pkn72v",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:28.115Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316547978_y6svw65wr",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:27.978Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316547750_9bna8stw6",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:27.750Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316547118_j3av4kzke",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:27.118Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316546998_uy2o7esfs",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:26.998Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316546984_8viihw07q",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:26.984Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316546855_any12ksxt",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:26.855Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316546792_6roh9brz3",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:26.792Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316546568_9xnk2pha8",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:26.568Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316545756_5bl3n2cx8",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:25.756Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316545704_1om7ijbsa",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:25.704Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316545669_u4cbexosb",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:25.669Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316545478_bi920swpn",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:25.478Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316545353_iwex9yyui",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:25.353Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316544557_ntsc1jm3y",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:24.557Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316544536_c0gojhn31",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:24.536Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316544417_17sadzrmg",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:24.417Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316544266_mp7yi82na",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:24.266Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316543959_9kb4qh91w",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:23.959Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316543659_534r0w3rl",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:23.659Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316543206_dazvm55dp",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:23.206Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316543081_94ocs5l3u",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:23.081Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
+      "id": "log_1765316542962_z0gfkscbl",
+      "event": "user.profile_update",
+      "status": "success",
+      "statusCode": 200,
+      "timestamp": "2025-12-09T21:42:22.962Z",
+      "payload": {
+        "event": "user.profile_update",
+        "user": {
+          "email": "echtniedlich@gmail.com",
+          "full_name": "sadsadsa dasdasda",
+          "job_title": "",
+          "industry": "SaaS / Software",
+          "company_size": "0 - 10.000 EUR",
+          "linkedin_url": "https://linkedin.com/youtube"
+        }
+      }
+    },
+    {
       "id": "log_1765315883209_0g27g5sux",
       "event": "user.profile_update",
       "status": "success",
@@ -183,201 +903,6 @@
           "industry": "E-Commerce",
           "company_size": "50.000 - 100.000 EUR",
           "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315880795_6y1kgz2kb",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:20.795Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315880707_nw6a9ghf2",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:20.707Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315880704_gxhlntizf",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:20.704Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315880662_ahghwzoi2",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:20.662Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315879946_ysrunnhwo",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:19.946Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315879500_dskua92w7",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:19.500Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315879496_mz4m4lgvk",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:19.496Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315879442_up6mjoi7i",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:19.442Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315879375_1vcr4gb0a",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:19.375Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315879288_i8pg2lu7x",
-      "event": "user.profile_update",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:31:19.288Z",
-      "payload": {
-        "event": "user.profile_update",
-        "user": {
-          "email": "echtniedlich@gmail.com",
-          "full_name": "Maxel Peter",
-          "job_title": "",
-          "industry": "E-Commerce",
-          "company_size": "50.000 - 100.000 EUR",
-          "linkedin_url": "https://linkedin.com/youtube"
-        }
-      }
-    },
-    {
-      "id": "log_1765315315645_g1r08qm1c",
-      "event": "test",
-      "status": "success",
-      "statusCode": 200,
-      "timestamp": "2025-12-09T21:21:55.645Z",
-      "payload": {
-        "event": "test",
-        "user": {
-          "email": "test@example.com",
-          "full_name": "Test User",
-          "name": "Test User"
         }
       }
     }

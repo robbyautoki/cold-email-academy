@@ -29,7 +29,7 @@ export function QuizResults({ questions, answers, score, onRetry }: QuizResultsP
       <Card
         className={`overflow-hidden ${
           passed
-            ? 'border-green-500/50 bg-gradient-to-br from-green-500/10 to-emerald-500/5'
+            ? 'border-primary/50 bg-gradient-to-br from-primary/10 to-accent/5'
             : 'border-amber-500/50 bg-gradient-to-br from-amber-500/10 to-orange-500/5'
         }`}
       >

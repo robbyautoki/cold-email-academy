@@ -14,18 +14,18 @@ import type { KBArticle, KBCategory } from '@/data/knowledgeBase'
 const difficultyConfig: Record<string, { label: string; color: string; bg: string }> = {
   beginner: {
     label: 'Einsteiger',
-    color: 'text-green-700 dark:text-green-400',
-    bg: 'bg-green-100 dark:bg-green-900/30'
+    color: 'text-primary',
+    bg: 'bg-primary/10 dark:bg-primary/20'
   },
   intermediate: {
     label: 'Fortgeschritten',
-    color: 'text-amber-700 dark:text-amber-400',
-    bg: 'bg-amber-100 dark:bg-amber-900/30'
+    color: 'text-muted-foreground',
+    bg: 'bg-muted'
   },
   advanced: {
     label: 'Experte',
-    color: 'text-red-700 dark:text-red-400',
-    bg: 'bg-red-100 dark:bg-red-900/30'
+    color: 'text-muted-foreground',
+    bg: 'bg-muted'
   }
 }
 

@@ -94,7 +94,7 @@ const EmailKalkulatorPage = () => {
     { label: 'Gesendet', value: calculations.totalEmails, icon: MailIcon, color: 'bg-zinc-600' },
     { label: 'Geöffnet', value: calculations.opens, icon: TargetIcon, color: 'bg-zinc-700', percent: openRate },
     { label: 'Geklickt', value: calculations.clicks, icon: MousePointerClickIcon, color: 'bg-zinc-800', percent: clickRate },
-    { label: 'Konvertiert', value: calculations.conversions, icon: ShoppingCartIcon, color: 'bg-green-600', percent: conversionRate }
+    { label: 'Konvertiert', value: calculations.conversions, icon: ShoppingCartIcon, color: 'bg-secondary', percent: conversionRate }
   ]
 
   return (
@@ -289,7 +289,7 @@ const EmailKalkulatorPage = () => {
         >
           {/* Hauptergebnis */}
           <Card className="relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-transparent" />
             <CardContent className="relative py-8">
               <div className="flex flex-col items-center text-center">
                 <Badge variant="outline" className="mb-4 gap-1">
@@ -302,7 +302,7 @@ const EmailKalkulatorPage = () => {
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.9 }}
-                    className="text-5xl font-bold text-green-600"
+                    className="text-5xl font-bold text-primary"
                   >
                     {formatCurrency(calculations.revenue)}
                   </motion.div>
@@ -411,15 +411,15 @@ const EmailKalkulatorPage = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
             >
-              <Card className="border-green-500/30 bg-green-500/5">
+              <Card className="border-secondary/30 bg-secondary/5">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-lg bg-green-500/10">
-                      <TrendingUpIcon className="size-5 text-green-600" />
+                    <div className="flex size-10 items-center justify-center rounded-lg bg-secondary/10">
+                      <TrendingUpIcon className="size-5 text-secondary-foreground" />
                     </div>
                     <div>
                       <p className="text-xs text-muted-foreground">Jahresumsatz</p>
-                      <p className="text-xl font-bold text-green-600">{formatCurrency(calculations.yearlyRevenue)}</p>
+                      <p className="text-xl font-bold text-primary">{formatCurrency(calculations.yearlyRevenue)}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -431,15 +431,15 @@ const EmailKalkulatorPage = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.55 }}
             >
-              <Card className="border-amber-500/30 bg-amber-500/5">
+              <Card className="border-primary/30 bg-primary/5">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-lg bg-amber-500/10">
-                      <ZapIcon className="size-5 text-amber-600" />
+                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                      <ZapIcon className="size-5 text-primary" />
                     </div>
                     <div>
                       <p className="text-xs text-muted-foreground">LTV pro Abonnent</p>
-                      <p className="text-xl font-bold text-amber-600">{formatCurrency(calculations.ltv)}</p>
+                      <p className="text-xl font-bold text-primary">{formatCurrency(calculations.ltv)}</p>
                     </div>
                   </div>
                 </CardContent>

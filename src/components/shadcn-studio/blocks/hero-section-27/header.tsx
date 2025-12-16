@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 
 import { MenuIcon } from 'lucide-react'
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 import { Button } from '@/components/ui/button'
 import MenuDropdown from '@/components/shadcn-studio/blocks/menu-dropdown'
@@ -54,31 +53,17 @@ const Header = ({ navigationData, className }: HeaderProps) => {
         {/* Navigation */}
         <MenuNavigation navigationData={navigationData} className='grow max-md:hidden' />
 
-        {/* Auth Buttons */}
-        <SignedOut>
-          <Button className='rounded-lg max-md:hidden' asChild>
-            <a href='#cta'>Zugang sichern</a>
-          </Button>
-        </SignedOut>
-        <SignedIn>
-          <div className='flex items-center gap-4 max-md:hidden'>
-            <Button variant='outline' className='rounded-lg' asChild>
-              <a href='/dashboard'>Dashboard</a>
-            </Button>
-            <UserButton afterSignOutUrl='/' />
-          </div>
-        </SignedIn>
+        {/* Login Button */}
+
+        <Button className='rounded-lg max-md:hidden' asChild>
+          <a href='#'>Login</a>
+        </Button>
 
         {/* Navigation for small screens */}
-        <div className='flex items-center gap-4 md:hidden'>
-          <SignedOut>
-            <Button className='rounded-lg' asChild>
-              <a href='#cta'>Zugang sichern</a>
-            </Button>
-          </SignedOut>
-          <SignedIn>
-            <UserButton afterSignOutUrl='/' />
-          </SignedIn>
+        <div className='flex gap-4 md:hidden'>
+          <Button className='rounded-lg' asChild>
+            <a href='#'>Login</a>
+          </Button>
 
           <MenuDropdown
             align='end'
@@ -86,7 +71,7 @@ const Header = ({ navigationData, className }: HeaderProps) => {
             trigger={
               <Button variant='outline' size='icon' className='lg:hidden'>
                 <MenuIcon />
-                <span className='sr-only'>Menü</span>
+                <span className='sr-only'>Menu</span>
               </Button>
             }
           />

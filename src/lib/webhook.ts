@@ -34,6 +34,8 @@ export interface ProfileUpdatePayload {
   user: {
     email: string
     full_name: string
+    company_name: string
+    website: string
     job_title: string
     industry: string
     company_size: string
@@ -112,6 +114,8 @@ export async function sendProfileUpdateWebhook(
     email: string
     firstName: string
     lastName: string
+    companyName: string
+    website: string
     industry: string
     revenue: string
     linkedinUrl: string
@@ -125,6 +129,8 @@ export async function sendProfileUpdateWebhook(
     user: {
       email: data.email,
       full_name: fullName,
+      company_name: data.companyName || '',
+      website: data.website || '',
       job_title: '', // Not collected in Academy
       industry: data.industry || '',
       company_size: data.revenue || '', // Revenue maps to company_size

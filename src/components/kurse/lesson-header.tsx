@@ -45,30 +45,30 @@ const lessonTypeConfig = {
   video: {
     icon: PlayCircleIcon,
     label: 'Video',
-    gradient: 'from-red-500/20 via-orange-500/10 to-transparent',
-    color: 'text-red-600',
-    bgColor: 'bg-red-500/10'
+    gradient: 'from-primary/20 via-primary/10 to-transparent',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10'
   },
   text: {
     icon: FileTextIcon,
     label: 'Lektion',
-    gradient: 'from-blue-500/20 via-cyan-500/10 to-transparent',
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-500/10'
+    gradient: 'from-primary/20 via-primary/10 to-transparent',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10'
   },
   quiz: {
     icon: HelpCircleIcon,
     label: 'Quiz',
-    gradient: 'from-purple-500/20 via-pink-500/10 to-transparent',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-500/10'
+    gradient: 'from-primary/20 via-primary/10 to-transparent',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10'
   },
   practice: {
     icon: PenToolIcon,
     label: 'Praxis',
-    gradient: 'from-green-500/20 via-emerald-500/10 to-transparent',
-    color: 'text-green-600',
-    bgColor: 'bg-green-500/10'
+    gradient: 'from-primary/20 via-primary/10 to-transparent',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10'
   }
 }
 
@@ -145,7 +145,7 @@ export function LessonHeader({
                       <div
                         className={`flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
                           completed
-                            ? 'bg-green-500 text-white'
+                            ? 'bg-secondary text-secondary-foreground'
                             : isCurrent
                             ? 'bg-primary text-primary-foreground'
                             : 'bg-muted text-muted-foreground'
@@ -225,7 +225,7 @@ export function LessonHeader({
 
             {/* Completion Badge */}
             {isCompleted && (
-              <Badge className="gap-1.5 bg-green-500/10 text-green-700 border-green-500/20">
+              <Badge className="gap-1.5 bg-secondary/10 text-secondary-foreground border-secondary/20">
                 <CheckCircleIcon className="size-3" />
                 Abgeschlossen
               </Badge>

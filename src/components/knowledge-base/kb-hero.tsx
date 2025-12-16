@@ -127,10 +127,10 @@ export function KBHero({ totalArticles, totalCategories }: KBHeroProps) {
                                 variant="outline"
                                 className={`shrink-0 text-xs ${
                                   article.difficulty === 'beginner'
-                                    ? 'border-green-500/50 text-green-600'
+                                    ? 'border-primary/50 text-primary'
                                     : article.difficulty === 'intermediate'
-                                    ? 'border-amber-500/50 text-amber-600'
-                                    : 'border-red-500/50 text-red-600'
+                                    ? 'border-muted text-muted-foreground'
+                                    : 'border-muted text-muted-foreground'
                                 }`}
                               >
                                 {article.difficulty === 'beginner' && 'Einsteiger'}

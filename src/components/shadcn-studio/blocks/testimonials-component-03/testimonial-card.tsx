@@ -23,7 +23,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
 
           {/* Platform Details */}
           <div className='flex gap-1.5'>
-            <img src={testimonial.platformImage} alt={testimonial.platformName} className='size-5.5' />
+            {testimonial.platformImage && (
+              <img src={testimonial.platformImage} alt={testimonial.platformName} className='size-5.5' />
+            )}
             <span className='text-sm'>{testimonial.platformName}</span>
           </div>
         </div>

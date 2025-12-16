@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { WrenchIcon, BookOpenIcon, GraduationCapIcon } from 'lucide-react'
+import { WrenchIcon, BookOpenIcon, CalendarIcon, SparklesIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { BorderBeam } from '@/components/ui/border-beam'
+import { Badge } from '@/components/ui/badge'
 
 interface WelcomeHeroProps {
   firstName: string
@@ -22,6 +22,13 @@ export function WelcomeHero({ firstName, userImage }: WelcomeHeroProps) {
     return 'Guten Abend'
   }
 
+  const getMotivation = () => {
+    const hour = new Date().getHours()
+    if (hour < 12) return 'Starte produktiv in den Tag!'
+    if (hour < 18) return 'Weiter so, du machst das super!'
+    return 'Zeit für die Abend-Session!'
+  }
+
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -33,55 +40,80 @@ export function WelcomeHero({ firstName, userImage }: WelcomeHeroProps) {
 
   return (
     <MotionPreset fade blur>
-      <Card className="overflow-hidden border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-background dark:from-zinc-900/50">
-        <CardContent className="p-6 sm:p-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            {/* Left: Greeting */}
-            <div className="flex items-start gap-4">
-              <Avatar className="size-14 border-2 border-zinc-200 dark:border-zinc-700 shadow-lg">
+      <div className="relative rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 via-white to-zinc-50/50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800/50 p-6 overflow-hidden">
+        <BorderBeam
+          size={120}
+          duration={12}
+          colorFrom="hsl(var(--primary))"
+          colorTo="hsl(var(--secondary))"
+          borderWidth={1}
+        />
+
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          {/* Left: Greeting */}
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Avatar className="size-16 border-2 border-zinc-200 dark:border-zinc-700 ring-4 ring-zinc-100 dark:ring-zinc-800">
                 <AvatarImage src={userImage} />
-                <AvatarFallback className="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-lg font-semibold">
+                <AvatarFallback className="bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 text-zinc-700 dark:text-zinc-300 text-xl font-semibold">
                   {firstName ? getInitials(firstName) : 'U'}
                 </AvatarFallback>
               </Avatar>
-              <div className="space-y-1.5">
-                <p className="text-muted-foreground text-sm">{getGreeting()}</p>
-                <h1 className="text-2xl font-bold sm:text-3xl">
-                  {firstName ? `${firstName}!` : 'Willkommen!'}
-                </h1>
-                <p className="text-muted-foreground max-w-md">
-                  Dein Zugang zu exklusiven Cold Email Ressourcen, Tools und Strategien.
-                </p>
-              </div>
+              {/* Online indicator */}
+              <div className="absolute bottom-0 right-0 size-3.5 rounded-full bg-secondary border-2 border-white dark:border-zinc-900" />
             </div>
-
-            {/* Right: Quick Actions */}
-            <div className="flex flex-wrap gap-2">
-              <Link href="/tools">
-                <Button className="shadow-sm bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900">
-                  <WrenchIcon className="size-4" />
-                  Tools
-                </Button>
-              </Link>
-              <Link href="/knowledge-base">
-                <Button variant="outline" className="shadow-sm border-zinc-300 dark:border-zinc-700">
-                  <BookOpenIcon className="size-4" />
-                  Knowledge Base
-                </Button>
-              </Link>
-              <Link href="/kurse">
-                <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
-                  <GraduationCapIcon className="size-4" />
-                  Kurs
-                  <Badge variant="secondary" className="ml-1.5 text-[10px] px-1.5 py-0 bg-zinc-100 dark:bg-zinc-800">
-                    Bonus
-                  </Badge>
-                </Button>
-              </Link>
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-2">
+                <p className="text-muted-foreground text-sm">{getGreeting()}</p>
+                <Badge
+                  variant="secondary"
+                  className="text-[10px] px-1.5 py-0"
+                >
+                  <SparklesIcon className="size-2.5 mr-0.5" />
+                  Pro
+                </Badge>
+              </div>
+              <h1 className="text-xl font-bold sm:text-2xl bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-900 dark:from-zinc-100 dark:via-zinc-300 dark:to-zinc-100 bg-clip-text text-transparent">
+                {firstName || 'Willkommen'}
+              </h1>
+              <p className="text-muted-foreground text-xs flex items-center gap-1.5">
+                <span className="inline-block size-1.5 rounded-full bg-secondary animate-pulse" />
+                {getMotivation()}
+              </p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Right: Quick Actions */}
+          <div className="flex flex-wrap gap-2">
+            <Link href="/tools">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-zinc-300 dark:border-zinc-700 hover:scale-[1.02] transition-transform"
+              >
+                <WrenchIcon className="size-4" />
+                Tools
+              </Button>
+            </Link>
+            <Link href="/knowledge-base">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-zinc-300 dark:border-zinc-700 hover:scale-[1.02] transition-transform"
+              >
+                <BookOpenIcon className="size-4" />
+                Knowledge Base
+              </Button>
+            </Link>
+            <Link href="/beratung">
+              <Button size="sm" className="hover:scale-[1.02] transition-transform">
+                <CalendarIcon className="size-4" />
+                Discovery Call
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
     </MotionPreset>
   )
 }

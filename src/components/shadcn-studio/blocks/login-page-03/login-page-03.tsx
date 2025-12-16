@@ -1,9 +1,25 @@
+import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-import Logo from '@/components/shadcn-studio/logo'
-import LogoVector from '@/assets/svg/logo-vector'
 import LoginForm from '@/components/shadcn-studio/blocks/login-page-03/login-form'
+
+// AutoKI Logo als inline SVG für Farbkontrolle
+const AutoKILogo = ({ className }: { className?: string }) => (
+  <svg
+    width="168"
+    height="213"
+    viewBox="0 0 168 213"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M165.994 172.053C166.594 172.658 166.594 173.634 165.994 174.239L128.838 211.628C128.232 212.238 127.245 212.238 126.639 211.628L61.5835 146.162L100.924 106.575L165.994 172.053ZM61.5835 146.162L40.8619 167.016C40.2557 167.626 39.2687 167.626 38.6625 167.016L1.50826 129.627C0.907431 129.023 0.907418 128.046 1.50823 127.442L22.2437 106.575L61.5835 146.162ZM61.5845 66.9857L22.2437 106.575L0.450669 84.6439C-0.150169 84.0393 -0.150161 83.063 0.450689 82.4584L37.6059 45.0698C38.2121 44.4598 39.199 44.4598 39.8052 45.0698L61.5845 66.9857ZM167.051 37.847C167.652 38.4517 167.652 39.428 167.051 40.0326L100.924 106.575L61.5845 66.9857L127.697 0.457528C128.303 -0.15249 129.29 -0.152486 129.896 0.457537L167.051 37.847Z"
+      fill="currentColor"
+    />
+  </svg>
+)
 
 const avatars = [
   {
@@ -28,7 +44,10 @@ const Login = () => {
     <div className='h-dvh lg:grid lg:grid-cols-2'>
       <div className='flex h-full items-center justify-center space-y-6 sm:px-6 md:px-8'>
         <div className='flex w-full flex-col gap-6 p-6 sm:max-w-lg'>
-          <Logo className='gap-3' />
+          <a href='#' className='flex items-center gap-2.5'>
+            <Image src='/logo-new.svg' alt='Academy' width={32} height={32} className='rounded-lg' />
+            <span className='text-xl font-semibold'>Academy</span>
+          </a>
 
           <div>
             <h2 className='mb-1.5 text-2xl font-semibold'>Willkommen zurück</h2>
@@ -52,7 +71,7 @@ const Login = () => {
             </p>
           </CardHeader>
 
-          <LogoVector className='text-secondary/10 pointer-events-none absolute bottom-30 -left-50 size-130' />
+          <AutoKILogo className='text-primary-foreground/10 pointer-events-none absolute bottom-60 -left-20 size-80' />
 
           <CardContent className='relative z-1 mx-8 h-62 overflow-hidden rounded-2xl px-0'>
             <svg
@@ -70,7 +89,7 @@ const Login = () => {
             </svg>
 
             <div className='bg-card absolute top-0 right-0 flex size-15 items-center justify-center rounded-2xl'>
-              <LogoVector className='size-15' />
+              <AutoKILogo className='size-8 text-primary' />
             </div>
 
             <div className='flex flex-col gap-5 p-6'>
