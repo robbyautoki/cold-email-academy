@@ -11,6 +11,7 @@ import {
   CalculatorIcon,
   CalendarIcon,
   ChartColumnStackedIcon,
+  ChevronDownIcon,
   FileTextIcon,
   FolderOpenIcon,
   GlobeIcon,
@@ -39,6 +40,12 @@ import {
   NavigationMenuTrigger
 } from '@/components/ui/navigation-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
 import SearchDialog from '@/components/shadcn-studio/blocks/dialog-search'
@@ -285,39 +292,41 @@ export default function AppHeader() {
               </NavigationMenuContent>
             </NavigationMenuItem>
 
-            {/* Ressourcen Dropdown - Opens on Hover */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger
-                className={cn(
-                  'text-muted-foreground hover:text-foreground bg-transparent px-3 py-2 text-sm font-medium',
-                  (pathname.startsWith('/knowledge-base') || pathname.startsWith('/checklisten') || pathname.startsWith('/beratung')) &&
-                    'text-foreground bg-accent'
-                )}
-              >
-                <FolderOpenIcon className='mr-1.5 size-4' />
-                Ressourcen
-              </NavigationMenuTrigger>
-              <NavigationMenuContent className='!left-auto !right-0'>
-                <div className='w-64 p-2'>
-                  {resourceItems.map(item => (
-                    <NavigationMenuLink key={item.href} asChild>
-                      <a
-                        href={item.href}
-                        className='hover:bg-accent flex items-start gap-3 rounded-md p-2 transition-colors'
-                      >
-                        <div className='bg-muted flex size-8 shrink-0 items-center justify-center rounded-md border'>
-                          <item.icon className='text-muted-foreground size-4' />
-                        </div>
-                        <div className='flex-1'>
-                          <div className='text-foreground text-sm font-medium'>{item.title}</div>
-                          <div className='text-muted-foreground text-xs'>{item.description}</div>
-                        </div>
-                      </a>
-                    </NavigationMenuLink>
-                  ))}
-                </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            {/* Ressourcen Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant='ghost'
+                  className={cn(
+                    'text-muted-foreground hover:text-foreground hover:bg-accent px-3 py-2 text-sm font-medium',
+                    (pathname.startsWith('/knowledge-base') || pathname.startsWith('/checklisten') || pathname.startsWith('/beratung')) &&
+                      'text-foreground bg-accent'
+                  )}
+                >
+                  <FolderOpenIcon className='mr-1.5 size-4' />
+                  Ressourcen
+                  <ChevronDownIcon className='ml-1 size-3' />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align='end' className='w-64 p-2'>
+                {resourceItems.map(item => (
+                  <DropdownMenuItem key={item.href} asChild className='p-0'>
+                    <a
+                      href={item.href}
+                      className='hover:bg-accent flex w-full items-start gap-3 rounded-md p-2 transition-colors'
+                    >
+                      <div className='bg-muted flex size-8 shrink-0 items-center justify-center rounded-md border'>
+                        <item.icon className='text-muted-foreground size-4' />
+                      </div>
+                      <div className='flex-1'>
+                        <div className='text-foreground text-sm font-medium'>{item.title}</div>
+                        <div className='text-muted-foreground text-xs'>{item.description}</div>
+                      </div>
+                    </a>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Admin Link */}
             {isAdmin && (
