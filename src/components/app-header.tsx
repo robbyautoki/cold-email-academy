@@ -215,7 +215,7 @@ export default function AppHeader() {
         </div>
 
         {/* Center: Navigation (Desktop) */}
-        <NavigationMenu className='hidden md:flex'>
+        <NavigationMenu viewport={false} className='hidden md:flex'>
           <NavigationMenuList className='gap-1'>
             {/* Regular nav links */}
             {navLinks.map(link => (
