@@ -43,6 +43,113 @@ const frameworkDescriptions: Record<FrameworkType, string> = {
   'something-useful': 'Beziehungsaufbau durch geteilte Inhalte'
 }
 
+// Zielgruppen-Insights für Extended Reasoning
+const targetInsights: Record<string, string> = {
+  'Entrümpelungsdienste': `• Typische Probleme: Saisonalität, lokale Konkurrenz, Preisvergleiche
+• Entscheidungsträger: Inhaber (meist Einzelunternehmer oder kleine Teams)
+• Pain Points: Unregelmäßige Aufträge, Abhängigkeit von Empfehlungen, Preisdruck
+• Was sie wollen: Stetige Aufträge, bessere Kunden die fair zahlen, Planbarkeit`,
+  'Restaurants': `• Typische Probleme: Hohe Konkurrenz, Abhängigkeit von Bewertungen, Fachkräftemangel
+• Entscheidungsträger: Inhaber, Geschäftsführer
+• Pain Points: Schwankende Auslastung, hohe Fixkosten, Sichtbarkeit
+• Was sie wollen: Volle Tische, treue Stammgäste, gute Online-Präsenz`,
+  'Immobilienmakler': `• Typische Probleme: Akquise-Druck, Provision unter Beschuss, viele Mitbewerber
+• Entscheidungsträger: Makler selbst oder Büroinhaber
+• Pain Points: Zu wenig Objekte, Verkäufer-Leads teuer, lange Verkaufszyklen
+• Was sie wollen: Exklusive Objekte, qualifizierte Leads, kürzere Abschlusszeiten`,
+  'Handwerker': `• Typische Probleme: Fachkräftemangel, Terminplanung, Preisdruck
+• Entscheidungsträger: Meister, Inhaber
+• Pain Points: Unzuverlässige Anfragen, Preisverhandlungen, keine Zeit für Marketing
+• Was sie wollen: Qualitätsaufträge, faire Preise, voller Terminkalender`,
+  'Agenturen': `• Typische Probleme: Kundenakquise, Projektabhängigkeit, Preisdruck bei Pitches
+• Entscheidungsträger: Geschäftsführer, Head of Marketing/Sales
+• Pain Points: Zu wenig Leads, hoher Pitch-Aufwand, schwankende Auslastung
+• Was sie wollen: Planbare Neukunden, höhere Margen, langfristige Retainer`,
+  'Software-Unternehmen': `• Typische Probleme: Lange Sales-Cycles, technische Erklärungsnot, Konkurrenz
+• Entscheidungsträger: CEO, CTO, Head of Sales
+• Pain Points: Hohe CAC, schwierige Demo-Buchungen, Churn
+• Was sie wollen: Qualifizierte Leads, kürzere Sales-Cycles, mehr MRR`,
+  'E-Commerce': `• Typische Probleme: Hohe Werbekosten, Amazon-Konkurrenz, Margen-Druck
+• Entscheidungsträger: Shop-Inhaber, E-Commerce Manager
+• Pain Points: Hohe CPA, niedrige Conversion, Warenkorbabbrüche
+• Was sie wollen: Profitables Wachstum, Stammkunden, bessere ROAS`,
+  'Coaches': `• Typische Probleme: Positionierung, Vertrauensaufbau, Preisdurchsetzung
+• Entscheidungsträger: Coach selbst
+• Pain Points: Kaltakquise funktioniert nicht, zu wenig Anfragen, Preisdiskussionen
+• Was sie wollen: Premium-Klienten, Autorität, stabiles Einkommen`,
+  'Ärzte/Praxen': `• Typische Probleme: Patientenakquise für IGeL, Online-Bewertungen, Konkurrenz
+• Entscheidungsträger: Praxisinhaber, Praxismanager
+• Pain Points: Zu wenig Privatpatienten, schlechte Google-Sichtbarkeit
+• Was sie wollen: Mehr Privatpatienten, bessere Bewertungen, volle Terminbücher`,
+  'Anwälte': `• Typische Probleme: Mandantenakquise, Spezialisierung kommunizieren
+• Entscheidungsträger: Partner, Kanzleiinhaber
+• Pain Points: Zu generische Anfragen, Preisvergleiche, Online-Sichtbarkeit
+• Was sie wollen: Passende Mandate, faire Honorare, Reputation`,
+  'Steuerberater': `• Typische Probleme: Saisonalität, Digitalisierung, Mandantenbindung
+• Entscheidungsträger: Kanzleiinhaber, Partner
+• Pain Points: Hoher Aufwand pro Mandat, schwierige Neukunden-Akquise
+• Was sie wollen: Rentable Mandate, weniger Kleinarbeit, Wachstum`,
+  'Fitnessstudios': `• Typische Probleme: Hohe Fluktuation, Konkurrenz, Mitgliederbindung
+• Entscheidungsträger: Studio-Inhaber, Manager
+• Pain Points: Kündigungen, schwache Neukunden-Gewinnung, Auslastung
+• Was sie wollen: Mehr Mitglieder, bessere Bindung, höhere Umsätze`,
+  'Fotografen': `• Typische Probleme: Preisdruck, Konkurrenz durch Smartphones, Akquise
+• Entscheidungsträger: Fotograf selbst
+• Pain Points: Zu wenig hochwertige Aufträge, Preisverhandlungen
+• Was sie wollen: Premium-Kunden, faire Preise, voller Kalender`,
+  'Friseure': `• Typische Probleme: Fachkräftemangel, Konkurrenz, Kundenbindung
+• Entscheidungsträger: Salon-Inhaber
+• Pain Points: Leere Stühle, Stammkunden verlieren, Online-Buchungen
+• Was sie wollen: Volle Auslastung, treue Kunden, gute Mitarbeiter`,
+  'Autohäuser': `• Typische Probleme: Online-Konkurrenz, lange Entscheidungszyklen
+• Entscheidungsträger: Geschäftsführer, Verkaufsleiter
+• Pain Points: Zu wenig Probefahrten, Online-Anfragen konvertieren schlecht
+• Was sie wollen: Mehr Leads, bessere Conversion, höhere Margen`,
+  'default': `• Analysiere typische Herausforderungen der Branche
+• Identifiziere die relevanten Entscheidungsträger
+• Verstehe die größten Pain Points und Wünsche
+• Entwickle passende Ansprache-Strategie`
+}
+
+// Framework-Begründungen für Extended Reasoning
+const frameworkReasonings: Record<FrameworkType, string> = {
+  'quick-question': `Warum dieses Framework?
+→ Kurze Fragen haben hohe Antwortquoten
+→ Der Empfänger muss sich nicht festlegen
+→ Öffnet Tür für Follow-up ohne Druck
+→ Perfekt wenn Ansprechpartner unklar ist`,
+  'third-party': `Warum dieses Framework?
+→ Nutzt soziale Dynamik im Unternehmen
+→ Mitarbeiter helfen gerne weiter
+→ Umgeht Gatekeeper elegant
+→ Wirkt weniger wie Kaltakquise`,
+  'pas': `Warum dieses Framework?
+→ Problem-Agitate-Solve ist bewährt
+→ Spricht Schmerz direkt an
+→ Zeigt Verständnis für Situation
+→ Positioniert dich als Problemlöser`,
+  'aida': `Warum dieses Framework?
+→ Attention durch konkrete Zahlen
+→ Interest durch relevante Ergebnisse
+→ Desire durch Erfolgsgeschichten
+→ Action durch klaren CTA`,
+  'straight-business': `Warum dieses Framework?
+→ Respektiert die Zeit des Empfängers
+→ Kein Drumherum, direkt zum Punkt
+→ Zeigt Professionalität
+→ Ideal für beschäftigte Entscheider`,
+  'paint-picture': `Warum dieses Framework?
+→ Emotionale Ansprache wirkt
+→ Vision schlägt Features
+→ Empfänger sieht sich im Erfolg
+→ Differenziert von Standard-Mails`,
+  'something-useful': `Warum dieses Framework?
+→ Gibt bevor es nimmt
+→ Baut Vertrauen auf
+→ Zeigt Expertise
+→ Weniger aggressiv, mehr hilfreich`
+}
+
 // Zielgruppen-Keywords
 const targetKeywords: Record<string, string[]> = {
   'Entrümpelungsdienste': ['entrümpel', 'entsorgu', 'räumung', 'haushaltsauflösung'],
@@ -305,21 +412,124 @@ function analyzePrompt(prompt: string): PromptAnalysis {
 }
 
 function generateReasoning(analysis: PromptAnalysis, framework: FrameworkType): string {
-  let reasoning = `Analysiere Anfrage...\n\n`
-  reasoning += `Zielgruppe: ${analysis.target}\n`
-  reasoning += `Angebot: ${analysis.offer}\n`
+  const target = analysis.target || 'Unternehmen'
+  const offer = analysis.offer || 'Service'
 
+  let reasoning = `🔍 ANALYSE DEINER ANFRAGE\n`
+  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`
+
+  // Phase 1: Prompt verstehen
+  reasoning += `📋 WAS ICH VERSTANDEN HABE:\n`
+  reasoning += `• Zielgruppe: ${target}\n`
+  reasoning += `• Dein Angebot: ${offer}\n`
   if (analysis.noBrainer) {
-    reasoning += `No-Brainer Offer: ${analysis.noBrainer}\n`
-  } else {
-    reasoning += `No-Brainer: Vorschläge werden generiert\n`
+    reasoning += `• No-Brainer: ${analysis.noBrainer}\n`
   }
+  reasoning += `\n`
 
-  reasoning += `\nFramework: ${frameworkNames[framework]}\n`
-  reasoning += `Grund: ${frameworkDescriptions[framework]}\n`
-  reasoning += `\nGeneriere personalisierte Email ohne Platzhalter...`
+  // Phase 2: Zielgruppen-Analyse
+  reasoning += `👥 ZIELGRUPPEN-ANALYSE: ${target.toUpperCase()}\n`
+  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+  reasoning += (targetInsights[target] || targetInsights['default']) + `\n\n`
+
+  // Phase 3: Angebots-Fit
+  reasoning += `🎯 WARUM ${offer.toUpperCase()} FÜR ${target.toUpperCase()}?\n`
+  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+  reasoning += getOfferFit(target, offer) + `\n\n`
+
+  // Phase 4: Framework-Entscheidung
+  reasoning += `📧 FRAMEWORK-AUSWAHL: ${frameworkNames[framework].toUpperCase()}\n`
+  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+  reasoning += frameworkReasonings[framework] + `\n\n`
+
+  // Phase 5: No-Brainer Strategie
+  reasoning += `💎 NO-BRAINER STRATEGIE\n`
+  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+  reasoning += getNoBrainerStrategy(analysis, target, offer) + `\n\n`
+
+  // Phase 6: Email wird gebaut
+  reasoning += `✍️ GENERIERE EMAIL...\n`
+  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+  reasoning += `Baue personalisierte Email mit:\n`
+  reasoning += `• Konkreten Werten statt Platzhaltern\n`
+  reasoning += `• Branchenspezifischem Nutzenversprechen\n`
+  reasoning += `• Passendem No-Brainer Offer\n`
+  reasoning += `• Klarem Call-to-Action`
 
   return reasoning
+}
+
+function getOfferFit(target: string, offer: string): string {
+  const fits: Record<string, Record<string, string>> = {
+    'Entrümpelungsdienste': {
+      'Google Ads': `${target} suchen aktiv auf Google nach Entrümpelungsdiensten.
+→ Hohe Kaufabsicht bei Google-Suchen ("Entrümpelung [Stadt]")
+→ Lokale Kampagnen mit geringem Streuverlust möglich
+→ Sofortige Sichtbarkeit bei relevanten Suchanfragen`,
+      'SEO': `Organische Suche ist Hauptkanal für ${target}.
+→ Langfristig kostengünstige Leads
+→ Vertrauensvorsprung durch Top-Rankings
+→ Lokales SEO besonders effektiv`,
+      'default': `Passende Lösung für die Herausforderungen von ${target}.
+→ Adressiert die Kernprobleme der Branche
+→ Nachweisbare Ergebnisse möglich
+→ Klarer ROI für den Kunden`
+    },
+    'Agenturen': {
+      'Google Ads': `${target} können ihren Kunden Google Ads als Service anbieten.
+→ Zusätzliche Einnahmequelle durch Ads-Management
+→ Bessere Kundenbindung durch mehr Services
+→ Höhere Retainer durch Performance-Marketing`,
+      'default': `Unterstützt ${target} bei ihren Kernherausforderungen.
+→ Hilft bei der Kundenakquise
+→ Stärkt die Wettbewerbsposition
+→ Ermöglicht planbares Wachstum`
+    },
+    'default': {
+      'Google Ads': `${offer} ist perfekt für ${target}:
+→ Erreicht Kunden genau wenn sie suchen
+→ Messbare Ergebnisse und klarer ROI
+→ Skalierbar je nach Budget und Kapazität
+→ Schnelle Resultate innerhalb von Tagen`,
+      'SEO': `${offer} ist ideal für ${target}:
+→ Langfristig kostengünstige Kundengewinnung
+→ Baut Vertrauen und Autorität auf
+→ Nachhaltiger Traffic ohne laufende Werbekosten
+→ Lokale Sichtbarkeit bei relevanten Suchen`,
+      'Webdesign': `${offer} ist wichtig für ${target}:
+→ Erste Eindruck entscheidet über Vertrauen
+→ Professionelle Website = mehr Conversions
+→ Mobile Optimierung heute unverzichtbar
+→ Differenzierung vom Wettbewerb`,
+      'default': `${offer} passt zu ${target}:
+→ Löst konkrete Probleme der Branche
+→ Nachweisbarer Mehrwert möglich
+→ Unterstützt die Geschäftsziele
+→ Gutes Preis-Leistungs-Verhältnis`
+    }
+  }
+
+  const targetFits = fits[target] || fits['default']
+  return targetFits[offer] || targetFits['default']
+}
+
+function getNoBrainerStrategy(analysis: PromptAnalysis, target: string, offer: string): string {
+  if (analysis.noBrainer) {
+    return `User hat No-Brainer angegeben: "${analysis.noBrainer}"
+→ Nutze diesen direkt in der Email
+→ Betone den risikofreien Einstieg
+→ Mache es dem Empfänger leicht zu antworten`
+  }
+
+  const offerList = noBrainerOffers[offer] || noBrainerOffers['default']
+  return `Kein No-Brainer angegeben - generiere passenden:
+
+Empfohlene No-Brainer für ${offer}:
+${offerList.map((o, i) => `${i + 1}. ${o}`).join('\n')}
+
+→ Wähle Option 1 für die Email
+→ Zeige weitere als Suggestions
+→ No-Brainer senkt die Hemmschwelle zur Antwort`
 }
 
 function generateSuggestions(analysis: PromptAnalysis, formal: boolean): string[] {
@@ -378,12 +588,18 @@ function detectFramework(prompt: string): FrameworkType {
   return 'straight-business'
 }
 
+// Dynamische Varianten für Email-Teile
+function randomVariant<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
 function generateEmailByFramework(
   analysis: PromptAnalysis,
   formal: boolean,
   framework: FrameworkType
 ): { subject: string; body: string; signature: string } {
   const you = formal ? 'Sie' : 'du'
+  const youAccusative = formal ? 'Sie' : 'dich' // Akkusativ für "für dich/Sie"
   const your = formal ? 'Ihr' : 'dein'
   const youHave = formal ? 'haben Sie' : 'hast du'
   const greeting = formal ? 'Guten Tag' : 'Hi'
@@ -402,15 +618,127 @@ function generateEmailByFramework(
   // Generiere branchenspezifischen Nutzen
   const benefit = getBenefitForTarget(target, offer)
 
+  // Dynamische CTA-Varianten
+  const ctaVariants = formal ? [
+    `Haben Sie diese Woche Zeit für ein kurzes Gespräch?`,
+    `Wann passt es Ihnen diese Woche für 15 Minuten?`,
+    `Hätten Sie Zeit für ein kurzes Telefonat?`,
+    `Ich freue mich auf Ihre Rückmeldung.`,
+    `Passt Ihnen diese oder nächste Woche für ein kurzes Gespräch?`
+  ] : [
+    `Hast du diese Woche Zeit für ein kurzes Gespräch?`,
+    `Wann passt es dir diese Woche für 15 Minuten?`,
+    `Hättest du Zeit für ein kurzes Telefonat?`,
+    `Lass uns kurz sprechen - wann passt es dir?`,
+    `Passt dir diese oder nächste Woche für einen kurzen Call?`
+  ]
+
+  // Dynamische Social Proof Varianten
+  const socialProofVariants = formal ? [
+    `In den letzten Monaten haben wir über 50 Unternehmen in Ihrer Branche geholfen, bessere Ergebnisse zu erzielen.`,
+    `Wir arbeiten bereits erfolgreich mit dutzenden ${target} zusammen.`,
+    `Unsere Kunden aus Ihrer Branche erzielen regelmäßig beeindruckende Resultate.`,
+    `Ich habe in den letzten 12 Monaten zahlreichen ${target} geholfen, ${benefit}.`
+  ] : [
+    `In den letzten Monaten haben wir über 50 Unternehmen in deiner Branche geholfen, bessere Ergebnisse zu erzielen.`,
+    `Wir arbeiten bereits erfolgreich mit dutzenden ${target} zusammen.`,
+    `Unsere Kunden aus deiner Branche erzielen regelmäßig beeindruckende Resultate.`,
+    `Ich habe in den letzten 12 Monaten zahlreichen ${target} geholfen, ${benefit}.`
+  ]
+
+  // Dynamische Opening Varianten pro Framework
+  const openingVariants: Record<FrameworkType, string[]> = {
+    'quick-question': formal ? [
+      `ich arbeite mit ${target} zusammen und unterstütze sie dabei, ${benefit}.`,
+      `ich helfe ${target} dabei, ${benefit}.`,
+      `mein Schwerpunkt liegt auf der Zusammenarbeit mit ${target}, um ${benefit}.`
+    ] : [
+      `ich arbeite mit ${target} zusammen und helfe ihnen dabei, ${benefit}.`,
+      `ich unterstütze ${target} dabei, ${benefit}.`,
+      `mein Fokus: ${target} dabei helfen, ${benefit}.`
+    ],
+    'third-party': formal ? [
+      `ich bin auf Ihr Profil gestoßen und hoffe, Sie können mir kurz weiterhelfen.`,
+      `ich habe Ihr Unternehmen entdeckt und wollte fragen, ob Sie mir kurz helfen könnten.`,
+      `bei meiner Recherche bin ich auf Sie gestoßen.`
+    ] : [
+      `ich bin auf dein Profil gestoßen und hoffe, du kannst mir kurz weiterhelfen.`,
+      `ich habe euer Unternehmen entdeckt und wollte fragen, ob du mir kurz helfen könntest.`,
+      `bei meiner Recherche bin ich auf dich gestoßen.`
+    ],
+    'pas': formal ? [
+      `viele ${target} kämpfen mit dem gleichen Problem: zu wenig Anfragen bei zu viel Konkurrenz.`,
+      `kennen Sie das? Zu wenig planbare Aufträge, zu viel Abhängigkeit vom Zufall.`,
+      `${target} berichten mir oft vom selben Problem: unregelmäßige Auftragslage und Preisdruck.`
+    ] : [
+      `viele ${target} haben das gleiche Problem: zu wenig Anfragen und zu viel Konkurrenz.`,
+      `kennst du das? Zu wenig planbare Aufträge, zu viel Abhängigkeit vom Zufall.`,
+      `${target} erzählen mir oft vom selben Problem: unregelmäßige Auftragslage und Preisdruck.`
+    ],
+    'aida': formal ? [
+      `was wäre, wenn Sie jeden Monat planbar neue Kunden gewinnen könnten?`,
+      `stellen Sie sich vor: Jeden Monat kommen zuverlässig neue Anfragen rein.`,
+      `was würde es für Ihr Business bedeuten, wenn Sie sich keine Sorgen mehr um Neukunden machen müssten?`
+    ] : [
+      `was wäre, wenn du jeden Monat planbar neue Kunden gewinnen könntest?`,
+      `stell dir vor: Jeden Monat kommen zuverlässig neue Anfragen rein.`,
+      `was würde es für dein Business bedeuten, wenn du dir keine Sorgen mehr um Neukunden machen müsstest?`
+    ],
+    'straight-business': formal ? [
+      `ich helfe ${target} dabei, ${benefit}.`,
+      `ich unterstütze ${target} mit ${offer}, um ${benefit}.`,
+      `mein Angebot für ${target}: ${benefit}.`
+    ] : [
+      `ich helfe ${target} dabei, ${benefit}.`,
+      `ich unterstütze ${target} mit ${offer}, um ${benefit}.`,
+      `kurz und knapp: Ich helfe ${target}, ${benefit}.`
+    ],
+    'paint-picture': formal ? [
+      `stellen Sie sich vor: Jeden Morgen öffnen Sie Ihr Postfach und finden neue Kundenanfragen.`,
+      `wie würde es sich anfühlen, jeden Monat planbar neue Kunden zu gewinnen?`,
+      `stellen Sie sich vor: Keine Sorgen mehr, ob dieser Monat gut wird.`
+    ] : [
+      `stell dir vor: Jeden Morgen öffnest du dein Postfach und findest neue Kundenanfragen.`,
+      `wie würde es sich anfühlen, jeden Monat planbar neue Kunden zu gewinnen?`,
+      `stell dir vor: Keine Sorgen mehr, ob dieser Monat gut wird.`
+    ],
+    'something-useful': formal ? [
+      `ich arbeite viel mit ${target} und habe einen Tipp, der Ihnen helfen könnte.`,
+      `bei der Arbeit mit ${target} habe ich etwas Interessantes entdeckt.`,
+      `ich möchte eine Beobachtung mit Ihnen teilen, die für ${target} relevant ist.`
+    ] : [
+      `ich arbeite viel mit ${target} und habe einen Tipp, der dir helfen könnte.`,
+      `bei der Arbeit mit ${target} habe ich etwas Interessantes entdeckt.`,
+      `ich möchte eine Beobachtung mit dir teilen, die für ${target} relevant ist.`
+    ]
+  }
+
+  // No-Brainer Einleitung Varianten
+  const noBrainerIntros = formal ? [
+    `Mein Angebot für Sie:`,
+    `Zum Einstieg biete ich Ihnen:`,
+    `Unverbindlich für Sie:`,
+    `Mein Vorschlag:`
+  ] : [
+    `Mein Angebot für dich:`,
+    `Zum Einstieg biete ich dir:`,
+    `Unverbindlich für dich:`,
+    `Mein Vorschlag:`
+  ]
+
   let subject = ''
   let body = ''
+  const cta = randomVariant(ctaVariants)
+  const socialProof = randomVariant(socialProofVariants)
+  const opening = randomVariant(openingVariants[framework])
+  const noBrainerIntro = randomVariant(noBrainerIntros)
 
   switch (framework) {
     case 'quick-question':
-      subject = 'Kurze Frage'
+      subject = randomVariant(['Kurze Frage', 'Eine Frage', 'Schnelle Frage'])
       body = `${greeting} [Name],
 
-ich arbeite mit ${target} zusammen und helfe ihnen dabei, ${benefit}.
+${opening}
 
 ${formal ? 'Könnten Sie' : 'Könntest du'} mir sagen, wer bei ${formal ? 'Ihnen' : 'euch'} für Marketing und Kundengewinnung zuständig ist?
 
@@ -420,10 +748,12 @@ Vielen Dank für ${your}e Hilfe!`
       break
 
     case 'third-party':
-      subject = formal ? 'Könnten Sie mir weiterhelfen?' : 'Könntest du mir weiterhelfen?'
+      subject = formal
+        ? randomVariant(['Könnten Sie mir weiterhelfen?', 'Kurze Frage', 'Weiterleitung?'])
+        : randomVariant(['Könntest du mir weiterhelfen?', 'Kurze Frage', 'Weiterleitung?'])
       body = `${greeting} [Name],
 
-ich bin auf ${your} Profil gestoßen und hoffe, ${you} ${formal ? 'können' : 'kannst'} mir kurz weiterhelfen.
+${opening}
 
 Ich helfe ${target} dabei, ${benefit} - und ich denke, dass ${formal ? 'Ihr' : 'euer'} Unternehmen davon profitieren könnte.
 
@@ -433,74 +763,88 @@ Ich schätze ${your}e Zeit sehr.`
       break
 
     case 'pas':
-      subject = `${target}: Mehr Kunden gewinnen`
+      subject = randomVariant([
+        `${target}: Mehr Kunden gewinnen`,
+        `Für ${target}`,
+        `${target} & ${offer}`
+      ])
       body = `${greeting} [Name],
 
-viele ${target} haben das gleiche Problem: zu wenig Anfragen und zu viel Konkurrenz.
+${opening}
 
-Das führt zu Umsatzschwankungen und macht die Planung schwer. Kennst ${you} das?
+Das führt zu Umsatzschwankungen und macht die Planung schwer.
 
 Mit ${offer} helfe ich ${target} dabei, ${benefit}.
 
-${noBrainer ? `Mein Angebot: ${noBrainer}` : ''}
+${noBrainer ? `${noBrainerIntro} ${noBrainer}` : ''}
 
-${youHave} diese Woche 15 Minuten Zeit für ein kurzes Gespräch?`
+${cta}`
       break
 
     case 'aida':
-      subject = 'Was wäre, wenn...'
+      subject = randomVariant(['Was wäre, wenn...', 'Eine Idee für dich', 'Kurze Frage'])
       body = `${greeting} [Name],
 
-was wäre, wenn ${you} jeden Monat planbar neue Kunden ${formal ? 'gewinnen könnten' : 'gewinnen könntest'}?
+${opening}
 
-Ich habe in den letzten 12 Monaten über 50 ${target} dabei geholfen, ${benefit}.
+${socialProof}
 
 Das Ergebnis: mehr Anfragen, bessere Kunden, weniger Stress.
 
-${noBrainer ? `Starte mit: ${noBrainer}` : ''}
+${noBrainer ? `${noBrainerIntro} ${noBrainer}` : ''}
 
-${youHave} Zeit für ein kurzes Gespräch diese Woche?`
+${cta}`
       break
 
     case 'straight-business':
-      subject = `${offer} für ${target}`
+      subject = randomVariant([
+        `${offer} für ${target}`,
+        `Anfrage: ${offer}`,
+        `${offer} - kurze Vorstellung`
+      ])
       body = `${greeting} [Name],
 
-ich helfe ${target} dabei, ${benefit}.
+${opening}
 
-In den letzten Monaten haben wir über 50 Unternehmen in ${formal ? 'Ihrer' : 'deiner'} Branche geholfen, mehr Kunden zu gewinnen.
+${socialProof}
 
-${noBrainer ? `Mein Angebot für ${you}: ${noBrainer}` : ''}
+${noBrainer ? `${noBrainerIntro} ${noBrainer}` : ''}
 
-${youHave} diese Woche Zeit für ein kurzes Gespräch?`
+${cta}`
       break
 
     case 'paint-picture':
-      subject = formal ? 'Stellen Sie sich vor...' : 'Stell dir vor...'
+      subject = formal
+        ? randomVariant(['Stellen Sie sich vor...', 'Eine Vision', 'Was wäre wenn...'])
+        : randomVariant(['Stell dir vor...', 'Eine Vision', 'Was wäre wenn...'])
       body = `${greeting} [Name],
 
-stell ${you} ${formal ? 'sich' : 'dir'} vor: Jeden Morgen ${formal ? 'öffnen Sie Ihr' : 'öffnest du dein'} Postfach und findest neue Kundenanfragen.
+${opening}
 
 Kein Hoffen mehr, ob dieser Monat gut wird. Keine Abhängigkeit von Empfehlungen.
 
 Genau dabei helfe ich ${target} - mit ${offer}.
 
-${noBrainer ? `Lass uns starten mit: ${noBrainer}` : ''}
+${noBrainer ? `${noBrainerIntro} ${noBrainer}` : ''}
 
-${youHave} Zeit für ein kurzes Gespräch?`
+${cta}`
       break
 
     case 'something-useful':
-      subject = `Tipp für ${target}`
+      subject = randomVariant([
+        `Tipp für ${target}`,
+        `Interessant für ${target}`,
+        `Kurzer Hinweis`
+      ])
       body = `${greeting} [Name],
 
-ich arbeite viel mit ${target} und habe einen Tipp, der ${formal ? 'Ihnen' : 'dir'} helfen könnte:
+${opening}
 
 Die erfolgreichsten ${target} setzen auf ${offer}, um ${benefit}.
 
 Falls ${you} ${formal ? 'Interesse haben' : 'Interesse hast'}, zeige ich ${formal ? 'Ihnen' : 'dir'} gerne, wie das konkret funktioniert.
 
-${noBrainer ? `Übrigens: ${noBrainer}` : ''}
+${noBrainer ? `${noBrainerIntro} ${noBrainer}` : ''}
 
 ${formal ? 'Viele Grüße' : 'LG'}`
       break
