@@ -1,13 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useSignIn, useSignUp } from '@clerk/nextjs'
-import { useRouter } from 'next/navigation'
-import { ArrowRightIcon, Loader2Icon, MailIcon, StarIcon } from 'lucide-react'
+import { useSignUp } from '@clerk/nextjs'
+import { MailIcon, StarIcon } from 'lucide-react'
+import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { Marquee } from '@/components/ui/marquee'
@@ -35,69 +34,8 @@ const GoogleIcon = () => (
 )
 
 const HeroSection = () => {
-  const { signIn, isLoaded: signInLoaded } = useSignIn()
-  const { signUp, isLoaded: signUpLoaded } = useSignUp()
-  const router = useRouter()
-
-  const [email, setEmail] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const { signUp } = useSignUp()
   const [error, setError] = useState('')
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!signInLoaded || !signUpLoaded || !signIn || !signUp) return
-
-    setIsLoading(true)
-    setError('')
-
-    try {
-      // Versuche zuerst Sign-In (bestehender User)
-      const signInResult = await signIn.create({
-        identifier: email,
-      })
-
-      // Prüfe ob email_code verfügbar ist
-      const emailCodeFactor = signInResult.supportedFirstFactors?.find(
-        (factor) => factor.strategy === 'email_code'
-      )
-
-      if (emailCodeFactor && 'emailAddressId' in emailCodeFactor) {
-        await signIn.prepareFirstFactor({
-          strategy: 'email_code',
-          emailAddressId: emailCodeFactor.emailAddressId,
-        })
-        // Weiterleitung zur Login-Seite mit Email als Parameter
-        router.push(`/login?email=${encodeURIComponent(email)}&step=code`)
-      } else {
-        setError('E-Mail-Verifizierung nicht verfügbar.')
-      }
-    } catch (err: unknown) {
-      const clerkError = err as { errors?: Array<{ code: string; message: string }> }
-
-      // User existiert nicht → Sign-Up
-      if (clerkError.errors?.[0]?.code === 'form_identifier_not_found') {
-        try {
-          await signUp.create({
-            emailAddress: email,
-          })
-
-          await signUp.prepareEmailAddressVerification({
-            strategy: 'email_code',
-          })
-
-          // Weiterleitung zur Login-Seite mit Email als Parameter
-          router.push(`/login?email=${encodeURIComponent(email)}&step=code&new=true`)
-        } catch (signUpErr: unknown) {
-          const signUpError = signUpErr as { errors?: Array<{ code: string; message: string }> }
-          setError(signUpError.errors?.[0]?.message || 'Ein Fehler ist aufgetreten.')
-        }
-      } else {
-        setError(clerkError.errors?.[0]?.message || 'Ein Fehler ist aufgetreten.')
-      }
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const handleGoogleSignIn = async () => {
     if (!signUp) {
@@ -119,6 +57,7 @@ const HeroSection = () => {
       setError(errorMessage)
     }
   }
+
   return (
     <section className='relative flex-1 overflow-hidden pt-32 pb-8 sm:pb-16 lg:pb-24'>
       <div className='mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 sm:gap-16 sm:px-6 lg:gap-24 lg:px-8'>
@@ -153,7 +92,7 @@ const HeroSection = () => {
             Playbooks, Checklisten, Tools und geballtes Wissen - alles kostenlos.
           </MotionPreset>
 
-          {/* Registrierungs-Formular */}
+          {/* Registrierungs-Buttons */}
           <MotionPreset
             fade
             slide={{ direction: 'down', offset: 50 }}
@@ -182,34 +121,15 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              {/* Email Form */}
-              <form onSubmit={handleEmailSubmit} className='flex gap-2'>
-                <div className='relative flex-1'>
-                  <MailIcon className='text-muted-foreground pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2' />
-                  <Input
-                    type='email'
-                    placeholder='deine@email.de'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className='pl-10 h-11'
-                    required
-                  />
-                </div>
-                <Button type='submit' className='h-11 px-6' disabled={isLoading || !email}>
-                  {isLoading ? (
-                    <Loader2Icon className='size-5 animate-spin' />
-                  ) : (
-                    <>
-                      Kostenlos starten <ArrowRightIcon className='ml-1 size-4' />
-                    </>
-                  )}
-                </Button>
-              </form>
+              {/* Magic Link Button */}
+              <Button asChild className='w-full h-11 text-base'>
+                <Link href='/login'>
+                  <MailIcon className='size-5 mr-2' />
+                  Mit Magic Link anmelden
+                </Link>
+              </Button>
 
               {error && <p className='text-destructive text-sm text-center'>{error}</p>}
-
-              {/* CAPTCHA Element */}
-              <div id='clerk-captcha' />
             </div>
           </MotionPreset>
 
@@ -271,7 +191,6 @@ const HeroSection = () => {
           </MotionPreset>
         </div>
       </div>
-
     </section>
   )
 }
