@@ -1,0 +1,1331 @@
+# React AI Actions
+          URL: /ai/actions
+          Interactive AI action buttons for React chat interfaces. Build engaging conversational UIs with TypeScript, tooltips, and shadcn/ui styling.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Users expect copy buttons on AI responses. Add them or watch people right-click everything like savages. This component puts action buttons where they belong—right after the message content, not buried in some menu.
+
+Quick action buttons for AI responses with tooltips:
+
+Built with TypeScript and shadcn/ui for React applications, so it plays nice with your existing Next.js setup. Tooltips work properly, focus handling doesn't break tab navigation, and screen readers won't hate you.
+
+Most developers either forget action buttons entirely or put them in weird places. Users look for copy buttons immediately after reading a response—not in a dropdown menu, not in a toolbar somewhere else.
+
+This React component uses ghost buttons by default because bordered buttons look busy in chat interfaces. If you disagree, use the variant prop. The buttons are 44px touch targets because mobile users need bigger tap areas (trust me on this one).
+
+Real example with copy and regenerate using the Vercel AI SDK useChat hook in React applications:
+
+Advanced toolbar with grouped actions and keyboard shortcuts:
+
+Show different actions based on message state with loading indicators:
+
+Action buttons that don't look like an afterthought in React applications
+
+Tooltips that actually help (not just label repetition)
+
+Proper keyboard navigation that doesn't break in Next.js projects
+
+Clipboard API integration (falls back to execCommand for older browsers)
+
+Works with any Vercel AI SDK setup in JavaScript applications
+
+Complete TypeScript definitions that make sense
+
+Free open source component designed for conversational AI interfaces
+
+Built for modern React frameworks and code generation tools
+
+Container for grouping action buttons.
+
+Prop
+
+Type
+
+Description
+
+...props
+
+HTMLAttributes<HTMLDivElement>
+
+HTML attributes to spread to the root div
+
+Individual action button with optional tooltip.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+tooltip
+
+string
+
+-
+
+Optional tooltip text shown on hover
+
+label
+
+string
+
+-
+
+Accessible label for screen readers
+
+variant
+
+ButtonVariant
+
+"ghost"
+
+Button variant from shadcn/ui
+
+size
+
+ButtonSize
+
+"sm"
+
+Button size preset
+
+...props
+
+ComponentProps<Button>
+
+-
+
+Spreads to underlying Button component
+
+Actions support full keyboard navigation for accessibility:
+
+Key
+
+Description
+
+Tab
+
+Move focus to next action button
+
+Shift + Tab
+
+Move focus to previous action button
+
+Enter / Space
+
+Activate focused action
+
+Escape
+
+Close tooltip if open
+
+Tooltip z-index issues: Our tooltips use Radix Portal so they don't get buried under modals in React applications. Most implementations mess this up.
+
+Users spam click async actions: Always disable the button during API calls in Next.js projects. Otherwise users will click "Regenerate" five times and wonder why their app is broken.
+
+Forgetting disabled state explanations: If an action is disabled, the tooltip should explain why in JavaScript applications. "Copy (generating...)" is better than just a grayed-out button.
+
+Touch targets too small: 44px minimum for mobile. This React component handles this with padding, but if you override styles, remember this.
+
+Missing screen reader support: Even if you have visible tooltips, add aria-label for TypeScript accessibility. Screen reader users shouldn't have to guess what buttons do.
+
+Drop these into Message components for instant chat interfaces in React applications. Pairs well with Branch if you're building version control for AI responses in Next.js projects. This free open source component family is designed to work together without style conflicts in modern JavaScript frameworks.
+
+Sure. Any React element works as children in this TypeScript component. Stick to 16px icons or they'll look weird in Next.js applications.
+
+Listen for keydown events and trigger the onClick in React applications. Show
+the shortcut in tooltips like "Copy (⌘C)". Don't mess with standard browser
+shortcuts in JavaScript implementations.
+
+Track loading state in your parent React component. Disable the button and
+swap the icon for a spinner. The disabled prop stops users from spam-clicking
+in Next.js applications.
+
+Never hide, always disable in React applications. Users hate when buttons
+disappear. Show a tooltip explaining why it's disabled instead in TypeScript
+components.
+
+Pass className with Tailwind utilities or use the variant prop in this React component. All shadcn/ui Button props get forwarded in Next.js projects.
+
+# React AI Loader
+          URL: /ai/loader
+          Animated loader for AI streaming responses. Smooth spinning indicator with React, TypeScript, and shadcn/ui that shows users AI is thinking.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Loading spinners for AI operations in conversational AI applications. Because users need to know something's happening during the 10-30 seconds it takes to generate responses in React applications.
+
+Customizable size with smooth CSS animation:
+
+Simple animated spinner that scales to different sizes and inherits colors from your theme in TypeScript components. Uses CSS animations so it doesn't kill performance in JavaScript frameworks.
+
+Disabled buttons tell users they can't do something, but not why in React applications. A loading spinner communicates that work is happening and will finish eventually.
+
+AI operations take 10-30 seconds regularly in Next.js projects. Without feedback, users refresh the page or click submit again. Both break your app.
+
+Show loading states during Vercel AI SDK operations using status from useChat in React applications:
+
+Backend route for streaming:
+
+Different colors, animation speeds, and background contexts:
+
+CSS animations that don't block the main thread in React applications
+
+Scales to any size without looking pixelated in Next.js projects
+
+Inherits text color from parent (use text-primary, text-muted, etc.) with TypeScript support
+
+Proper accessibility with role="status"
+
+Works with any Vercel AI SDK hook status and AI chat applications
+
+Free open source component designed for conversational AI operations in JavaScript frameworks
+
+Spinning animation component for loading states.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+size
+
+number
+
+16
+
+Width and height in pixels
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+HTMLAttributes<HTMLDivElement>
+
+-
+
+Standard div attributes
+
+Key
+
+Description
+
+Tab
+
+Skip over loader (not focusable)
+
+Don't show loaders for fast operations: Sub-200ms operations should complete without spinners in React applications. They flash and feel broken.
+
+Size for context: 16px for inline text, 24px for buttons, 32px+ for page-level loading in Next.js projects. Too small looks weak, too big dominates.
+
+JavaScript animations kill performance: Use CSS transforms and opacity in TypeScript components. Avoid updating DOM properties in animation loops.
+
+Generic "Loading..." is useless: Say "Generating response..." or "Processing image..." so users know what's actually happening in React applications.
+
+Forgetting mobile considerations: Spinners need to be readable on small screens. Test at actual mobile sizes in JavaScript implementations.
+
+Works great with PromptInput for input states in React applications. Drop into Message for typing indicators in Next.js projects. Combine with Conversation for chat loading states. This free open source component integrates seamlessly with modern JavaScript frameworks.
+
+Add text color classes like text-blue-500 in React applications. The loader inherits currentColor from the parent element in TypeScript components.
+
+16px for inline use, 20-24px for buttons, 32px+ for full-screen loading in
+React applications. Match the context where it appears in Next.js projects.
+
+Override the animate-spin class with custom CSS in React applications. Default
+speed works for most AI operations in TypeScript components.
+
+The SVG includes proper accessibility attributes in this React component.
+Screen readers announce loading state changes in JavaScript applications.
+
+CSS animations are hardware-accelerated in React applications. Multiple loaders might slow down older devices in Next.js projects.
+
+# React AI Prompt Input
+          URL: /ai/prompt-input
+          ChatGPT-style input with auto-resize and model selector. React component with TypeScript, keyboard shortcuts, and shadcn/ui for AI chat.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Auto-resizing textarea with toolbar for AI prompts in conversational AI applications. This free open source React component handles Enter submits, Shift+Enter adds new lines, and includes model selection with proper form handling for Next.js projects.
+
+Textarea with submit button and model selection:
+
+Automatically adjusts height based on content in React applications, handles Enter/Shift+Enter shortcuts correctly in TypeScript components, and provides a flexible toolbar system for JavaScript frameworks. Integrates seamlessly with Vercel AI SDK status.
+
+Fixed-height textareas cut off AI prompts in React applications. Users write long, complex prompts and need to see what they're typing without scrolling in a tiny box in Next.js projects.
+
+Enter/Shift+Enter behavior has to be right in JavaScript implementations. Users expect Enter to submit, Shift+Enter for new lines in TypeScript components. Get this wrong and your chat feels broken.
+
+Complete chat interface using Vercel AI SDK with model selection and status integration in React applications:
+
+Backend route handling model selection:
+
+Auto-resizing textarea with configurable min/max height (prevents layout jumps) in React applications
+
+Keyboard shortcuts that work like users expect (Enter to submit, Shift+Enter for new lines) in TypeScript components
+
+Submit button states that integrate with Vercel AI SDK status in Next.js projects
+
+Flexible toolbar system for custom actions and model selection in JavaScript frameworks
+
+Form validation that prevents empty submissions
+
+Proper focus management for continuous conversation
+
+Works with any Vercel AI SDK setup and AI chat applications
+
+Free open source component designed for conversational AI interfaces and prompt-based applications
+
+Form container for the prompt input system.
+
+Prop
+
+Type
+
+Description
+
+onSubmit
+
+FormEventHandler
+
+Form submission handler
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+HTMLAttributes<HTMLFormElement>
+
+Standard form attributes
+
+Auto-resizing textarea with keyboard shortcuts.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+placeholder
+
+string
+
+"What would you like to know?"
+
+Placeholder text
+
+minHeight
+
+number
+
+48
+
+Minimum height in pixels
+
+maxHeight
+
+number
+
+164
+
+Maximum height in pixels
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof Textarea>
+
+-
+
+Textarea component props
+
+Container for toolbar actions and submit button.
+
+Prop
+
+Type
+
+Description
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+HTMLAttributes<HTMLDivElement>
+
+Standard div attributes
+
+Container for tool buttons and controls.
+
+Prop
+
+Type
+
+Description
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+HTMLAttributes<HTMLDivElement>
+
+Standard div attributes
+
+Toolbar button with automatic sizing.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+variant
+
+ButtonVariant
+
+"ghost"
+
+Button style variant
+
+size
+
+ButtonSize
+
+"icon" (auto)
+
+Button size
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof Button>
+
+-
+
+Button component props
+
+Submit button with status indicators.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+status
+
+ChatStatus
+
+-
+
+Current chat status for icon display
+
+variant
+
+ButtonVariant
+
+"default"
+
+Button style variant
+
+size
+
+ButtonSize
+
+"icon"
+
+Button size
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof Button>
+
+-
+
+Button component props
+
+All model selection components forward props to their underlying shadcn/ui Select components:
+
+PromptInputModelSelect - Select root component
+
+PromptInputModelSelectTrigger - Select trigger with custom styling
+
+PromptInputModelSelectContent - Select dropdown content
+
+PromptInputModelSelectItem - Individual model option
+
+PromptInputModelSelectValue - Selected value display
+
+Key
+
+Description
+
+Enter
+
+Submit form (when not in composition)
+
+Shift + Enter
+
+Insert new line
+
+Tab
+
+Navigate between toolbar elements
+
+Escape
+
+Blur textarea
+
+Unconstrained auto-resize breaks layouts: Set reasonable minHeight/maxHeight in React applications. Long AI prompts can grow to 500+ lines without constraints in TypeScript components.
+
+Mobile keyboard inconsistency: Enter behavior varies across mobile keyboards in JavaScript implementations. Test on real devices, not just desktop browsers in Next.js projects.
+
+Empty input submission: Users will hit Enter on empty textareas in React applications. Validate and disable submit for empty/whitespace-only input.
+
+Model selection persistence: Consider saving user's model preference to localStorage in TypeScript projects. They don't want to reselect every session.
+
+Focus management after submit: Return focus to the textarea after successful submission in React components so users can continue the conversation.
+
+Works great with Conversation for scrolling chat interfaces in React applications. Combine with Message for complete chat UI in Next.js projects. Add Actions for message interactions like copy, regenerate, or edit. This free open source component integrates seamlessly with modern JavaScript frameworks.
+
+Use minHeight and maxHeight props to set boundaries in React applications. The component uses CSS field-sizing for automatic height adjustment in TypeScript implementations.
+
+Override onKeyDown on PromptInputTextarea in React components. The default
+Enter/Shift+Enter behavior works for most users in JavaScript applications.
+
+The status prop accepts Vercel AI SDK status values: "ready", "submitted",
+"streaming", or "error" in React applications. Icons change automatically in
+TypeScript components.
+
+Add PromptInputButton components inside PromptInputTools in React
+applications. They size automatically based on content (icon vs text+icon) in
+Next.js projects.
+
+Adapts to virtual keyboards and touch interactions in JavaScript frameworks. Test thoroughly across different mobile browsers—behavior varies in TypeScript implementations.
+
+# React AI Reasoning
+          URL: /ai/reasoning
+          Show AI thinking process like Claude's "thinking" blocks. Collapsible React component with TypeScript and shadcn/ui for transparent AI.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Collapsible reasoning display for AI models that show their thinking process in conversational AI applications. This free open source React component automatically opens during reasoning, closes when complete, and tracks thinking duration in Next.js projects.
+
+Thinking indicator with expandable content:
+
+Automatically opens during streaming in React applications, closes when complete in TypeScript components, tracks thinking duration, and provides smooth animations. Works with any reasoning-capable AI model in JavaScript frameworks.
+
+Users don't trust black box responses for important decisions in React applications. Showing the thinking process builds confidence and lets users verify the logic in Next.js projects.
+
+Duration tracking shows effort in TypeScript components. "Thought for 8 seconds" signals deliberate consideration, not instant pattern matching in JavaScript implementations.
+
+Stream reasoning from models that support it using Vercel AI SDK in React applications:
+
+Backend route with reasoning support:
+
+Automatic open/close behavior during reasoning streams (opens when reasoning starts, closes when done) in React applications
+
+Manual toggle control with smooth animations in TypeScript components
+
+Duration tracking with "Thought for X seconds" display for JavaScript frameworks
+
+Controllable state for custom behavior in Next.js projects
+
+Accessible keyboard navigation and screen reader support
+
+Works with any Vercel AI SDK setup and AI chat applications
+
+Free open source component designed for reasoning-capable AI models (DeepSeek R1, o1, etc.) in conversational AI interfaces
+
+Container component managing reasoning state and auto-behavior.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+isStreaming
+
+boolean
+
+false
+
+Auto-opens when true, auto-closes when false
+
+open
+
+boolean
+
+-
+
+Controlled open state
+
+defaultOpen
+
+boolean
+
+false
+
+Initial open state for uncontrolled usage
+
+onOpenChange
+
+(open: boolean) => void
+
+-
+
+Callback when open state changes
+
+duration
+
+number
+
+0
+
+Controlled duration in seconds
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof Collapsible>
+
+-
+
+Collapsible component props
+
+Clickable trigger showing reasoning status and duration.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+title
+
+string
+
+"Reasoning"
+
+Custom title for thinking state
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof CollapsibleTrigger>
+
+-
+
+Collapsible trigger props
+
+Content container for reasoning text with animations.
+
+Prop
+
+Type
+
+Description
+
+children
+
+string
+
+Required - Reasoning content text
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof CollapsibleContent>
+
+Collapsible content props
+
+Key
+
+Description
+
+Space / Enter
+
+Toggle reasoning visibility on trigger
+
+Tab
+
+Focus reasoning trigger
+
+Escape
+
+Close reasoning panel when focused
+
+Auto-close timing can feel abrupt: The React component auto-closes 1 second after streaming ends. Adjust AUTO_CLOSE_DELAY if users complain in TypeScript implementations.
+
+Long reasoning breaks mobile: DeepSeek R1 reasoning can be 2000+ words in JavaScript applications. Set max-height and scroll, or mobile users scroll forever in Next.js projects.
+
+Streaming performance issues: Large reasoning content updates rapidly in React components. Consider throttling updates for smoother animations.
+
+Default open state matters: Most users want reasoning closed by default in TypeScript applications. They'll expand it if interested.
+
+Empty reasoning handling: Not all models provide reasoning for every response in JavaScript frameworks. Handle undefined reasoning gracefully in React implementations.
+
+Works great with Response for formatted reasoning content in React applications. Drop into Message for chat-based reasoning display in Next.js projects. Combine with Conversation for scrolling reasoning streams. This free open source component integrates seamlessly with modern JavaScript frameworks.
+
+When isStreaming becomes true, reasoning opens in React applications. When false, it closes after 1 second delay. Users can still manually toggle anytime in TypeScript components.
+
+Duration starts when isStreaming becomes true and ends when it becomes false
+in React applications. The component tracks elapsed time automatically in
+JavaScript implementations.
+
+Yeah. Use open/onOpenChange for controlled state, or defaultOpen for initial
+state in TypeScript components. Auto-behavior still works alongside manual
+control in React applications.
+
+DeepSeek R1, OpenAI o1, and other reasoning models in React applications.
+Check your model's docs for reasoning support and enable sendReasoning in the
+response for Next.js projects.
+
+Pass custom children to ReasoningTrigger to override the default brain icon and text in TypeScript components. The component handles state display automatically in JavaScript frameworks.
+
+# React AI Response
+          URL: /ai/response
+          Markdown renderer optimized for streaming AI responses. Handles incomplete code blocks and formatting with React, TypeScript, and shadcn/ui.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Streaming markdown without smart parsing shows users broken **bold and incomplete [links in React applications. This free open source component auto-completes formatting as content arrives and hides broken elements until ready in Next.js projects.
+
+Auto-completing formatting with syntax highlighting:
+
+The React component automatically completes incomplete bold, italic, and code formatting during streaming, hides broken links until complete, and renders syntax-highlighted code blocks with copy buttons. Built with TypeScript for type safety and designed for seamless integration in your JavaScript projects.
+
+For code blocks, nest markdown inside the Response component:
+
+AI responses stream character by character in React applications. Regular markdown parsers show **incomplete bold and [broken links while text arrives in Next.js projects. This looks buggy and unprofessional in JavaScript implementations.
+
+The TypeScript component fixes this by auto-completing formatting tokens and hiding incomplete links until ready. Users see clean text throughout the entire stream in React applications.
+
+Render streaming AI responses with intelligent formatting in React applications:
+
+Backend route for markdown-rich responses:
+
+Streaming-optimized parsing - Auto-completes incomplete formatting during streaming in React applications
+
+Rich markdown support - Paragraphs, headers, lists, tables, blockquotes, and more in TypeScript components
+
+Syntax-highlighted code blocks - Multiple programming languages with copy buttons for JavaScript frameworks
+
+Math equation support - LaTeX rendering via rehype-katex in Next.js projects
+
+GFM features - Tables, task lists, strikethrough via remark-gfm
+
+Link and image security - Configurable allowed prefixes for safety
+
+Intelligent hiding - Incomplete links and images hidden until complete
+
+Responsive design - Adapts to different screen sizes while maintaining readability
+
+Theme-aware styling - Works seamlessly in light and dark modes
+
+Accessibility focused - Proper semantic HTML and screen reader support
+
+Perfect for AI assistants and conversational AI interfaces - Built specifically for streaming AI content
+
+Free open source component built for Next.js with shadcn/ui design system and AI Elements
+
+Optimized for Vercel AI SDK streaming and AI chat applications
+
+Markdown renderer with intelligent streaming support.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+children
+
+string | ReactNode
+
+-
+
+Required - Markdown content to render
+
+options
+
+ReactMarkdown["options"]
+
+-
+
+React Markdown configuration options
+
+allowedImagePrefixes
+
+string[]
+
+["*"]
+
+Allowed image URL prefixes for security
+
+allowedLinkPrefixes
+
+string[]
+
+["*"]
+
+Allowed link URL prefixes for security
+
+defaultOrigin
+
+string
+
+-
+
+Default origin for relative URLs
+
+parseIncompleteMarkdown
+
+boolean
+
+true
+
+Enable intelligent streaming parsing
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+HTMLAttributes<HTMLDivElement>
+
+-
+
+Standard div attributes
+
+The Response component includes several intelligent parsing features:
+
+Bold: **incomplete → **incomplete** (auto-closed)
+
+Italic: *incomplete → *incomplete* (auto-closed)
+
+Strikethrough: ~~incomplete → ~~incomplete~~ (auto-closed)
+
+Inline code: `incomplete → `incomplete` (auto-closed)
+
+Links: [incomplete text (hidden until ] appears)
+
+Images: ![incomplete alt (hidden until ] appears)
+
+Code blocks: Protects triple backticks from inline code completion
+
+Only applies during streaming when parseIncompleteMarkdown={true} in React applications
+
+Preserves code block boundaries to prevent interference in TypeScript components
+
+Counts formatting tokens to determine completion needs in JavaScript implementations
+
+Works with both single and double character formatters in Next.js projects
+
+Always validate allowed prefixes. The default ["*"] allows all URLs in React applications. In production, restrict to trusted domains in Next.js projects:
+
+Content sanitization is built-in. The React component uses harden-react-markdown for XSS protection in TypeScript implementations.
+
+Response works seamlessly with Message for chat interfaces in React applications. Use within Conversation for scrolling markdown content in Next.js projects. Combine with CodeBlock for enhanced code display. This free open source component integrates seamlessly with modern JavaScript frameworks.
+
+The React component detects incomplete formatting tokens and automatically completes them in TypeScript implementations. Bold, italic, code, and strikethrough are closed when streaming. Broken links are hidden until complete in JavaScript applications.
+
+The React component supports all languages that Prism.js supports in Next.js
+projects, including JavaScript, Python, TypeScript, Rust, Go, and many others.
+Language is detected from code fence info in React applications.
+
+Use standard LaTeX syntax: $inline math$ for inline equations and $$block
+  math$$ for block equations in React applications. The TypeScript component
+includes rehype-katex for rendering in JavaScript frameworks.
+
+Yes, pass custom components via the options prop in React applications. The
+TypeScript component uses react-markdown which accepts custom renderers for
+any HTML element in Next.js projects.
+
+The parsing is lightweight and optimized for real-time streaming in React applications. It only processes the text when parseIncompleteMarkdown is true and minimal regex operations in TypeScript components.
+
+# React AI Suggestion
+          URL: /ai/suggestion
+          Suggestion chips like ChatGPT's follow-up prompts. Scrollable React pills for guiding conversations with TypeScript and shadcn/ui.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Scrollable suggestion pills for AI chat interfaces with React, Next.js, and TypeScript. Because staring at an empty input box is the worst UX—give users actual prompts to click instead of making them think of questions from scratch. This free open source shadcn/ui component provides quick AI prompts for your conversational AI applications using Vercel AI SDK in JavaScript frameworks.
+
+Clickable prompt suggestions with overflow handling:
+
+The React component provides horizontally scrollable pills, smooth overflow behavior on mobile, and click-to-send functionality. Built with TypeScript for type safety and designed for seamless integration in your JavaScript projects.
+
+Blank text boxes are intimidating in AI chat applications. Users don't know what to ask, how to phrase it, or what the conversational AI can even do in React projects. They'll type "hello" and waste everyone's time.
+
+Suggestion pills show AI capabilities immediately in TypeScript components. "Explain quantum computing" tells users this AI handles complex topics. "Write a Python function" shows it codes in JavaScript implementations. Much better than guessing in your Next.js AI application.
+
+Quick-start conversations with clickable prompts in React applications:
+
+Backend route for handling suggestions:
+
+Generate contextual suggestions based on conversation:
+
+Horizontal scrolling container with hidden scrollbar in React applications
+
+Click-to-send functionality with suggestion callbacks for TypeScript components
+
+Customizable button variants (outline, solid, ghost, etc.) in JavaScript frameworks
+
+Flexible sizing options (sm, default, lg) for Next.js projects
+
+Responsive design with touch-friendly scrolling
+
+Automatic overflow handling for many suggestions
+
+Rounded pill styling for modern appearance
+
+Accessible keyboard navigation
+
+Perfect for AI chat applications, onboarding, empty states, and follow-up prompts
+
+Free open source component built for Next.js with shadcn/ui design system and AI Elements
+
+Optimized for Vercel AI SDK and conversational AI interfaces
+
+Scrollable container for suggestion pills.
+
+Prop
+
+Type
+
+Description
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof ScrollArea>
+
+ScrollArea component props
+
+Individual clickable suggestion button.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+suggestion
+
+string
+
+-
+
+Required - Text to display and emit
+
+onClick
+
+(suggestion: string) => void
+
+-
+
+Callback when clicked
+
+variant
+
+ButtonVariant
+
+"outline"
+
+Button style variant
+
+size
+
+ButtonSize
+
+"sm"
+
+Button size
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+children
+
+ReactNode
+
+-
+
+Custom content (overrides suggestion)
+
+...props
+
+Omit<ComponentProps<typeof Button>, "onClick">
+
+-
+
+Button component props
+
+Key
+
+Description
+
+Tab
+
+Navigate between suggestions
+
+Enter / Space
+
+Select focused suggestion
+
+Arrow Keys
+
+Scroll through suggestions when focused
+
+Keep suggestions short. Long text breaks the pill design in React applications. Aim for 3-7 words per suggestion in TypeScript components.
+
+Make them actionable. Use verbs and clear intentions: "Explain...", "Show me...", "Help with..." in JavaScript implementations.
+
+Rotate suggestions. Show different prompts on each visit to encourage exploration in Next.js projects.
+
+Context matters. After initial interaction, show follow-up suggestions relevant to the conversation in React applications.
+
+Mobile scrolling needs testing. Ensure smooth horizontal scrolling on touch devices in TypeScript frameworks.
+
+Limit suggestion count. 3-5 visible suggestions work best in JavaScript applications. Too many overwhelm users.
+
+Suggestions works seamlessly with PromptInput for complete input experiences in React applications. Use within Conversation for contextual follow-ups in Next.js projects. Combine with Message for suggested responses. This free open source component integrates seamlessly with modern JavaScript frameworks.
+
+Store suggestions in state and update based on conversation context, user history, or API responses in React applications. Consider using the AI to generate relevant follow-ups in TypeScript components.
+
+Yes. Analytics help you understand what users want to know in React
+applications. Track clicks to improve suggestion quality over time in
+JavaScript implementations.
+
+Show them on empty chat states, after responses for follow-ups, or when users
+seem stuck in TypeScript components. Hide when actively typing in React
+applications.
+
+The ScrollArea component handles touch scrolling automatically in Next.js
+projects. Test momentum scrolling and ensure pills are touch-friendly (44px
+minimum tap target) in JavaScript frameworks.
+
+Use the variant and size props for built-in styles, or pass className for custom styling in React applications. The TypeScript component uses shadcn/ui Button under the hood.
+
+# React AI Task
+          URL: /ai/task
+          Task lists showing AI's work progress like Claude Artifacts. React component with file references, TypeScript, and shadcn/ui styling.
+          This component is derived from Vercel's AI
+Elements (Apache License 2.0,
+Copyright 2023 Vercel, Inc.)
+
+Collapsible task lists for AI workflows with file references and progress tracking. Because when your AI says "analyzing codebase" for 30 seconds, users want to see what files it's actually reading, not just watch a spinner. This free open source React component provides transparent workflow visualization for your Next.js AI applications using Vercel AI SDK in JavaScript frameworks.
+
+Collapsible task list with file references:
+
+The React component provides expandable task containers, file references with icons, and progress tracking through items. Built with TypeScript for type safety and designed for seamless integration in your JavaScript projects.
+
+AI agents do complex work behind the scenes—reading files, making API calls, running analysis in React applications. Users get nervous when nothing happens for 20+ seconds during AI operations.
+
+Showing task lists builds confidence in your conversational AI. "Reading package.json", "Scanning TypeScript files", "Generating suggestions" tells users the AI is working, not frozen in Next.js projects. Plus developers actually want to see what files got touched during AI chat applications in JavaScript implementations.
+
+Stream task progress with structured generation in React applications:
+
+Backend route for task generation:
+
+Tasks appearing one by one with timing:
+
+Collapsible task containers with smooth animations in React applications
+
+File reference badges with icon support for TypeScript components
+
+Progress tracking through task items in JavaScript frameworks
+
+Status indicators (pending, in-progress, completed) for Next.js projects
+
+Nested task support for complex workflows
+
+Keyboard navigation with proper focus management
+
+Screen reader accessible with semantic HTML
+
+Responsive design adapting to different screens
+
+Perfect for AI agents, AI chat applications, and conversational AI workflow visualization
+
+Free open source component built for Next.js with shadcn/ui design system and AI Elements
+
+Optimized for Vercel AI SDK streaming and structured generation
+
+Container component managing collapsible state.
+
+Prop
+
+Type
+
+Default
+
+Description
+
+defaultOpen
+
+boolean
+
+false
+
+Initial expanded state
+
+className
+
+string
+
+-
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof Collapsible>
+
+-
+
+Collapsible component props
+
+Clickable header showing task title.
+
+Prop
+
+Type
+
+Description
+
+title
+
+string
+
+Required - Task title to display
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof CollapsibleTrigger>
+
+Trigger component props
+
+Container for task items with animations.
+
+Prop
+
+Type
+
+Description
+
+className
+
+string
+
+Additional CSS classes
+
+...props
+
+ComponentProps<typeof CollapsibleContent>
+
+Content component props
+
+Individual task item with progress indicator.
+
+Prop
+
+Type
+
+Description
+
+className
+
+string
+
+Additional CSS classes
+
+children
+
+ReactNode
+
+Task item content
+
+...props
+
+ComponentProps<'div'>
+
+Standard div attributes
+
+File reference badge with optional icon.
+
+Prop
+
+Type
+
+Description
+
+className
+
+string
+
+Additional CSS classes
+
+children
+
+ReactNode
+
+File name and optional icon
+
+...props
+
+ComponentProps<'div'>
+
+Standard div attributes
+
+Key
+
+Description
+
+Space / Enter
+
+Toggle task expansion
+
+Tab
+
+Navigate between tasks
+
+Escape
+
+Close expanded task
+
+Keep task titles descriptive. Users should understand what's happening from the title alone in React applications.
+
+Show real progress. Update task items as operations complete, don't just dump everything at once in TypeScript components.
+
+File references need context. Show why a file is being accessed: "Reading config from package.json" in JavaScript implementations.
+
+Status indicators help. Consider adding visual indicators for pending/completed states in Next.js projects.
+
+Limit nesting depth. Too many nested tasks become hard to follow in React applications. Keep it shallow.
+
+Performance with many tasks. Consider virtualization for very long task lists in TypeScript frameworks.
+
+Task works seamlessly with Loader for pending states in React applications. Use alongside Response for task results in Next.js projects. Combine with Reasoning for decision explanations. This free open source component integrates seamlessly with modern JavaScript frameworks.
+
+Use the experimental_useObject hook with streaming to update task items as they complete in React applications. The schema allows partial updates during generation in TypeScript components.
+
+Pass icon components as children to TaskItemFile in React applications. Use
+libraries like Simple Icons or Lucide for consistent file type icons in
+JavaScript frameworks.
+
+Yes. Consider adding checkmarks for completed tasks, spinners for in-progress,
+and different colors for status states in TypeScript components.
+
+Store start/end times in your task schema and display duration in React
+applications. Users appreciate knowing how long operations take in Next.js
+projects.
+
+Add an "error" status to your schema and show failed tasks with error messages in JavaScript implementations. Let users retry or skip failed tasks in React applications.

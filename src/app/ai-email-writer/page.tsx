@@ -343,7 +343,7 @@ export default function AIEmailWriterPage() {
   const hasOutput = subject || body
 
   return (
-    <div className='flex flex-col h-[calc(100vh-8rem)] max-w-4xl mx-auto'>
+    <div className='flex flex-col h-[calc(100vh-12rem)] max-w-4xl mx-auto py-8'>
       {/* Header with Version Selector */}
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center gap-3'>
