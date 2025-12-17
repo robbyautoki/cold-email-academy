@@ -106,10 +106,11 @@ const HeroSection = () => {
     }
 
     try {
+      const baseUrl = window.location.origin
       await signUp.authenticateWithRedirect({
         strategy: 'oauth_google',
-        redirectUrl: '/sso-callback',
-        redirectUrlComplete: '/sso-callback',
+        redirectUrl: `${baseUrl}/sso-callback`,
+        redirectUrlComplete: `${baseUrl}/sso-callback`,
       })
     } catch (err) {
       console.error('Google OAuth Error:', err)

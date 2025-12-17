@@ -177,14 +177,16 @@ const LoginForm = () => {
     if (!signUp) return
 
     try {
+      const baseUrl = window.location.origin
       // signUp.authenticateWithRedirect funktioniert für neue UND bestehende User
       // Bei bestehenden Usern transferiert Clerk automatisch zum Sign-In
       await signUp.authenticateWithRedirect({
         strategy: 'oauth_google',
-        redirectUrl: '/sso-callback',
-        redirectUrlComplete: '/sso-callback',
+        redirectUrl: `${baseUrl}/sso-callback`,
+        redirectUrlComplete: `${baseUrl}/sso-callback`,
       })
-    } catch {
+    } catch (err) {
+      console.error('Google OAuth Error:', err)
       setError('Google-Anmeldung fehlgeschlagen.')
     }
   }
