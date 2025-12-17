@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
@@ -138,8 +139,23 @@ const toolsItemsFlat = toolsCategories.flatMap(cat => cat.items)
 export default function AppHeader() {
   const { user } = useUser()
   const pathname = usePathname()
+  const [activityCount, setActivityCount] = useState(0)
+  const [notificationCount, setNotificationCount] = useState(0)
 
   const isAdmin = user?.unsafeMetadata?.role === 'admin'
+
+  // Lade Badge-Counts
+  useEffect(() => {
+    fetch('/api/activities')
+      .then(res => res.json())
+      .then(data => setActivityCount(data.activities?.length || 0))
+      .catch(() => {})
+
+    fetch('/api/admin/notifications')
+      .then(res => res.json())
+      .then(data => setNotificationCount(data.notifications?.length || 0))
+      .catch(() => {})
+  }, [])
 
   // Navigation data for mobile menu
   const navigationData: NavigationSection[] = [
@@ -367,9 +383,11 @@ export default function AppHeader() {
                 className='text-muted-foreground hover:text-foreground relative transition-transform hover:scale-105'
               >
                 <InboxIcon className='size-5' />
-                <span className='absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-blue-500 text-[10px] font-medium text-white'>
-                  3
-                </span>
+                {activityCount > 0 && (
+                  <span className='absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-blue-500 text-[10px] font-medium text-white'>
+                    {activityCount}
+                  </span>
+                )}
                 <span className='sr-only'>Aktivitäten</span>
               </Button>
             }
@@ -384,9 +402,11 @@ export default function AppHeader() {
                 className='text-muted-foreground hover:text-foreground relative transition-transform hover:scale-105'
               >
                 <BellIcon className='size-5' />
-                <span className='bg-destructive absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full text-[10px] font-medium text-white'>
-                  2
-                </span>
+                {notificationCount > 0 && (
+                  <span className='bg-destructive absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full text-[10px] font-medium text-white'>
+                    {notificationCount}
+                  </span>
+                )}
                 <span className='sr-only'>Benachrichtigungen</span>
               </Button>
             }
