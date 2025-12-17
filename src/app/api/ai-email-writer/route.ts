@@ -1,5 +1,4 @@
 import { auth } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
 
 type FrameworkType =
   | 'quick-question'
@@ -10,12 +9,9 @@ type FrameworkType =
   | 'paint-picture'
   | 'something-useful'
 
-interface EmailResponse {
-  subject: string
-  body: string
-  signature: string
-  framework: string
-  rewritten?: string
+interface StreamChunk {
+  type: 'reasoning' | 'subject' | 'body' | 'signature' | 'framework' | 'suggestions' | 'done'
+  content: string | string[]
 }
 
 const frameworkNames: Record<FrameworkType, string> = {
@@ -28,40 +24,207 @@ const frameworkNames: Record<FrameworkType, string> = {
   'something-useful': 'Something Useful'
 }
 
-// POST - Generate Cold Email
+const frameworkDescriptions: Record<FrameworkType, string> = {
+  'quick-question': 'Ideal wenn der richtige Ansprechpartner unklar ist',
+  'third-party': 'Perfekt um uber Mitarbeiter an Entscheider zu kommen',
+  'pas': 'Klassiker: Problem aufzeigen, Schmerz verstärken, Losung präsentieren',
+  'aida': 'Aufmerksamkeit durch konkrete Zahlen und Erfolge',
+  'straight-business': 'Direkt und effizient - keine Zeit verschwenden',
+  'paint-picture': 'Emotionale Ansprache durch Zukunftsvisionen',
+  'something-useful': 'Beziehungsaufbau durch geteilte Inhalte'
+}
+
+// POST - Generate Cold Email with Streaming
 export async function POST(request: Request) {
   try {
     const { userId } = await auth()
 
     if (!userId) {
-      return NextResponse.json({ error: 'Nicht authentifiziert' }, { status: 401 })
+      return new Response(JSON.stringify({ error: 'Nicht authentifiziert' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
 
     const reqBody = await request.json()
-    const { prompt, formal = false, rewriteOnly = false } = reqBody
+    const { prompt, formal = false, previousEmail = null, improvement = null } = reqBody
 
-    if (!prompt) {
-      return NextResponse.json(
-        { error: 'Prompt ist erforderlich' },
-        { status: 400 }
-      )
+    if (!prompt && !improvement) {
+      return new Response(JSON.stringify({ error: 'Prompt ist erforderlich' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
 
-    // Wenn nur Text umgeschrieben werden soll
-    if (rewriteOnly) {
-      const rewritten = rewriteText(prompt, formal)
-      return NextResponse.json({ rewritten })
-    }
+    // Framework erkennen
+    const framework = detectFramework(prompt || improvement)
+    const email = generateEmailByFramework(prompt, formal, framework, previousEmail, improvement)
 
-    // Framework erkennen und E-Mail generieren
-    const framework = detectFramework(prompt)
-    const email = generateEmailByFramework(prompt, formal, framework)
+    // Generate reasoning based on prompt
+    const reasoning = generateReasoning(prompt || improvement, framework, previousEmail, improvement)
 
-    return NextResponse.json(email)
+    // Generate suggestions based on framework and content
+    const suggestions = generateSuggestions(framework, formal)
+
+    // Create streaming response
+    const encoder = new TextEncoder()
+    const stream = new ReadableStream({
+      async start(controller) {
+        // Helper to send chunks with delay
+        const sendChunk = async (chunk: StreamChunk, delay: number = 0) => {
+          if (delay > 0) await sleep(delay)
+          controller.enqueue(encoder.encode(JSON.stringify(chunk) + '\n'))
+        }
+
+        // Stream reasoning first (character by character simulation)
+        const reasoningChunks = chunkString(reasoning, 15)
+        for (let i = 0; i < reasoningChunks.length; i++) {
+          await sendChunk({ type: 'reasoning', content: reasoningChunks.slice(0, i + 1).join('') }, 50)
+        }
+
+        await sleep(300)
+
+        // Stream framework
+        await sendChunk({ type: 'framework', content: frameworkNames[framework] })
+
+        await sleep(200)
+
+        // Stream subject (character by character)
+        for (let i = 0; i <= email.subject.length; i++) {
+          await sendChunk({ type: 'subject', content: email.subject.slice(0, i) }, 30)
+        }
+
+        await sleep(200)
+
+        // Stream body (word by word for smoother experience)
+        const bodyWords = email.body.split(' ')
+        for (let i = 0; i <= bodyWords.length; i++) {
+          await sendChunk({ type: 'body', content: bodyWords.slice(0, i).join(' ') }, 40)
+        }
+
+        await sleep(200)
+
+        // Stream signature
+        await sendChunk({ type: 'signature', content: email.signature })
+
+        await sleep(300)
+
+        // Stream suggestions
+        await sendChunk({ type: 'suggestions', content: suggestions })
+
+        // Done
+        await sendChunk({ type: 'done', content: 'complete' })
+
+        controller.close()
+      }
+    })
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+      }
+    })
   } catch (error) {
     console.error('Fehler beim Generieren der E-Mail:', error)
-    return NextResponse.json({ error: 'Serverfehler' }, { status: 500 })
+    return new Response(JSON.stringify({ error: 'Serverfehler' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function chunkString(str: string, size: number): string[] {
+  const chunks: string[] = []
+  for (let i = 0; i < str.length; i += size) {
+    chunks.push(str.slice(i, i + size))
+  }
+  return chunks
+}
+
+function generateReasoning(
+  prompt: string,
+  framework: FrameworkType,
+  previousEmail: string | null,
+  improvement: string | null
+): string {
+  const lower = prompt.toLowerCase()
+
+  let reasoning = ''
+
+  if (improvement && previousEmail) {
+    reasoning = `Verbesserung angefordert: "${improvement}"\n\n`
+    reasoning += `Analysiere bestehende E-Mail und wende Änderungen an...\n`
+  } else {
+    reasoning = `Analysiere Anfrage: "${prompt.slice(0, 100)}${prompt.length > 100 ? '...' : ''}"\n\n`
+  }
+
+  // Analyze target industry/company
+  if (lower.includes('entrumpel') || lower.includes('entsorgu')) {
+    reasoning += `Branche erkannt: Entrümpelungsdienst/Entsorgung\n`
+  } else if (lower.includes('restaurant') || lower.includes('gastro')) {
+    reasoning += `Branche erkannt: Gastronomie\n`
+  } else if (lower.includes('immobilien') || lower.includes('makler')) {
+    reasoning += `Branche erkannt: Immobilien\n`
+  } else if (lower.includes('handwerk') || lower.includes('dachdeck') || lower.includes('elektrik')) {
+    reasoning += `Branche erkannt: Handwerk\n`
+  } else if (lower.includes('agentur') || lower.includes('marketing')) {
+    reasoning += `Branche erkannt: Marketing/Agentur\n`
+  } else if (lower.includes('software') || lower.includes('saas') || lower.includes('app')) {
+    reasoning += `Branche erkannt: Software/Tech\n`
+  } else {
+    reasoning += `Branche: Allgemein B2B\n`
+  }
+
+  reasoning += `\nFramework-Auswahl: ${frameworkNames[framework]}\n`
+  reasoning += `Grund: ${frameworkDescriptions[framework]}\n`
+
+  // Add personalization hints
+  reasoning += `\nPersonalisierungs-Tipps:\n`
+  reasoning += `- Ersetze [Name] durch den echten Namen\n`
+  reasoning += `- Füge spezifische Details zum Unternehmen ein\n`
+  reasoning += `- Passe den Betreff an die Situation an`
+
+  return reasoning
+}
+
+function generateSuggestions(framework: FrameworkType, formal: boolean): string[] {
+  const baseSuggestions = [
+    'Kurzer machen',
+    'Mehr Dringlichkeit',
+    'Social Proof hinzufugen',
+    'Call-to-Action verstärken',
+    'Persönlicher gestalten'
+  ]
+
+  // Add framework-specific suggestions
+  switch (framework) {
+    case 'quick-question':
+      baseSuggestions.push('Konkretere Frage stellen')
+      break
+    case 'pas':
+      baseSuggestions.push('Problem starker betonen')
+      break
+    case 'aida':
+      baseSuggestions.push('Mehr Zahlen/Statistiken')
+      break
+    case 'paint-picture':
+      baseSuggestions.push('Vision lebhafter beschreiben')
+      break
+    case 'something-useful':
+      baseSuggestions.push('Relevantere Ressource erwähnen')
+      break
+  }
+
+  // Add formal/informal toggle suggestion
+  baseSuggestions.push(formal ? 'Lockerer formulieren' : 'Formeller formulieren')
+
+  return baseSuggestions.slice(0, 6)
 }
 
 // Framework basierend auf Prompt-Inhalt erkennen
@@ -140,12 +303,14 @@ function detectFramework(prompt: string): FrameworkType {
   return 'straight-business'
 }
 
-// E-Mail nach Framework generieren - OHNE den Prompt direkt einzufügen
+// E-Mail nach Framework generieren
 function generateEmailByFramework(
   prompt: string,
   formal: boolean,
-  framework: FrameworkType
-): EmailResponse {
+  framework: FrameworkType,
+  previousEmail: string | null,
+  improvement: string | null
+): { subject: string; body: string; signature: string } {
   const you = formal ? 'Sie' : 'du'
   const your = formal ? 'Ihr' : 'dein'
   const youHave = formal ? 'haben Sie' : 'hast du'
@@ -254,35 +419,6 @@ Würde mich freuen, ${formal ? 'Ihre' : 'deine'} Gedanken dazu zu hören.`
   return {
     subject,
     body,
-    signature,
-    framework: frameworkNames[framework]
+    signature
   }
-}
-
-function rewriteText(text: string, formal: boolean): string {
-  const match = text.match(/"([^"]+)"/)
-  const originalText = match ? match[1] : text
-
-  const variations = [
-    originalText,
-    `${originalText} Ich bin überzeugt, dass wir hier einen echten Mehrwert schaffen können.`,
-    `Kurz gesagt: ${originalText}`,
-    `Um es direkt zu sagen - ${originalText.toLowerCase()}`
-  ]
-
-  let result = variations[Math.floor(Math.random() * variations.length)]
-
-  if (formal) {
-    result = result
-      .replace(/\bdu\b/gi, 'Sie')
-      .replace(/\bdein\b/gi, 'Ihr')
-      .replace(/\bdeine\b/gi, 'Ihre')
-  } else {
-    result = result
-      .replace(/\bSie\b/g, 'du')
-      .replace(/\bIhr\b/g, 'dein')
-      .replace(/\bIhre\b/g, 'deine')
-  }
-
-  return result
 }

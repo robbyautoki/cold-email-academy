@@ -1,49 +1,96 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import {
-  SparklesIcon,
-  CopyIcon,
-  CheckIcon,
-  Loader2Icon,
-  MicIcon,
-  StopCircleIcon,
-  RefreshCwIcon,
   MailIcon,
-  PencilIcon
+  ChevronDown,
+  Sparkles
 } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+
+import { PromptInput } from '@/components/ai/prompt-input'
+import { AIReasoning } from '@/components/ai/ai-reasoning'
+import { AISuggestions } from '@/components/ai/ai-suggestions'
+import { AIActions } from '@/components/ai/ai-actions'
+import { AILoader } from '@/components/ai/ai-loader'
+
+// Types
+interface EmailVersion {
+  id: string
+  prompt: string
+  subject: string
+  body: string
+  signature: string
+  framework: string
+  reasoning: string
+  createdAt: Date
+}
+
+interface StreamChunk {
+  type: 'reasoning' | 'subject' | 'body' | 'signature' | 'framework' | 'suggestions' | 'done'
+  content: string | string[]
+}
+
+const STORAGE_KEY = 'ai-email-writer-versions'
+const MAX_VERSIONS = 10
 
 export default function AIEmailWriterPage() {
-  // Input
-  const [prompt, setPrompt] = useState('')
+  // Versions
+  const [versions, setVersions] = useState<EmailVersion[]>([])
+  const [currentVersionIndex, setCurrentVersionIndex] = useState(-1)
 
-  // Recording
+  // Current email state
+  const [prompt, setPrompt] = useState('')
+  const [subject, setSubject] = useState('')
+  const [body, setBody] = useState('')
+  const [signature, setSignature] = useState('')
+  const [framework, setFramework] = useState('')
+  const [reasoning, setReasoning] = useState('')
+  const [suggestions, setSuggestions] = useState<string[]>([])
+
+  // UI state
+  const [isStreaming, setIsStreaming] = useState(false)
+  const [isFormal, setIsFormal] = useState(false)
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Voice recording
   const [isRecording, setIsRecording] = useState(false)
   const [isTranscribing, setIsTranscribing] = useState(false)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
 
-  // Output
-  const [subject, setSubject] = useState('')
-  const [body, setBody] = useState('')
-  const [signature, setSignature] = useState('')
-  const [framework, setFramework] = useState('')
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [copied, setCopied] = useState(false)
+  // Load versions from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        setVersions(parsed.map((v: EmailVersion) => ({
+          ...v,
+          createdAt: new Date(v.createdAt)
+        })))
+      } catch {
+        // Ignore parse errors
+      }
+    }
+  }, [])
 
-  // Formality (du/Sie)
-  const [isFormal, setIsFormal] = useState(false)
+  // Save versions to localStorage
+  const saveVersions = useCallback((newVersions: EmailVersion[]) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newVersions))
+    setVersions(newVersions)
+  }, [])
 
-  // Text Selection
-  const [selectedText, setSelectedText] = useState('')
-  const [isEditingSelection, setIsEditingSelection] = useState(false)
-
-  // Sprachaufnahme starten
+  // Start voice recording
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -63,8 +110,8 @@ export default function AIEmailWriterPage() {
       mediaRecorder.start()
       mediaRecorderRef.current = mediaRecorder
       setIsRecording(true)
-    } catch (error) {
-      console.error('Mikrofon-Zugriff verweigert:', error)
+    } catch {
+      console.error('Mikrofon-Zugriff verweigert')
     }
   }
 
@@ -90,49 +137,152 @@ export default function AIEmailWriterPage() {
         const { transcript } = await response.json()
         setPrompt((prev) => prev + (prev ? ' ' : '') + transcript)
       }
-    } catch (error) {
-      console.error('Transkription fehlgeschlagen:', error)
+    } catch {
+      console.error('Transkription fehlgeschlagen')
     } finally {
       setIsTranscribing(false)
     }
   }
 
-  // E-Mail generieren
-  const handleGenerate = async () => {
-    if (!prompt.trim()) return
+  // Generate email with streaming
+  const handleGenerate = async (customPrompt?: string) => {
+    const finalPrompt = customPrompt || prompt
+    if (!finalPrompt.trim()) return
 
-    setIsGenerating(true)
+    // Reset current email
     setSubject('')
     setBody('')
     setSignature('')
     setFramework('')
+    setReasoning('')
+    setSuggestions([])
+    setIsStreaming(true)
+
+    abortControllerRef.current = new AbortController()
 
     try {
       const response = await fetch('/api/ai-email-writer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          prompt,
+          prompt: finalPrompt,
           formal: isFormal
-        })
+        }),
+        signal: abortControllerRef.current.signal
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        setSubject(data.subject)
-        setBody(data.body)
-        setSignature(data.signature)
-        setFramework(data.framework || '')
+      if (!response.ok) throw new Error('Generation failed')
+
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No reader')
+
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
+        for (const line of lines) {
+          if (!line.trim()) continue
+          try {
+            const chunk: StreamChunk = JSON.parse(line)
+
+            switch (chunk.type) {
+              case 'reasoning':
+                setReasoning(chunk.content as string)
+                break
+              case 'framework':
+                setFramework(chunk.content as string)
+                break
+              case 'subject':
+                setSubject(chunk.content as string)
+                break
+              case 'body':
+                setBody(chunk.content as string)
+                break
+              case 'signature':
+                setSignature(chunk.content as string)
+                break
+              case 'suggestions':
+                setSuggestions(chunk.content as string[])
+                break
+              case 'done':
+                // Save version after completion
+                saveCurrentAsVersion(finalPrompt)
+                break
+            }
+          } catch {
+            // Ignore parse errors
+          }
+        }
       }
     } catch (error) {
-      console.error('Fehler beim Generieren:', error)
+      if ((error as Error).name !== 'AbortError') {
+        console.error('Generation error:', error)
+      }
     } finally {
-      setIsGenerating(false)
+      setIsStreaming(false)
+      abortControllerRef.current = null
     }
   }
 
-  // Du/Sie umschalten
-  const toggleFormality = () => {
+  // Stop streaming
+  const handleStop = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+  }
+
+  // Save current email as version
+  const saveCurrentAsVersion = useCallback((usedPrompt: string) => {
+    if (!subject && !body) return
+
+    const newVersion: EmailVersion = {
+      id: Date.now().toString(),
+      prompt: usedPrompt,
+      subject,
+      body,
+      signature,
+      framework,
+      reasoning,
+      createdAt: new Date()
+    }
+
+    setVersions(prev => {
+      const updated = [newVersion, ...prev].slice(0, MAX_VERSIONS)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+      return updated
+    })
+    setCurrentVersionIndex(0)
+  }, [subject, body, signature, framework, reasoning])
+
+  // Load a specific version
+  const loadVersion = (index: number) => {
+    const version = versions[index]
+    if (!version) return
+
+    setSubject(version.subject)
+    setBody(version.body)
+    setSignature(version.signature)
+    setFramework(version.framework)
+    setReasoning(version.reasoning)
+    setCurrentVersionIndex(index)
+    setSuggestions([])
+  }
+
+  // Copy email to clipboard
+  const handleCopy = async () => {
+    const fullEmail = `Betreff: ${subject}\n\n${body}\n\n---\n${signature}`
+    await navigator.clipboard.writeText(fullEmail)
+  }
+
+  // Toggle formal/informal
+  const handleToggleFormal = () => {
     setIsFormal(!isFormal)
 
     if (body) {
@@ -157,8 +307,6 @@ export default function AIEmailWriterPage() {
         .replace(/\bhast\b/gi, 'haben')
         .replace(/\bbist\b/gi, 'sind')
         .replace(/\bkannst\b/gi, 'können')
-        .replace(/\bwillst\b/gi, 'wollen')
-        .replace(/\bweißt\b/gi, 'wissen')
     } else {
       return text
         .replace(/\bSie\b/g, 'du')
@@ -168,267 +316,195 @@ export default function AIEmailWriterPage() {
         .replace(/\bIhren\b/g, 'deinen')
         .replace(/\bIhrer\b/g, 'deiner')
         .replace(/\bIhrem\b/g, 'deinem')
-        .replace(/\bhaben Sie\b/gi, 'hast du')
-        .replace(/\bsind Sie\b/gi, 'bist du')
-        .replace(/\bkönnen Sie\b/gi, 'kannst du')
-        .replace(/\bwollen Sie\b/gi, 'willst du')
-        .replace(/\bwissen Sie\b/gi, 'weißt du')
     }
   }
 
-  // Text-Selektion erkennen
-  const handleTextSelection = useCallback(() => {
-    const selection = window.getSelection()
-    if (selection && selection.toString().trim()) {
-      setSelectedText(selection.toString().trim())
-    }
-  }, [])
+  // Handle suggestion click
+  const handleSuggestionClick = (suggestion: string) => {
+    const improvementPrompt = `${prompt}\n\nVerbesserung: ${suggestion}`
+    setPrompt(improvementPrompt)
+    handleGenerate(improvementPrompt)
+  }
 
-  // Ausgewählten Text neu generieren
-  const handleEditSelection = async () => {
-    if (!selectedText) return
-
-    setIsEditingSelection(true)
-
-    try {
-      const response = await fetch('/api/ai-email-writer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: `Schreibe diesen Abschnitt um, aber behalte den Kontext bei: "${selectedText}"`,
-          formal: isFormal,
-          rewriteOnly: true
-        })
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        // Ersetze den ausgewählten Text im Body
-        const newBody = body.replace(selectedText, data.rewritten)
-        setBody(newBody)
-        setSelectedText('')
-      }
-    } catch (error) {
-      console.error('Fehler beim Bearbeiten:', error)
-    } finally {
-      setIsEditingSelection(false)
+  // Regenerate
+  const handleRegenerate = () => {
+    if (prompt) {
+      handleGenerate()
     }
   }
 
-  // Alles kopieren
-  const handleCopyAll = async () => {
-    const fullEmail = `Betreff: ${subject}\n\n${body}\n\n---\n${signature}`
-    await navigator.clipboard.writeText(fullEmail)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  // Save current version manually
+  const handleSaveVersion = () => {
+    if (prompt && (subject || body)) {
+      saveCurrentAsVersion(prompt)
+    }
   }
 
   const hasOutput = subject || body
 
   return (
-    <div className='max-w-4xl mx-auto space-y-6'>
-      {/* Header */}
-      <div className='flex items-center gap-3'>
-        <div className='flex size-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600'>
-          <SparklesIcon className='size-6 text-white' />
+    <div className='flex flex-col h-[calc(100vh-8rem)] max-w-4xl mx-auto'>
+      {/* Header with Version Selector */}
+      <div className='flex items-center justify-between mb-4'>
+        <div className='flex items-center gap-3'>
+          <div className='flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600'>
+            <Sparkles className='size-5 text-white' />
+          </div>
+          <div>
+            <h1 className='text-xl font-bold'>AI Cold Email Writer</h1>
+            <p className='text-xs text-muted-foreground'>
+              ChatGPT meets Gmail
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className='text-2xl font-bold'>AI E-Mail Writer</h1>
-          <p className='text-sm text-muted-foreground'>
-            Beschreibe was du sagen willst - per Text oder Sprache
-          </p>
-        </div>
+
+        {versions.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                {currentVersionIndex >= 0 ? `v${versions.length - currentVersionIndex}` : 'Versionen'}
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              {versions.map((version, index) => (
+                <DropdownMenuItem
+                  key={version.id}
+                  onClick={() => loadVersion(index)}
+                  className="flex flex-col items-start gap-1"
+                >
+                  <span className="font-medium text-sm">
+                    v{versions.length - index}: {version.framework}
+                  </span>
+                  <span className="text-xs text-muted-foreground truncate w-full">
+                    {version.prompt.slice(0, 50)}...
+                  </span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
 
-      {/* Input Bereich */}
-      <Card>
-        <CardContent className='pt-6 space-y-4'>
-          {/* Mic + Textarea */}
-          <div className='flex gap-3'>
-            <Button
-              variant={isRecording ? 'destructive' : 'outline'}
-              size='icon'
-              className='shrink-0 size-12'
-              onClick={isRecording ? stopRecording : startRecording}
-              disabled={isTranscribing}
-            >
-              {isTranscribing ? (
-                <Loader2Icon className='size-5 animate-spin' />
-              ) : isRecording ? (
-                <StopCircleIcon className='size-5' />
-              ) : (
-                <MicIcon className='size-5' />
-              )}
-            </Button>
-
-            <Textarea
-              placeholder='Beschreibe kurz worum es geht: Wer ist die Zielgruppe? Was bietest du an? Was soll der Empfänger tun?'
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              rows={4}
-              className='resize-none flex-1'
-            />
-          </div>
-
-          {isRecording && (
-            <div className='flex items-center gap-2 text-sm text-red-500'>
-              <span className='relative flex size-2'>
-                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75'></span>
-                <span className='relative inline-flex rounded-full size-2 bg-red-500'></span>
-              </span>
-              Aufnahme läuft... Klicke zum Stoppen
-            </div>
-          )}
-
-          {isTranscribing && (
-            <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-              <Loader2Icon className='size-4 animate-spin' />
-              Transkribiere Sprachnachricht...
-            </div>
-          )}
-
-          {/* Generate Button */}
-          <Button
-            onClick={handleGenerate}
-            disabled={!prompt.trim() || isGenerating}
-            className='w-full h-12 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white'
-          >
-            {isGenerating ? (
-              <>
-                <Loader2Icon className='mr-2 size-5 animate-spin' />
-                Generiere...
-              </>
-            ) : (
-              <>
-                <SparklesIcon className='mr-2 size-5' />
-                E-Mail generieren
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Output Bereich - Gmail Style */}
-      {hasOutput && (
-        <Card className='overflow-hidden'>
-          {/* Email Header */}
-          <div className='border-b bg-muted/30 px-4 py-3 space-y-2'>
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center gap-2 text-sm'>
-                <MailIcon className='size-4 text-muted-foreground' />
-                <span className='text-muted-foreground'>Betreff:</span>
-                <span className='font-semibold'>{subject}</span>
-              </div>
-              {framework && (
-                <Badge variant='outline' className='text-xs'>
-                  {framework}
-                </Badge>
-              )}
-            </div>
-          </div>
-
-          {/* Email Body - Selektierbar */}
-          <CardContent
-            className='p-6 min-h-[200px]'
-            onMouseUp={handleTextSelection}
-          >
-            <div className='whitespace-pre-wrap text-sm leading-relaxed'>
-              {body}
-            </div>
-
-            {signature && (
-              <div className='mt-6 pt-4 border-t text-sm text-muted-foreground whitespace-pre-wrap'>
-                {signature}
-              </div>
-            )}
-          </CardContent>
-
-          {/* Aktionen */}
-          <div className='border-t bg-muted/20 px-4 py-3'>
-            <div className='flex flex-wrap items-center gap-2'>
-              {/* Du/Sie Toggle */}
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={toggleFormality}
-                className='gap-2'
-              >
-                {isFormal ? 'Sie' : 'Du'}
-                <span className='text-muted-foreground'>→</span>
-                {isFormal ? 'Du' : 'Sie'}
-              </Button>
-
-              {/* Selection Edit */}
-              {selectedText && (
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={handleEditSelection}
-                  disabled={isEditingSelection}
-                  className='gap-2'
-                >
-                  {isEditingSelection ? (
-                    <Loader2Icon className='size-4 animate-spin' />
-                  ) : (
-                    <PencilIcon className='size-4' />
-                  )}
-                  Auswahl bearbeiten
-                </Button>
-              )}
-
-              <div className='flex-1' />
-
-              {/* Copy */}
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={handleCopyAll}
-                className='gap-2'
-              >
-                {copied ? (
-                  <>
-                    <CheckIcon className='size-4 text-green-500' />
-                    Kopiert!
-                  </>
-                ) : (
-                  <>
-                    <CopyIcon className='size-4' />
-                    Kopieren
-                  </>
+      {/* Main Content Area - Scrollable */}
+      <div className='flex-1 overflow-y-auto space-y-4 pb-4'>
+        {/* Gmail-Style Email Preview */}
+        {hasOutput || isStreaming ? (
+          <Card className='overflow-hidden'>
+            {/* Email Header */}
+            <div className='border-b bg-muted/30 px-4 py-3'>
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-2 text-sm'>
+                  <MailIcon className='size-4 text-muted-foreground' />
+                  <span className='text-muted-foreground'>Betreff:</span>
+                  <span className='font-semibold'>
+                    {subject || (isStreaming && <AILoader size={14} className="inline ml-1" />)}
+                  </span>
+                </div>
+                {framework && (
+                  <Badge variant='outline' className='text-xs'>
+                    {framework}
+                  </Badge>
                 )}
-              </Button>
-
-              {/* Regenerate */}
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={handleGenerate}
-                disabled={isGenerating}
-                className='gap-2'
-              >
-                <RefreshCwIcon className='size-4' />
-                Neu
-              </Button>
+              </div>
             </div>
 
-            {selectedText && (
-              <div className='mt-2 text-xs text-muted-foreground'>
-                <Badge variant='secondary' className='font-normal'>
-                  Ausgewählt: "{selectedText.slice(0, 50)}{selectedText.length > 50 ? '...' : ''}"
-                </Badge>
+            {/* Email Body */}
+            <CardContent className='p-6 min-h-[200px]'>
+              {body ? (
+                <div className='whitespace-pre-wrap text-sm leading-relaxed'>
+                  {body}
+                  {isStreaming && <span className="animate-pulse">|</span>}
+                </div>
+              ) : isStreaming ? (
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <AILoader size={16} />
+                  <span>Generiere E-Mail...</span>
+                </div>
+              ) : null}
+
+              {signature && (
+                <div className='mt-6 pt-4 border-t text-sm text-muted-foreground whitespace-pre-wrap'>
+                  {signature}
+                </div>
+              )}
+            </CardContent>
+
+            {/* Actions */}
+            {hasOutput && !isStreaming && (
+              <div className='border-t bg-muted/20 px-4 py-2'>
+                <AIActions
+                  onCopy={handleCopy}
+                  onRegenerate={handleRegenerate}
+                  onSaveVersion={handleSaveVersion}
+                  onToggleFormal={handleToggleFormal}
+                  isFormal={isFormal}
+                  disabled={isStreaming}
+                />
               </div>
             )}
+          </Card>
+        ) : (
+          // Empty State
+          <div className='flex flex-col items-center justify-center py-16 text-center'>
+            <div className='flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/10 to-purple-600/10 mb-4'>
+              <MailIcon className='size-8 text-violet-500/50' />
+            </div>
+            <h2 className='text-lg font-medium mb-2'>Erstelle deine erste Cold Email</h2>
+            <p className='text-sm text-muted-foreground max-w-md'>
+              Beschreibe dein Angebot und deine Zielgruppe. Die AI wahlt automatisch
+              das beste Cold Email Framework und generiert eine professionelle E-Mail.
+            </p>
           </div>
-        </Card>
-      )}
+        )}
 
-      {/* Empty State */}
-      {!hasOutput && !isGenerating && (
-        <div className='text-center py-12 text-muted-foreground'>
-          <MailIcon className='size-12 mx-auto mb-3 opacity-20' />
-          <p>Beschreibe was du sagen willst und klicke auf "E-Mail generieren"</p>
-        </div>
-      )}
+        {/* Suggestions */}
+        {suggestions.length > 0 && !isStreaming && (
+          <AISuggestions
+            suggestions={suggestions}
+            onSuggestionClick={handleSuggestionClick}
+            disabled={isStreaming}
+          />
+        )}
+
+        {/* Reasoning */}
+        <AIReasoning
+          isStreaming={isStreaming}
+          reasoning={reasoning}
+        />
+      </div>
+
+      {/* Input Area - Fixed at bottom */}
+      <div className='pt-4 border-t bg-background'>
+        {isRecording && (
+          <div className='flex items-center gap-2 text-sm text-red-500 mb-2 px-1'>
+            <span className='relative flex size-2'>
+              <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75'></span>
+              <span className='relative inline-flex rounded-full size-2 bg-red-500'></span>
+            </span>
+            Aufnahme lauft... Klicke zum Stoppen
+          </div>
+        )}
+
+        {isTranscribing && (
+          <div className='flex items-center gap-2 text-sm text-muted-foreground mb-2 px-1'>
+            <AILoader size={14} />
+            Transkribiere Sprachnachricht...
+          </div>
+        )}
+
+        <PromptInput
+          value={prompt}
+          onChange={setPrompt}
+          onSubmit={() => handleGenerate()}
+          onStop={handleStop}
+          isStreaming={isStreaming}
+          disabled={isTranscribing}
+          placeholder="Beschreibe deine Cold Email... (z.B. 'Cold Email fur Entrumpelungsdienste, ich biete Google Ads')"
+          showMic={true}
+          onMicClick={isRecording ? stopRecording : startRecording}
+        />
+      </div>
     </div>
   )
 }
