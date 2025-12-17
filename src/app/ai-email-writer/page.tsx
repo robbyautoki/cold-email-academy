@@ -4,7 +4,8 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import {
   MailIcon,
   ChevronDown,
-  Sparkles
+  Sparkles,
+  MessageCircleQuestion
 } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -36,7 +37,7 @@ interface EmailVersion {
 }
 
 interface StreamChunk {
-  type: 'reasoning' | 'subject' | 'body' | 'signature' | 'framework' | 'suggestions' | 'done'
+  type: 'reasoning' | 'subject' | 'body' | 'signature' | 'framework' | 'suggestions' | 'question' | 'done'
   content: string | string[]
 }
 
@@ -56,6 +57,8 @@ export default function AIEmailWriterPage() {
   const [framework, setFramework] = useState('')
   const [reasoning, setReasoning] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null)
+  const [originalPrompt, setOriginalPrompt] = useState('')
 
   // UI state
   const [isStreaming, setIsStreaming] = useState(false)
@@ -149,6 +152,15 @@ export default function AIEmailWriterPage() {
     const finalPrompt = customPrompt || prompt
     if (!finalPrompt.trim()) return
 
+    // Wenn es eine Antwort auf eine Frage ist, kombiniere mit Original-Prompt
+    let combinedPrompt = finalPrompt
+    if (pendingQuestion && originalPrompt) {
+      combinedPrompt = `${originalPrompt}\n\n${finalPrompt}`
+      setPendingQuestion(null)
+    } else {
+      setOriginalPrompt(finalPrompt)
+    }
+
     // Reset current email
     setSubject('')
     setBody('')
@@ -156,6 +168,7 @@ export default function AIEmailWriterPage() {
     setFramework('')
     setReasoning('')
     setSuggestions([])
+    setPendingQuestion(null)
     setIsStreaming(true)
 
     abortControllerRef.current = new AbortController()
@@ -165,7 +178,7 @@ export default function AIEmailWriterPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          prompt: finalPrompt,
+          prompt: combinedPrompt,
           formal: isFormal
         }),
         signal: abortControllerRef.current.signal
@@ -211,9 +224,15 @@ export default function AIEmailWriterPage() {
               case 'suggestions':
                 setSuggestions(chunk.content as string[])
                 break
+              case 'question':
+                setPendingQuestion(chunk.content as string)
+                setPrompt('') // Clear prompt for answer
+                break
               case 'done':
-                // Save version after completion
-                saveCurrentAsVersion(finalPrompt)
+                // Save version after completion (only if email was generated)
+                if (chunk.content === 'complete') {
+                  saveCurrentAsVersion(combinedPrompt)
+                }
                 break
             }
           } catch {
@@ -341,6 +360,7 @@ export default function AIEmailWriterPage() {
   }
 
   const hasOutput = subject || body
+  const hasQuestion = pendingQuestion !== null
 
   return (
     <div className='flex flex-col h-[calc(100vh-12rem)] max-w-4xl mx-auto py-8'>
@@ -388,8 +408,25 @@ export default function AIEmailWriterPage() {
 
       {/* Main Content Area - Scrollable */}
       <div className='flex-1 overflow-y-auto space-y-4 pb-4'>
+        {/* Question Card */}
+        {hasQuestion && (
+          <Card className='overflow-hidden border-primary/20 bg-primary/5'>
+            <div className='border-b bg-primary/10 px-4 py-3'>
+              <div className='flex items-center gap-2 text-sm'>
+                <MessageCircleQuestion className='size-4 text-primary' />
+                <span className='font-medium text-primary'>Noch eine Frage...</span>
+              </div>
+            </div>
+            <CardContent className='p-6'>
+              <div className='whitespace-pre-wrap text-sm leading-relaxed'>
+                {pendingQuestion}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Gmail-Style Email Preview */}
-        {hasOutput || isStreaming ? (
+        {(hasOutput || isStreaming) && !hasQuestion ? (
           <Card className='overflow-hidden'>
             {/* Email Header */}
             <div className='border-b bg-muted/30 px-4 py-3'>
@@ -444,7 +481,7 @@ export default function AIEmailWriterPage() {
               </div>
             )}
           </Card>
-        ) : (
+        ) : !hasQuestion ? (
           // Empty State
           <div className='flex flex-col items-center justify-center py-16 text-center'>
             <div className='flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/10 to-purple-600/10 mb-4'>
@@ -456,7 +493,7 @@ export default function AIEmailWriterPage() {
               das beste Cold Email Framework und generiert eine professionelle E-Mail.
             </p>
           </div>
-        )}
+        ) : null}
 
         {/* Suggestions */}
         {suggestions.length > 0 && !isStreaming && (
