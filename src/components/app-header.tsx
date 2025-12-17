@@ -22,6 +22,7 @@ import {
   SearchIcon,
   ServerIcon,
   ShieldCheckIcon,
+  SparklesIcon,
   ShieldIcon,
   WrenchIcon
 } from 'lucide-react'
@@ -54,6 +55,7 @@ const navLinks = [
   { title: 'Playbooks', href: '/playbooks', icon: BookMarkedIcon, badge: 'Neu' },
   // AUSGEBLENDET: Templates - später wieder aktivieren
   // { title: 'Templates', href: '/templates', icon: FileTextIcon, badge: 'Neu' }
+  { title: 'E-Mail Writer', href: '/ai-email-writer', icon: SparklesIcon, badge: 'AI', highlight: true },
 ]
 
 // Tools kategorisiert für Mega-Dropdown
@@ -182,6 +184,11 @@ export default function AppHeader() {
     //   href: '/templates'
     // },
     {
+      title: 'E-Mail Writer',
+      icon: <SparklesIcon className='text-foreground size-4 shrink-0' />,
+      href: '/ai-email-writer'
+    },
+    {
       title: 'Tools',
       icon: <WrenchIcon className='text-foreground size-4 shrink-0' />,
       items: toolsItemsFlat.map(item => ({
@@ -248,7 +255,12 @@ export default function AppHeader() {
                   {link.badge && (
                     <Badge
                       variant='secondary'
-                      className='bg-primary/10 text-primary ml-0.5 h-5 px-1.5 text-[10px] font-medium'
+                      className={cn(
+                        'ml-0.5 h-5 px-1.5 text-[10px] font-medium',
+                        link.highlight
+                          ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white border-0 shadow-[0_0_10px_rgba(139,92,246,0.5)]'
+                          : 'bg-primary/10 text-primary'
+                      )}
                     >
                       {link.badge}
                     </Badge>
