@@ -1,11 +1,31 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
+type FrameworkType =
+  | 'quick-question'
+  | 'third-party'
+  | 'pas'
+  | 'aida'
+  | 'straight-business'
+  | 'paint-picture'
+  | 'something-useful'
+
 interface EmailResponse {
   subject: string
   body: string
   signature: string
+  framework: string
   rewritten?: string
+}
+
+const frameworkNames: Record<FrameworkType, string> = {
+  'quick-question': 'Quick Question',
+  'third-party': 'Third-Party Connection',
+  'pas': 'PAS (Problem-Agitate-Solve)',
+  'aida': 'AIDA',
+  'straight-business': 'Straight to Business',
+  'paint-picture': 'Paint a Picture',
+  'something-useful': 'Something Useful'
 }
 
 // POST - Generate Cold Email
@@ -33,9 +53,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ rewritten })
     }
 
-    // TODO: Hier später OpenAI/Claude API Integration
-    // Für jetzt: Template-basierte Response
-    const email = generateEmail(prompt, formal)
+    // Framework erkennen und E-Mail generieren
+    const framework = detectFramework(prompt)
+    const email = generateEmailByFramework(prompt, formal, framework)
 
     return NextResponse.json(email)
   } catch (error) {
@@ -44,26 +64,189 @@ export async function POST(request: Request) {
   }
 }
 
-function generateEmail(prompt: string, formal: boolean): EmailResponse {
-  // Extrahiere Infos aus dem Prompt
-  const greeting = formal ? 'Sehr geehrte/r' : 'Hi'
+// Framework basierend auf Prompt-Inhalt erkennen
+function detectFramework(prompt: string): FrameworkType {
+  const lower = prompt.toLowerCase()
+
+  // Quick Question - unsicher über Ansprechpartner
+  if (
+    lower.includes('wer ist zuständig') ||
+    lower.includes('richtiger ansprechpartner') ||
+    lower.includes('wer entscheidet') ||
+    lower.includes('kontaktperson') ||
+    lower.includes('verantwortlich')
+  ) {
+    return 'quick-question'
+  }
+
+  // Third-Party - über Mitarbeiter erreichen
+  if (
+    (lower.includes('über') && lower.includes('erreichen')) ||
+    lower.includes('linkedin') ||
+    lower.includes('profil gefunden') ||
+    lower.includes('mitarbeiter')
+  ) {
+    return 'third-party'
+  }
+
+  // PAS - Problem erkannt
+  if (
+    lower.includes('problem') ||
+    lower.includes('schlechte bewertungen') ||
+    lower.includes('negative') ||
+    lower.includes('frustrier') ||
+    lower.includes('schwierigkeiten') ||
+    lower.includes('herausforderung')
+  ) {
+    return 'pas'
+  }
+
+  // AIDA - Daten/Zahlen vorhanden
+  if (
+    lower.match(/\d+\s*%/) ||
+    lower.includes('ergebnis') ||
+    lower.includes('case study') ||
+    lower.includes('erfolg') ||
+    lower.includes('gesteigert') ||
+    lower.includes('verdoppelt')
+  ) {
+    return 'aida'
+  }
+
+  // Something Useful - Beziehungsaufbau
+  if (
+    lower.includes('artikel') ||
+    lower.includes('post') ||
+    lower.includes('beitrag') ||
+    lower.includes('podcast') ||
+    lower.includes('video') ||
+    lower.includes('interessant')
+  ) {
+    return 'something-useful'
+  }
+
+  // Paint a Picture - Visualisierung
+  if (
+    lower.includes('stell dir vor') ||
+    lower.includes('imagine') ||
+    lower.includes('vision') ||
+    lower.includes('wäre es nicht') ||
+    lower.includes('traum')
+  ) {
+    return 'paint-picture'
+  }
+
+  // Default: Straight to Business
+  return 'straight-business'
+}
+
+// E-Mail nach Framework generieren
+function generateEmailByFramework(
+  prompt: string,
+  formal: boolean,
+  framework: FrameworkType
+): EmailResponse {
+  const you = formal ? 'Sie' : 'du'
+  const your = formal ? 'Ihr' : 'dein'
+  const youHave = formal ? 'haben Sie' : 'hast du'
+  const greeting = formal ? 'Guten Tag' : 'Hi'
   const closing = formal ? 'Mit freundlichen Grüßen' : 'Beste Grüße'
-  const youForm = formal ? 'Sie' : 'du'
-  const yourForm = formal ? 'Ihr' : 'dein'
 
-  // Simple Subject basierend auf Prompt
-  const subject = generateSubject(prompt)
+  let subject = ''
+  let body = ''
 
-  // Body generieren
-  const body = `${greeting} [Name],
+  switch (framework) {
+    case 'quick-question':
+      subject = 'Kurze Frage'
+      body = `${greeting} [Name],
 
-${formal ? 'ich' : 'Ich'} hoffe, diese Nachricht erreicht ${youForm} gut.
+mein Name ist [Dein Name] und ich vertrete [Dein Unternehmen].
 
 ${prompt}
 
-Hätten ${youForm} Zeit für ein kurzes Gespräch diese Woche? ${formal ? 'Ich würde Ihnen' : 'Ich würde dir'} gerne zeigen, wie das konkret aussehen könnte.
+Könnten ${you} mir sagen, wer in ${formal ? 'Ihrem' : 'eurem'} Unternehmen für diesen Bereich zuständig ist und wie ich diese Person am besten erreichen kann?
 
-Falls ${yourForm} Timing gerade nicht passt, kein Problem – lass es mich einfach wissen.`
+Vielen Dank im Voraus für ${your}e Hilfe.`
+      break
+
+    case 'third-party':
+      subject = 'Könnten Sie mir weiterhelfen?'
+      body = `${greeting} [Name],
+
+ich bin auf ${your} Profil gestoßen und hoffe, ${you} ${formal ? 'können' : 'kannst'} mir kurz weiterhelfen.
+
+${prompt}
+
+Wer wäre die richtige Person, um diese Möglichkeit zu besprechen, und wie kann ich sie am besten erreichen?
+
+Ich schätze ${your}e Zeit sehr.`
+      break
+
+    case 'pas':
+      subject = 'Lösung für [Problem]'
+      body = `${greeting} [Name],
+
+${prompt}
+
+Das kann unglaublich frustrierend sein – verlorene Kunden, ineffiziente Prozesse und unnötige Kosten.
+
+Ich habe eine Lösung, die genau dieses Problem adressiert und ${formal ? 'Ihnen' : 'dir'} helfen kann, das zu ändern.
+
+${formal ? 'Hätten Sie' : 'Hättest du'} Interesse zu erfahren, wie das konkret funktioniert?`
+      break
+
+    case 'aida':
+      subject = 'Was wäre, wenn...'
+      body = `${greeting} [Name],
+
+was wäre, wenn ${you} [Problem] in den nächsten 30 Tagen lösen ${formal ? 'könnten' : 'könntest'}?
+
+${prompt}
+
+Zusätzlich konnten wir die Effizienz steigern, Kosten senken und die Kundenzufriedenheit deutlich verbessern.
+
+${youHave} diese Woche Zeit für ein kurzes Gespräch, um zu sehen, ob das auch für ${you} funktionieren könnte?`
+      break
+
+    case 'straight-business':
+      subject = 'Direkte Anfrage'
+      body = `${greeting} [Name],
+
+${prompt}
+
+Wir haben Unternehmen wie ${formal ? 'Ihrem' : 'deinem'} bereits geholfen, messbare Ergebnisse zu erzielen – und das in weniger als einem Jahr.
+
+Alles was wir gemacht haben: Eine effiziente Lösung implementiert, die sofort funktioniert.
+
+${youHave} diese Woche Zeit für ein kurzes Gespräch?`
+      break
+
+    case 'paint-picture':
+      subject = 'Stell dir vor...'
+      body = `${greeting} [Name],
+
+nichts ist frustrierender als [Pain Point].
+
+Stell ${you} ${formal ? 'sich' : 'dir'} eine Welt vor, in der all das kein Problem mehr ist. ${prompt}
+
+Genau das ermöglichen wir.
+
+${youHave} Zeit für eine kurze Demo, um zu sehen, wie das funktioniert?`
+      break
+
+    case 'something-useful':
+      subject = 'Dein Beitrag zu [Thema]'
+      body = `${greeting} [Name],
+
+ich bin auf ${your}en Beitrag zu [Thema] gestoßen und fand ${your}e Punkte wirklich treffend!
+
+${prompt}
+
+Ich dachte, das könnte ${you} auch interessieren: [Relevante Ressource]
+
+Würde mich freuen, ${formal ? 'Ihre' : 'deine'} Gedanken dazu zu hören.`
+      break
+  }
 
   const signature = `${closing},
 [Dein Name]
@@ -72,29 +255,18 @@ Falls ${yourForm} Timing gerade nicht passt, kein Problem – lass es mich einfa
 [email@beispiel.de]
 [+49 123 456789]`
 
-  return { subject, body, signature }
-}
-
-function generateSubject(prompt: string): string {
-  // Versuche einen relevanten Betreff aus dem Prompt zu extrahieren
-  const words = prompt.split(' ').slice(0, 5).join(' ')
-
-  const subjects = [
-    `Kurze Frage`,
-    `Idee für ${words.slice(0, 30)}...`,
-    `Zusammenarbeit?`,
-    `Schnelle Frage zu ${words.slice(0, 20)}...`
-  ]
-
-  return subjects[Math.floor(Math.random() * subjects.length)]
+  return {
+    subject,
+    body,
+    signature,
+    framework: frameworkNames[framework]
+  }
 }
 
 function rewriteText(text: string, formal: boolean): string {
-  // Extrahiere den eigentlichen Text aus dem Prompt
   const match = text.match(/"([^"]+)"/)
   const originalText = match ? match[1] : text
 
-  // Einfaches Umschreiben - in Zukunft durch AI ersetzen
   const variations = [
     originalText,
     `${originalText} Ich bin überzeugt, dass wir hier einen echten Mehrwert schaffen können.`,
@@ -104,7 +276,6 @@ function rewriteText(text: string, formal: boolean): string {
 
   let result = variations[Math.floor(Math.random() * variations.length)]
 
-  // Formalität anpassen
   if (formal) {
     result = result
       .replace(/\bdu\b/gi, 'Sie')

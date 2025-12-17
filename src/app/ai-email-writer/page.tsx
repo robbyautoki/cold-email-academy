@@ -32,6 +32,7 @@ export default function AIEmailWriterPage() {
   const [subject, setSubject] = useState('')
   const [body, setBody] = useState('')
   const [signature, setSignature] = useState('')
+  const [framework, setFramework] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [copied, setCopied] = useState(false)
 
@@ -104,6 +105,7 @@ export default function AIEmailWriterPage() {
     setSubject('')
     setBody('')
     setSignature('')
+    setFramework('')
 
     try {
       const response = await fetch('/api/ai-email-writer', {
@@ -120,6 +122,7 @@ export default function AIEmailWriterPage() {
         setSubject(data.subject)
         setBody(data.body)
         setSignature(data.signature)
+        setFramework(data.framework || '')
       }
     } catch (error) {
       console.error('Fehler beim Generieren:', error)
@@ -310,10 +313,17 @@ export default function AIEmailWriterPage() {
         <Card className='overflow-hidden'>
           {/* Email Header */}
           <div className='border-b bg-muted/30 px-4 py-3 space-y-2'>
-            <div className='flex items-center gap-2 text-sm'>
-              <MailIcon className='size-4 text-muted-foreground' />
-              <span className='text-muted-foreground'>Betreff:</span>
-              <span className='font-semibold'>{subject}</span>
+            <div className='flex items-center justify-between'>
+              <div className='flex items-center gap-2 text-sm'>
+                <MailIcon className='size-4 text-muted-foreground' />
+                <span className='text-muted-foreground'>Betreff:</span>
+                <span className='font-semibold'>{subject}</span>
+              </div>
+              {framework && (
+                <Badge variant='outline' className='text-xs'>
+                  {framework}
+                </Badge>
+              )}
             </div>
           </div>
 
