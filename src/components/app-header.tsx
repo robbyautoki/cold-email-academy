@@ -363,44 +363,34 @@ export default function AppHeader() {
           {/* Activity / Inbox */}
           <ActivityDialog
             trigger={
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='text-muted-foreground hover:text-foreground relative transition-transform hover:scale-105'
-                  >
-                    <InboxIcon className='size-5' />
-                    <span className='absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-blue-500 text-[10px] font-medium text-white'>
-                      3
-                    </span>
-                    <span className='sr-only'>Aktivitäten</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Aktivitäten</TooltipContent>
-              </Tooltip>
+              <Button
+                variant='ghost'
+                size='icon'
+                className='text-muted-foreground hover:text-foreground relative transition-transform hover:scale-105'
+              >
+                <InboxIcon className='size-5' />
+                <span className='absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-blue-500 text-[10px] font-medium text-white'>
+                  3
+                </span>
+                <span className='sr-only'>Aktivitäten</span>
+              </Button>
             }
           />
 
           {/* Notifications */}
           <NotificationDropdown
             trigger={
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='text-muted-foreground hover:text-foreground relative transition-transform hover:scale-105'
-                  >
-                    <BellIcon className='size-5' />
-                    <span className='bg-destructive absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full text-[10px] font-medium text-white'>
-                      2
-                    </span>
-                    <span className='sr-only'>Benachrichtigungen</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Benachrichtigungen</TooltipContent>
-              </Tooltip>
+              <Button
+                variant='ghost'
+                size='icon'
+                className='text-muted-foreground hover:text-foreground relative transition-transform hover:scale-105'
+              >
+                <BellIcon className='size-5' />
+                <span className='bg-destructive absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full text-[10px] font-medium text-white'>
+                  2
+                </span>
+                <span className='sr-only'>Benachrichtigungen</span>
+              </Button>
             }
           />
 

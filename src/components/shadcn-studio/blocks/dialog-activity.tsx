@@ -1,9 +1,17 @@
-import type { ReactNode } from 'react'
+'use client'
 
-import { ImageIcon } from 'lucide-react'
+import { useEffect, useState, type ReactNode } from 'react'
 
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
+import {
+  BookOpenIcon,
+  CheckCircleIcon,
+  FileTextIcon,
+  Loader2Icon,
+  LogInIcon,
+  WrenchIcon,
+  BellIcon
+} from 'lucide-react'
+
 import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -15,152 +23,125 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 
+interface Activity {
+  id: string
+  userId: string
+  userName: string
+  userAvatar: string
+  type: 'login' | 'course_started' | 'course_completed' | 'tool_used' | 'playbook_viewed' | 'checklist_completed' | 'notification_received'
+  title: string
+  description: string
+  metadata?: Record<string, string>
+  createdAt: number
+}
+
 type Props = {
   trigger: ReactNode
   defaultOpen?: boolean
 }
 
 const ActivityDialog = ({ defaultOpen = false, trigger }: Props) => {
+  const [activities, setActivities] = useState<Activity[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const response = await fetch('/api/activities')
+        if (response.ok) {
+          const data = await response.json()
+          setActivities(data.activities)
+        }
+      } catch (err) {
+        console.error('Fehler beim Laden der Aktivitäten:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchActivities()
+  }, [])
+
+  const formatRelativeTime = (timestamp: number) => {
+    const now = Date.now()
+    const diff = now - timestamp
+    const minutes = Math.floor(diff / 60000)
+    const hours = Math.floor(diff / 3600000)
+    const days = Math.floor(diff / 86400000)
+
+    if (minutes < 1) return 'Gerade eben'
+    if (minutes < 60) return `vor ${minutes} Min.`
+    if (hours < 24) return `vor ${hours} Std.`
+    return `vor ${days} Tagen`
+  }
+
+  const getActivityIcon = (type: Activity['type']) => {
+    switch (type) {
+      case 'login':
+        return <LogInIcon className='size-4 text-primary' />
+      case 'course_started':
+      case 'course_completed':
+        return <BookOpenIcon className='size-4 text-primary' />
+      case 'tool_used':
+        return <WrenchIcon className='size-4 text-primary' />
+      case 'playbook_viewed':
+        return <FileTextIcon className='size-4 text-primary' />
+      case 'checklist_completed':
+        return <CheckCircleIcon className='size-4 text-primary' />
+      case 'notification_received':
+        return <BellIcon className='size-4 text-primary' />
+      default:
+        return <CheckCircleIcon className='size-4 text-primary' />
+    }
+  }
+
   return (
     <Sheet defaultOpen={defaultOpen}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent className='gap-0 sm:max-w-112 [&>button]:top-2.75 [&>button>svg]:size-5'>
         <SheetHeader className='border-b py-2.25'>
-          <SheetTitle className='text-lg leading-6'>Activity</SheetTitle>
+          <SheetTitle className='text-lg leading-6'>Aktivitäten</SheetTitle>
           <SheetDescription hidden />
         </SheetHeader>
 
         <div className='overflow-y-auto'>
-          <div className='flex gap-4 px-4 py-3'>
-            <Avatar>
-              <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png' />
-              <AvatarFallback>JL</AvatarFallback>
-            </Avatar>
-            <div className='flex w-full flex-col items-start gap-2.5'>
-              <div className='text-muted-foreground flex flex-col items-start text-sm'>
-                <p>
-                  <span className='text-foreground font-semibold'>Joe Lincoln</span> mentioned you in last trends topic
-                </p>
-                <p>18 mins ago</p>
+          {isLoading ? (
+            <div className='flex items-center justify-center py-12'>
+              <Loader2Icon className='size-6 animate-spin' />
+            </div>
+          ) : activities.length === 0 ? (
+            <div className='flex flex-col items-center justify-center gap-2 py-12 text-center'>
+              <div className='bg-muted flex size-12 items-center justify-center rounded-full'>
+                <CheckCircleIcon className='text-muted-foreground size-6' />
               </div>
-              <div className='bg-muted flex flex-col gap-4 rounded-md border px-4 py-2.5'>
-                <p className='text-sm font-medium'>
-                  @ShadcnStudio For an expert opinion, check out what Mike has to say on this topic!
-                </p>
-                <div className='relative'>
-                  <Input placeholder='Reply' className='peer bg-card pr-9' />
-                  <div className='text-muted-foreground pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center pr-3 peer-disabled:opacity-50'>
-                    <ImageIcon className='size-4' />
-                    <span className='sr-only'>Email</span>
+              <p className='text-muted-foreground'>Noch keine Aktivitäten</p>
+              <p className='text-muted-foreground text-sm'>Deine Aktivitäten werden hier angezeigt</p>
+            </div>
+          ) : (
+            activities.map((activity, index) => (
+              <div key={activity.id}>
+                <div className='flex gap-4 px-4 py-3'>
+                  <Avatar>
+                    <AvatarImage src={activity.userAvatar} />
+                    <AvatarFallback>{activity.userName[0] || 'U'}</AvatarFallback>
+                  </Avatar>
+                  <div className='flex w-full flex-col items-start gap-1'>
+                    <div className='text-muted-foreground flex flex-col items-start text-sm'>
+                      <p className='flex items-center gap-2'>
+                        {getActivityIcon(activity.type)}
+                        <span className='text-foreground font-semibold'>{activity.title}</span>
+                      </p>
+                      {activity.description && (
+                        <p className='mt-0.5'>{activity.description}</p>
+                      )}
+                      <p className='mt-1'>{formatRelativeTime(activity.createdAt)}</p>
+                    </div>
                   </div>
                 </div>
+                {index < activities.length - 1 && <Separator />}
               </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className='flex gap-4 px-4 py-3'>
-            <Avatar>
-              <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png' />
-              <AvatarFallback>JP</AvatarFallback>
-            </Avatar>
-            <div className='flex w-full flex-col items-start gap-2.5'>
-              <div className='text-muted-foreground flex flex-col items-start text-sm'>
-                <p>
-                  <span className='text-foreground font-semibold'>Jane Perez</span> invites you to review a file
-                </p>
-                <p>39 mins ago</p>
-              </div>
-              <div className='bg-muted flex items-center gap-1 rounded-md px-1.5 py-1'>
-                <img
-                  src='https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/dashboard-dialog/image-14.png'
-                  className='h-5'
-                />
-                <span className='text-sm font-medium'>invoices.pdf</span>
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className='flex gap-4 px-4 py-3'>
-            <Avatar>
-              <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png' />
-              <AvatarFallback>TH</AvatarFallback>
-            </Avatar>
-            <div className='flex w-full flex-col items-start gap-2.5'>
-              <div className='text-muted-foreground flex flex-col items-start text-sm'>
-                <p>
-                  <span className='text-foreground font-semibold'>Tyler Hero</span> wants to view your design project
-                </p>
-                <p>1 hour ago</p>
-              </div>
-              <div className='bg-muted flex w-full items-center gap-4 rounded-md border px-4 py-2.5'>
-                <img
-                  src='https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/dashboard-dialog/image-13.png'
-                  className='size-8 rounded-sm'
-                />
-                <span className='text-sm font-medium'>Launcher-Uikit.fig</span>
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className='flex gap-4 px-4 py-3'>
-            <Avatar>
-              <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png' />
-              <AvatarFallback>D</AvatarFallback>
-            </Avatar>
-            <div className='text-muted-foreground flex flex-col items-start text-sm'>
-              <p>
-                <span className='text-foreground font-semibold'>Denial</span> invites you to review the new design
-              </p>
-              <p>3 hours ago</p>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className='flex gap-4 px-4 py-3'>
-            <Avatar>
-              <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-6.png' />
-              <AvatarFallback>LA</AvatarFallback>
-            </Avatar>
-            <div className='flex w-full flex-col items-start gap-2.5'>
-              <div className='text-muted-foreground flex flex-col items-start text-sm'>
-                <p>
-                  <span className='text-foreground font-semibold'>Leslie Alexander</span> new tags to Web Redesign
-                </p>
-                <p>8 hours ago</p>
-              </div>
-              <div className='flex flex-wrap items-center gap-2'>
-                <Badge className='bg-primary/10 text-primary rounded-sm font-normal'>Client-Request</Badge>
-                <Badge className='rounded-sm bg-sky-600/10 font-normal text-sky-600 dark:bg-sky-400/10 dark:text-sky-400'>
-                  Figma
-                </Badge>
-                <Badge className='rounded-sm bg-amber-600/10 font-normal text-amber-600 dark:bg-amber-400/10 dark:text-amber-400'>
-                  Redesign
-                </Badge>
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          <div className='flex gap-4 px-4 py-3'>
-            <Avatar>
-              <AvatarImage src='https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-8.png' />
-              <AvatarFallback>M</AvatarFallback>
-            </Avatar>
-            <div className='text-muted-foreground flex flex-col items-start text-sm'>
-              <p>
-                <span className='text-foreground font-semibold'>Miya</span> invites you to review a file
-              </p>
-              <p>10 hours ago</p>
-            </div>
-          </div>
+            ))
+          )}
         </div>
       </SheetContent>
     </Sheet>

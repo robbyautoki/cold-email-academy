@@ -13,6 +13,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
+import { trackActivity } from '@/lib/activity'
 
 // Google Icon Component
 const GoogleIcon = () => (
@@ -158,6 +159,14 @@ const LoginForm = () => {
 
         if (result.status === 'complete') {
           await setSignInActive?.({ session: result.createdSessionId })
+
+          // Track login activity
+          trackActivity({
+            type: 'login',
+            title: 'Anmeldung via Magic Link',
+            description: `Angemeldet mit ${email}`
+          })
+
           router.push('/dashboard')
         } else {
           setError(`Unerwarteter Status: ${result.status}`)
