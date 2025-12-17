@@ -140,7 +140,7 @@ function detectFramework(prompt: string): FrameworkType {
   return 'straight-business'
 }
 
-// E-Mail nach Framework generieren
+// E-Mail nach Framework generieren - OHNE den Prompt direkt einzufügen
 function generateEmailByFramework(
   prompt: string,
   formal: boolean,
@@ -162,9 +162,7 @@ function generateEmailByFramework(
 
 mein Name ist [Dein Name] und ich vertrete [Dein Unternehmen].
 
-${prompt}
-
-Könnten ${you} mir sagen, wer in ${formal ? 'Ihrem' : 'eurem'} Unternehmen für diesen Bereich zuständig ist und wie ich diese Person am besten erreichen kann?
+Könnten ${you} mir sagen, wer in ${formal ? 'Ihrem' : 'eurem'} Unternehmen für [BEREICH] zuständig ist und wie ich diese Person am besten erreichen kann?
 
 Vielen Dank im Voraus für ${your}e Hilfe.`
       break
@@ -175,7 +173,7 @@ Vielen Dank im Voraus für ${your}e Hilfe.`
 
 ich bin auf ${your} Profil gestoßen und hoffe, ${you} ${formal ? 'können' : 'kannst'} mir kurz weiterhelfen.
 
-${prompt}
+Ich habe eine Lösung für [PROBLEM/BEREICH], von der ich denke, dass [UNTERNEHMEN] wirklich profitieren könnte – aber ich habe Schwierigkeiten, den richtigen Ansprechpartner zu finden.
 
 Wer wäre die richtige Person, um diese Möglichkeit zu besprechen, und wie kann ich sie am besten erreichen?
 
@@ -183,14 +181,14 @@ Ich schätze ${your}e Zeit sehr.`
       break
 
     case 'pas':
-      subject = 'Lösung für [Problem]'
+      subject = 'Lösung für [PROBLEM]'
       body = `${greeting} [Name],
 
-${prompt}
+mir ist aufgefallen, dass [UNTERNEHMEN] mit [KONKRETES PROBLEM] zu kämpfen hat.
 
 Das kann unglaublich frustrierend sein – verlorene Kunden, ineffiziente Prozesse und unnötige Kosten.
 
-Ich habe eine Lösung, die genau dieses Problem adressiert und ${formal ? 'Ihnen' : 'dir'} helfen kann, das zu ändern.
+[DEIN PRODUKT/SERVICE] löst genau dieses Problem, indem es [KONKRETER NUTZEN].
 
 ${formal ? 'Hätten Sie' : 'Hättest du'} Interesse zu erfahren, wie das konkret funktioniert?`
       break
@@ -199,9 +197,9 @@ ${formal ? 'Hätten Sie' : 'Hättest du'} Interesse zu erfahren, wie das konkret
       subject = 'Was wäre, wenn...'
       body = `${greeting} [Name],
 
-was wäre, wenn ${you} [Problem] in den nächsten 30 Tagen lösen ${formal ? 'könnten' : 'könntest'}?
+was wäre, wenn [DEIN PRODUKT/SERVICE] ${formal ? 'Ihnen' : 'dir'} helfen könnte, [PROBLEM] zu lösen?
 
-${prompt}
+In einem Jahr haben wir [KUNDENNAME] geholfen, [X% VERBESSERUNG] zu erreichen.
 
 Zusätzlich konnten wir die Effizienz steigern, Kosten senken und die Kundenzufriedenheit deutlich verbessern.
 
@@ -209,40 +207,38 @@ ${youHave} diese Woche Zeit für ein kurzes Gespräch, um zu sehen, ob das auch 
       break
 
     case 'straight-business':
-      subject = 'Direkte Anfrage'
+      subject = 'Kurze Anfrage'
       body = `${greeting} [Name],
 
-${prompt}
+ich biete [DEIN ANGEBOT] für Unternehmen wie ${formal ? 'Ihres' : 'deines'} an.
 
-Wir haben Unternehmen wie ${formal ? 'Ihrem' : 'deinem'} bereits geholfen, messbare Ergebnisse zu erzielen – und das in weniger als einem Jahr.
-
-Alles was wir gemacht haben: Eine effiziente Lösung implementiert, die sofort funktioniert.
+Wir haben bereits [ANZAHL] Unternehmen geholfen, [KONKRETES ERGEBNIS] zu erreichen – und das in weniger als [ZEITRAUM].
 
 ${youHave} diese Woche Zeit für ein kurzes Gespräch?`
       break
 
     case 'paint-picture':
-      subject = 'Stell dir vor...'
+      subject = formal ? 'Stellen Sie sich vor...' : 'Stell dir vor...'
       body = `${greeting} [Name],
 
-nichts ist frustrierender als [Pain Point].
+nichts ist frustrierender als [PAIN POINT].
 
-Stell ${you} ${formal ? 'sich' : 'dir'} eine Welt vor, in der all das kein Problem mehr ist. ${prompt}
+Stell ${you} ${formal ? 'sich' : 'dir'} eine Welt vor, in der all das kein Problem mehr ist – [IDEALES SZENARIO].
 
-Genau das ermöglichen wir.
+Genau das ermöglichen wir mit [DEIN PRODUKT/SERVICE].
 
 ${youHave} Zeit für eine kurze Demo, um zu sehen, wie das funktioniert?`
       break
 
     case 'something-useful':
-      subject = 'Dein Beitrag zu [Thema]'
+      subject = formal ? 'Ihr Beitrag zu [THEMA]' : 'Dein Beitrag zu [THEMA]'
       body = `${greeting} [Name],
 
-ich bin auf ${your}en Beitrag zu [Thema] gestoßen und fand ${your}e Punkte wirklich treffend!
+ich bin auf ${your}en Beitrag zu [THEMA] gestoßen und fand ${your}e Punkte wirklich treffend!
 
-${prompt}
+Besonders [SPEZIFISCHER PUNKT] hat mich zum Nachdenken gebracht.
 
-Ich dachte, das könnte ${you} auch interessieren: [Relevante Ressource]
+Ich dachte, das könnte ${you} auch interessieren: [RELEVANTE RESSOURCE/ARTIKEL]
 
 Würde mich freuen, ${formal ? 'Ihre' : 'deine'} Gedanken dazu zu hören.`
       break
