@@ -100,7 +100,10 @@ const HeroSection = () => {
   }
 
   const handleGoogleSignIn = async () => {
-    if (!signUp) return
+    if (!signUp) {
+      console.error('signUp not loaded')
+      return
+    }
 
     try {
       await signUp.authenticateWithRedirect({
@@ -108,8 +111,11 @@ const HeroSection = () => {
         redirectUrl: '/sso-callback',
         redirectUrlComplete: '/sso-callback',
       })
-    } catch {
-      setError('Google-Anmeldung fehlgeschlagen.')
+    } catch (err) {
+      console.error('Google OAuth Error:', err)
+      const clerkError = err as { errors?: Array<{ code: string; message: string; longMessage?: string }> }
+      const errorMessage = clerkError.errors?.[0]?.longMessage || clerkError.errors?.[0]?.message || 'Google-Anmeldung fehlgeschlagen.'
+      setError(errorMessage)
     }
   }
   return (
