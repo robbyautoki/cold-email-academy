@@ -1,4 +1,56 @@
 import { auth } from '@clerk/nextjs/server'
+import OpenAI from 'openai'
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
+
+// System Prompt für dynamisches Reasoning
+const REASONING_SYSTEM_PROMPT = `Du bist ein Cold Email Experte mit jahrelanger Erfahrung. Analysiere die Anfrage und erstelle ein detailliertes, einzigartiges Reasoning.
+
+Deine Analyse MUSS diese Phasen enthalten (nutze genau diese Formatierung):
+
+🔍 ANALYSE DER ANFRAGE
+━━━━━━━━━━━━━━━━━━━━━━
+• Was wurde verstanden (Zielgruppe, Angebot, etc.)
+• Besonderheiten des Prompts
+
+👥 ZIELGRUPPEN-DEEP-DIVE
+━━━━━━━━━━━━━━━━━━━━━━
+• Typische Probleme dieser Branche
+• Wer sind die Entscheidungsträger
+• Größte Pain Points
+• Was sie wirklich wollen
+
+🎯 WARUM DIESES ANGEBOT PASST
+━━━━━━━━━━━━━━━━━━━━━━
+• Warum ist das Angebot perfekt für diese Zielgruppe
+• Konkrete Vorteile für die Branche
+• USPs die ansprechen
+
+📧 FRAMEWORK-AUSWAHL
+━━━━━━━━━━━━━━━━━━━━━━
+• Welches Cold Email Framework am besten passt (Quick Question, Third-Party, PAS, AIDA, Straight to Business, Paint a Picture, oder Something Useful)
+• Warum gerade dieses Framework für diese Kombination
+
+💎 NO-BRAINER STRATEGIE
+━━━━━━━━━━━━━━━━━━━━━━
+• Welches unwiderstehliche Angebot funktioniert
+• Warum es die Hemmschwelle senkt
+• Wie es Vertrauen aufbaut
+
+✍️ EMAIL-KOMPOSITION
+━━━━━━━━━━━━━━━━━━━━━━
+• Wie die Email strukturiert wird
+• Welche emotionalen Trigger eingebaut werden
+• Wie der CTA formuliert wird
+
+WICHTIG:
+- Schreibe in Deutsch
+- Sei prägnant aber detailliert
+- Nutze • für Aufzählungen
+- Jedes Reasoning muss einzigartig sein - keine Copy-Paste Texte
+- Beziehe dich konkret auf die Anfrage`
 
 type FrameworkType =
   | 'quick-question'
@@ -41,113 +93,6 @@ const frameworkDescriptions: Record<FrameworkType, string> = {
   'straight-business': 'Direkt und effizient - keine Zeit verschwenden',
   'paint-picture': 'Emotionale Ansprache durch Zukunftsvisionen',
   'something-useful': 'Beziehungsaufbau durch geteilte Inhalte'
-}
-
-// Zielgruppen-Insights für Extended Reasoning
-const targetInsights: Record<string, string> = {
-  'Entrümpelungsdienste': `• Typische Probleme: Saisonalität, lokale Konkurrenz, Preisvergleiche
-• Entscheidungsträger: Inhaber (meist Einzelunternehmer oder kleine Teams)
-• Pain Points: Unregelmäßige Aufträge, Abhängigkeit von Empfehlungen, Preisdruck
-• Was sie wollen: Stetige Aufträge, bessere Kunden die fair zahlen, Planbarkeit`,
-  'Restaurants': `• Typische Probleme: Hohe Konkurrenz, Abhängigkeit von Bewertungen, Fachkräftemangel
-• Entscheidungsträger: Inhaber, Geschäftsführer
-• Pain Points: Schwankende Auslastung, hohe Fixkosten, Sichtbarkeit
-• Was sie wollen: Volle Tische, treue Stammgäste, gute Online-Präsenz`,
-  'Immobilienmakler': `• Typische Probleme: Akquise-Druck, Provision unter Beschuss, viele Mitbewerber
-• Entscheidungsträger: Makler selbst oder Büroinhaber
-• Pain Points: Zu wenig Objekte, Verkäufer-Leads teuer, lange Verkaufszyklen
-• Was sie wollen: Exklusive Objekte, qualifizierte Leads, kürzere Abschlusszeiten`,
-  'Handwerker': `• Typische Probleme: Fachkräftemangel, Terminplanung, Preisdruck
-• Entscheidungsträger: Meister, Inhaber
-• Pain Points: Unzuverlässige Anfragen, Preisverhandlungen, keine Zeit für Marketing
-• Was sie wollen: Qualitätsaufträge, faire Preise, voller Terminkalender`,
-  'Agenturen': `• Typische Probleme: Kundenakquise, Projektabhängigkeit, Preisdruck bei Pitches
-• Entscheidungsträger: Geschäftsführer, Head of Marketing/Sales
-• Pain Points: Zu wenig Leads, hoher Pitch-Aufwand, schwankende Auslastung
-• Was sie wollen: Planbare Neukunden, höhere Margen, langfristige Retainer`,
-  'Software-Unternehmen': `• Typische Probleme: Lange Sales-Cycles, technische Erklärungsnot, Konkurrenz
-• Entscheidungsträger: CEO, CTO, Head of Sales
-• Pain Points: Hohe CAC, schwierige Demo-Buchungen, Churn
-• Was sie wollen: Qualifizierte Leads, kürzere Sales-Cycles, mehr MRR`,
-  'E-Commerce': `• Typische Probleme: Hohe Werbekosten, Amazon-Konkurrenz, Margen-Druck
-• Entscheidungsträger: Shop-Inhaber, E-Commerce Manager
-• Pain Points: Hohe CPA, niedrige Conversion, Warenkorbabbrüche
-• Was sie wollen: Profitables Wachstum, Stammkunden, bessere ROAS`,
-  'Coaches': `• Typische Probleme: Positionierung, Vertrauensaufbau, Preisdurchsetzung
-• Entscheidungsträger: Coach selbst
-• Pain Points: Kaltakquise funktioniert nicht, zu wenig Anfragen, Preisdiskussionen
-• Was sie wollen: Premium-Klienten, Autorität, stabiles Einkommen`,
-  'Ärzte/Praxen': `• Typische Probleme: Patientenakquise für IGeL, Online-Bewertungen, Konkurrenz
-• Entscheidungsträger: Praxisinhaber, Praxismanager
-• Pain Points: Zu wenig Privatpatienten, schlechte Google-Sichtbarkeit
-• Was sie wollen: Mehr Privatpatienten, bessere Bewertungen, volle Terminbücher`,
-  'Anwälte': `• Typische Probleme: Mandantenakquise, Spezialisierung kommunizieren
-• Entscheidungsträger: Partner, Kanzleiinhaber
-• Pain Points: Zu generische Anfragen, Preisvergleiche, Online-Sichtbarkeit
-• Was sie wollen: Passende Mandate, faire Honorare, Reputation`,
-  'Steuerberater': `• Typische Probleme: Saisonalität, Digitalisierung, Mandantenbindung
-• Entscheidungsträger: Kanzleiinhaber, Partner
-• Pain Points: Hoher Aufwand pro Mandat, schwierige Neukunden-Akquise
-• Was sie wollen: Rentable Mandate, weniger Kleinarbeit, Wachstum`,
-  'Fitnessstudios': `• Typische Probleme: Hohe Fluktuation, Konkurrenz, Mitgliederbindung
-• Entscheidungsträger: Studio-Inhaber, Manager
-• Pain Points: Kündigungen, schwache Neukunden-Gewinnung, Auslastung
-• Was sie wollen: Mehr Mitglieder, bessere Bindung, höhere Umsätze`,
-  'Fotografen': `• Typische Probleme: Preisdruck, Konkurrenz durch Smartphones, Akquise
-• Entscheidungsträger: Fotograf selbst
-• Pain Points: Zu wenig hochwertige Aufträge, Preisverhandlungen
-• Was sie wollen: Premium-Kunden, faire Preise, voller Kalender`,
-  'Friseure': `• Typische Probleme: Fachkräftemangel, Konkurrenz, Kundenbindung
-• Entscheidungsträger: Salon-Inhaber
-• Pain Points: Leere Stühle, Stammkunden verlieren, Online-Buchungen
-• Was sie wollen: Volle Auslastung, treue Kunden, gute Mitarbeiter`,
-  'Autohäuser': `• Typische Probleme: Online-Konkurrenz, lange Entscheidungszyklen
-• Entscheidungsträger: Geschäftsführer, Verkaufsleiter
-• Pain Points: Zu wenig Probefahrten, Online-Anfragen konvertieren schlecht
-• Was sie wollen: Mehr Leads, bessere Conversion, höhere Margen`,
-  'default': `• Analysiere typische Herausforderungen der Branche
-• Identifiziere die relevanten Entscheidungsträger
-• Verstehe die größten Pain Points und Wünsche
-• Entwickle passende Ansprache-Strategie`
-}
-
-// Framework-Begründungen für Extended Reasoning
-const frameworkReasonings: Record<FrameworkType, string> = {
-  'quick-question': `Warum dieses Framework?
-→ Kurze Fragen haben hohe Antwortquoten
-→ Der Empfänger muss sich nicht festlegen
-→ Öffnet Tür für Follow-up ohne Druck
-→ Perfekt wenn Ansprechpartner unklar ist`,
-  'third-party': `Warum dieses Framework?
-→ Nutzt soziale Dynamik im Unternehmen
-→ Mitarbeiter helfen gerne weiter
-→ Umgeht Gatekeeper elegant
-→ Wirkt weniger wie Kaltakquise`,
-  'pas': `Warum dieses Framework?
-→ Problem-Agitate-Solve ist bewährt
-→ Spricht Schmerz direkt an
-→ Zeigt Verständnis für Situation
-→ Positioniert dich als Problemlöser`,
-  'aida': `Warum dieses Framework?
-→ Attention durch konkrete Zahlen
-→ Interest durch relevante Ergebnisse
-→ Desire durch Erfolgsgeschichten
-→ Action durch klaren CTA`,
-  'straight-business': `Warum dieses Framework?
-→ Respektiert die Zeit des Empfängers
-→ Kein Drumherum, direkt zum Punkt
-→ Zeigt Professionalität
-→ Ideal für beschäftigte Entscheider`,
-  'paint-picture': `Warum dieses Framework?
-→ Emotionale Ansprache wirkt
-→ Vision schlägt Features
-→ Empfänger sieht sich im Erfolg
-→ Differenziert von Standard-Mails`,
-  'something-useful': `Warum dieses Framework?
-→ Gibt bevor es nimmt
-→ Baut Vertrauen auf
-→ Zeigt Expertise
-→ Weniger aggressiv, mehr hilfreich`
 }
 
 // Zielgruppen-Keywords
@@ -305,7 +250,8 @@ export async function POST(request: Request) {
         // Alle Infos vorhanden - generiere Email
         const framework = detectFramework(prompt)
         const email = generateEmailByFramework(analysis, formal, framework)
-        const reasoning = generateReasoning(analysis, framework)
+        // Dynamisches Reasoning mit OpenAI - jedes Mal einzigartig
+        const reasoning = await generateReasoningWithAI(prompt, analysis, framework)
         const suggestions = generateSuggestions(analysis, formal)
 
         // Stream reasoning
@@ -411,125 +357,51 @@ function analyzePrompt(prompt: string): PromptAnalysis {
   }
 }
 
-function generateReasoning(analysis: PromptAnalysis, framework: FrameworkType): string {
-  const target = analysis.target || 'Unternehmen'
-  const offer = analysis.offer || 'Service'
+// Generiere dynamisches Reasoning mit OpenAI
+async function generateReasoningWithAI(
+  prompt: string,
+  analysis: PromptAnalysis,
+  framework: FrameworkType
+): Promise<string> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini', // Schnell und günstig
+      messages: [
+        { role: 'system', content: REASONING_SYSTEM_PROMPT },
+        { role: 'user', content: `Analysiere diese Cold Email Anfrage:
 
-  let reasoning = `🔍 ANALYSE DEINER ANFRAGE\n`
-  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`
+Prompt vom User: "${prompt}"
 
-  // Phase 1: Prompt verstehen
-  reasoning += `📋 WAS ICH VERSTANDEN HABE:\n`
-  reasoning += `• Zielgruppe: ${target}\n`
-  reasoning += `• Dein Angebot: ${offer}\n`
-  if (analysis.noBrainer) {
-    reasoning += `• No-Brainer: ${analysis.noBrainer}\n`
+Erkannte Daten:
+- Zielgruppe: ${analysis.target || 'nicht angegeben'}
+- Angebot: ${analysis.offer || 'nicht angegeben'}
+- No-Brainer: ${analysis.noBrainer || 'nicht angegeben'}
+- Framework das gewählt wird: ${frameworkNames[framework]}
+- Grund fürs Framework: ${frameworkDescriptions[framework]}
+
+Erstelle jetzt dein detailliertes Reasoning. Beziehe dich konkret auf diese Anfrage.` }
+      ],
+      temperature: 0.7, // Etwas Variation für einzigartige Reasonings
+      max_tokens: 1200
+    })
+
+    return response.choices[0]?.message?.content || 'Reasoning konnte nicht generiert werden.'
+  } catch (error) {
+    console.error('OpenAI Reasoning Error:', error)
+    // Fallback bei Fehler
+    return `🔍 ANALYSE DER ANFRAGE
+━━━━━━━━━━━━━━━━━━━━━━
+• Zielgruppe: ${analysis.target || 'nicht erkannt'}
+• Angebot: ${analysis.offer || 'nicht erkannt'}
+
+📧 FRAMEWORK: ${frameworkNames[framework]}
+━━━━━━━━━━━━━━━━━━━━━━
+${frameworkDescriptions[framework]}
+
+✍️ EMAIL-KOMPOSITION
+━━━━━━━━━━━━━━━━━━━━━━
+Generiere personalisierte Email...`
   }
-  reasoning += `\n`
-
-  // Phase 2: Zielgruppen-Analyse
-  reasoning += `👥 ZIELGRUPPEN-ANALYSE: ${target.toUpperCase()}\n`
-  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
-  reasoning += (targetInsights[target] || targetInsights['default']) + `\n\n`
-
-  // Phase 3: Angebots-Fit
-  reasoning += `🎯 WARUM ${offer.toUpperCase()} FÜR ${target.toUpperCase()}?\n`
-  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
-  reasoning += getOfferFit(target, offer) + `\n\n`
-
-  // Phase 4: Framework-Entscheidung
-  reasoning += `📧 FRAMEWORK-AUSWAHL: ${frameworkNames[framework].toUpperCase()}\n`
-  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
-  reasoning += frameworkReasonings[framework] + `\n\n`
-
-  // Phase 5: No-Brainer Strategie
-  reasoning += `💎 NO-BRAINER STRATEGIE\n`
-  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
-  reasoning += getNoBrainerStrategy(analysis, target, offer) + `\n\n`
-
-  // Phase 6: Email wird gebaut
-  reasoning += `✍️ GENERIERE EMAIL...\n`
-  reasoning += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
-  reasoning += `Baue personalisierte Email mit:\n`
-  reasoning += `• Konkreten Werten statt Platzhaltern\n`
-  reasoning += `• Branchenspezifischem Nutzenversprechen\n`
-  reasoning += `• Passendem No-Brainer Offer\n`
-  reasoning += `• Klarem Call-to-Action`
-
-  return reasoning
-}
-
-function getOfferFit(target: string, offer: string): string {
-  const fits: Record<string, Record<string, string>> = {
-    'Entrümpelungsdienste': {
-      'Google Ads': `${target} suchen aktiv auf Google nach Entrümpelungsdiensten.
-→ Hohe Kaufabsicht bei Google-Suchen ("Entrümpelung [Stadt]")
-→ Lokale Kampagnen mit geringem Streuverlust möglich
-→ Sofortige Sichtbarkeit bei relevanten Suchanfragen`,
-      'SEO': `Organische Suche ist Hauptkanal für ${target}.
-→ Langfristig kostengünstige Leads
-→ Vertrauensvorsprung durch Top-Rankings
-→ Lokales SEO besonders effektiv`,
-      'default': `Passende Lösung für die Herausforderungen von ${target}.
-→ Adressiert die Kernprobleme der Branche
-→ Nachweisbare Ergebnisse möglich
-→ Klarer ROI für den Kunden`
-    },
-    'Agenturen': {
-      'Google Ads': `${target} können ihren Kunden Google Ads als Service anbieten.
-→ Zusätzliche Einnahmequelle durch Ads-Management
-→ Bessere Kundenbindung durch mehr Services
-→ Höhere Retainer durch Performance-Marketing`,
-      'default': `Unterstützt ${target} bei ihren Kernherausforderungen.
-→ Hilft bei der Kundenakquise
-→ Stärkt die Wettbewerbsposition
-→ Ermöglicht planbares Wachstum`
-    },
-    'default': {
-      'Google Ads': `${offer} ist perfekt für ${target}:
-→ Erreicht Kunden genau wenn sie suchen
-→ Messbare Ergebnisse und klarer ROI
-→ Skalierbar je nach Budget und Kapazität
-→ Schnelle Resultate innerhalb von Tagen`,
-      'SEO': `${offer} ist ideal für ${target}:
-→ Langfristig kostengünstige Kundengewinnung
-→ Baut Vertrauen und Autorität auf
-→ Nachhaltiger Traffic ohne laufende Werbekosten
-→ Lokale Sichtbarkeit bei relevanten Suchen`,
-      'Webdesign': `${offer} ist wichtig für ${target}:
-→ Erste Eindruck entscheidet über Vertrauen
-→ Professionelle Website = mehr Conversions
-→ Mobile Optimierung heute unverzichtbar
-→ Differenzierung vom Wettbewerb`,
-      'default': `${offer} passt zu ${target}:
-→ Löst konkrete Probleme der Branche
-→ Nachweisbarer Mehrwert möglich
-→ Unterstützt die Geschäftsziele
-→ Gutes Preis-Leistungs-Verhältnis`
-    }
-  }
-
-  const targetFits = fits[target] || fits['default']
-  return targetFits[offer] || targetFits['default']
-}
-
-function getNoBrainerStrategy(analysis: PromptAnalysis, target: string, offer: string): string {
-  if (analysis.noBrainer) {
-    return `User hat No-Brainer angegeben: "${analysis.noBrainer}"
-→ Nutze diesen direkt in der Email
-→ Betone den risikofreien Einstieg
-→ Mache es dem Empfänger leicht zu antworten`
-  }
-
-  const offerList = noBrainerOffers[offer] || noBrainerOffers['default']
-  return `Kein No-Brainer angegeben - generiere passenden:
-
-Empfohlene No-Brainer für ${offer}:
-${offerList.map((o, i) => `${i + 1}. ${o}`).join('\n')}
-
-→ Wähle Option 1 für die Email
-→ Zeige weitere als Suggestions
-→ No-Brainer senkt die Hemmschwelle zur Antwort`
 }
 
 function generateSuggestions(analysis: PromptAnalysis, formal: boolean): string[] {
