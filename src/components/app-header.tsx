@@ -297,7 +297,7 @@ export default function AppHeader() {
                 <FolderOpenIcon className='mr-1.5 size-4' />
                 Ressourcen
               </NavigationMenuTrigger>
-              <NavigationMenuContent className='right-0 left-auto'>
+              <NavigationMenuContent className='!left-auto !right-0'>
                 <div className='w-64 p-2'>
                   {resourceItems.map(item => (
                     <NavigationMenuLink key={item.href} asChild>
