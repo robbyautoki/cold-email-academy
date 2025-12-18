@@ -87,17 +87,23 @@ Schreibe auf Deutsch. (max 80 Wörter).`,
 
   phase6_composition: `Du planst die Email-Komposition.
 
-HOOK-TYPEN (wähle einen passenden):
-- Observation Hook: "Mir ist aufgefallen, dass..."
-- Question Hook: "Kurze Frage: ..."
-- Compliment Hook: "Ich hab mir [Website] angeschaut..."
-- Pain Hook: Direkt auf ein konkretes Problem eingehen
+PERSONALISIERTER EINSTIEG (WICHTIG!):
+Jede Email muss mit einer personalisierten Beobachtung starten.
+Nutze dafür die Variable [RECHERCHE: z.B. ...] mit einem Beispiel.
+
+HOOK-TYPEN mit Recherche-Variable:
+- Tool/Software: "Ich hab gesehen, dass ihr [RECHERCHE: z.B. Salesforce nutzt]..."
+- Observation: "Mir ist aufgefallen, dass [RECHERCHE: z.B. ihr gerade expandiert]..."
+- Content: "Ich hab euren [RECHERCHE: z.B. Blog-Post zu KI] gelesen..."
+- Growth: "Glückwunsch zu [RECHERCHE: z.B. der neuen Stelle als Head of Marketing]..."
+
+Das "z.B." zeigt dem User was er dort pro Lead recherchieren soll.
 
 Basierend auf Framework und Erkenntnissen:
-- Welcher Hook passt am besten?
+- Welcher Hook-Typ passt am besten?
 - Wie klingt ein guter Betreff? (2 Vorschläge)
 
-Schreibe auf Deutsch. (max 80 Wörter).`,
+Schreibe auf Deutsch. (max 100 Wörter).`,
 
   phase7_cta: `Du entwickelst die perfekte CTA-Strategie.
 
@@ -135,42 +141,42 @@ Schreibe auf Deutsch. (max 100 Wörter)`
 
 const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
   'quick-question': `STRUKTUR (50-100 Wörter):
-1. Anrede + kurze Frage wer der richtige Ansprechpartner ist
-2. Warum du fragst (1 Satz)
+1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+2. Kurze Frage wer der richtige Ansprechpartner ist
 3. Was du anbieten kannst (1 Satz)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
   'third-party': `STRUKTUR (50-100 Wörter):
-1. Anrede + beziehe dich auf jemanden aus dem Unternehmen
-2. Erkläre kurz warum du den Entscheider suchst
+1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+2. Beziehe dich auf jemanden aus dem Unternehmen
 3. Was du anbieten kannst
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
   'pas': `STRUKTUR (50-100 Wörter):
-1. Anrede + PROBLEM: Sprich ein konkretes Problem an (1-2 Sätze)
-2. AGITATE: Was kostet das? Zeit, Geld, Nerven? (1 Satz)
+1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+2. PROBLEM: Verbinde das mit einem konkreten Problem (1 Satz)
 3. SOLVE: Wie du helfen kannst (1 Satz)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
   'aida': `STRUKTUR (50-100 Wörter):
-1. Anrede + ATTENTION: Hook mit Beobachtung oder Frage (1 Satz)
+1. Anrede + ATTENTION: PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
 2. INTEREST: Warum relevant für diese Person (1 Satz)
 3. DESIRE: Wie es besser sein könnte (1 Satz)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
   'straight-business': `STRUKTUR (50-100 Wörter):
-1. Anrede + direkt auf den Punkt: Was du anbietest
-2. Warum interessant für den Empfänger (1-2 Sätze)
+1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+2. Direkt auf den Punkt: Was du anbietest und warum relevant
 3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
   'paint-picture': `STRUKTUR (50-100 Wörter):
-1. Anrede + kurze Vision wie es sein könnte (1-2 Sätze)
-2. Wie du dabei helfen kannst (1 Satz)
+1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+2. Kurze Vision wie es sein könnte (1-2 Sätze)
 3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
   'something-useful': `STRUKTUR (50-100 Wörter):
-1. Anrede + ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
-2. Falls Interesse: du hast noch mehr (1 Satz)
+1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+2. Ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
 3. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken (aus dem Reasoning)`
 }
 
@@ -188,14 +194,21 @@ ${frameworkStructure}
 
 GOLDENE REGELN:
 1. 50-100 Wörter Body (nicht mehr!)
-2. PERMISSION-BASED CTA am Ende (aus dem Reasoning übernehmen!)
-3. Der CTA ist eine JA/NEIN Frage
-4. KEINE Terminanfrage im ersten Kontakt!
+2. PERSONALISIERTER HOOK am Anfang mit [RECHERCHE: z.B. ...]
+3. PERMISSION-BASED CTA am Ende (aus dem Reasoning übernehmen!)
+4. Der CTA ist eine JA/NEIN Frage
+5. KEINE Terminanfrage im ersten Kontakt!
 
-CTA BEISPIELE (nutze den aus dem Reasoning):
-- "Soll ich dir das Video schicken?"
-- "Interesse an der Analyse?"
-- "Darf ich dir die 3 Quick-Wins zeigen?"
+PLATZHALTER (werden vom User pro Lead ersetzt):
+- [Name] - Name des Empfängers
+- [RECHERCHE: z.B. Beispiel] - Personalisierte Info die man pro Lead recherchiert
+  Das "z.B." zeigt dem User was für eine Art Info gemeint ist
+  Beispiele: "Salesforce nutzt", "gerade expandiert", "neue Mitarbeiter sucht"
+
+PERSONALISIERUNGS-BEISPIELE:
+- "Ich hab gesehen, dass ihr [RECHERCHE: z.B. Hubspot fürs CRM nutzt]..."
+- "Mir ist aufgefallen, dass [RECHERCHE: z.B. ihr gerade 3 neue Stellen ausschreibt]..."
+- "Ich hab euren [RECHERCHE: z.B. LinkedIn-Post zu eurem neuen Produkt] gesehen..."
 
 TON:
 - Sachlich und freundlich
@@ -211,8 +224,6 @@ VERBOTEN:
 - Gedankenstriche
 - Listen im Email-Body
 - "Hast du Zeit für ein Gespräch?" (zu früh!)
-
-PLATZHALTER: Nutze [Name] als EINZIGEN Platzhalter
 
 Antworte NUR als JSON (keine Markdown-Codeblöcke):
 {"subject": "Betreff hier", "body": "Email-Text mit Zeilenumbrüchen als \\n"}`
