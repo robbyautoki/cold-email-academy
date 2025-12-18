@@ -6,7 +6,9 @@ import {
   ChevronDown,
   Sparkles,
   MessageCircleQuestion,
-  RefreshCw
+  RefreshCw,
+  Pencil,
+  Check
 } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -49,6 +51,45 @@ interface Selection {
   text: string
 }
 
+// Parse {{VAR:text}} and render with label overlay
+const renderBodyWithVariables = (text: string) => {
+  // Split by newlines first to preserve line breaks
+  const lines = text.split('\n')
+
+  return lines.map((line, lineIndex) => {
+    const parts = line.split(/({{VAR:[^}]+}})/g)
+
+    return (
+      <span key={lineIndex}>
+        {parts.map((part, partIndex) => {
+          const match = part.match(/{{VAR:([^}]+)}}/)
+          if (match) {
+            return (
+              <span key={partIndex} className="relative inline-block mx-0.5">
+                {/* Label über dem Text */}
+                <span className="absolute -top-4 left-0 text-[9px] bg-violet-100 text-violet-700 px-1 py-0.5 rounded font-medium whitespace-nowrap">
+                  VARIABLE
+                </span>
+                {/* Der eigentliche Text */}
+                <span className="bg-violet-50 border-b-2 border-violet-400 px-0.5 rounded-sm">
+                  {match[1]}
+                </span>
+              </span>
+            )
+          }
+          return <span key={partIndex}>{part}</span>
+        })}
+        {lineIndex < lines.length - 1 && <br />}
+      </span>
+    )
+  })
+}
+
+// Strip {{VAR:}} markup for plain text (e.g., copy to clipboard)
+const stripVarMarkup = (text: string): string => {
+  return text.replace(/{{VAR:([^}]+)}}/g, '$1')
+}
+
 const STORAGE_KEY = 'ai-email-writer-versions'
 const MAX_VERSIONS = 10
 
@@ -76,6 +117,7 @@ export default function AIEmailWriterPage() {
   // Selection state for inline regeneration
   const [selection, setSelection] = useState<Selection | null>(null)
   const [isRegenerating, setIsRegenerating] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
   const bodyTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Voice recording
@@ -524,45 +566,80 @@ export default function AIEmailWriterPage() {
               </div>
             </div>
 
-            {/* Email Body - Editable */}
+            {/* Email Body - View/Edit Mode */}
             <CardContent className='p-6 min-h-[200px] relative'>
               {body ? (
                 <div className="relative">
-                  <Textarea
-                    ref={bodyTextareaRef}
-                    value={body}
-                    onChange={(e) => handleBodyChange(e.target.value)}
-                    onSelect={handleTextSelection}
-                    onMouseUp={handleTextSelection}
-                    onKeyUp={handleTextSelection}
-                    disabled={isStreaming || isRegenerating}
-                    className="min-h-[200px] resize-none border-0 p-0 text-sm leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
-                    placeholder="Email-Text..."
-                  />
+                  {isEditing ? (
+                    // Edit Mode - Textarea
+                    <>
+                      <Textarea
+                        ref={bodyTextareaRef}
+                        value={body}
+                        onChange={(e) => handleBodyChange(e.target.value)}
+                        onSelect={handleTextSelection}
+                        onMouseUp={handleTextSelection}
+                        onKeyUp={handleTextSelection}
+                        disabled={isStreaming || isRegenerating}
+                        className="min-h-[200px] resize-none border-0 p-0 text-sm leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
+                        placeholder="Email-Text..."
+                        autoFocus
+                      />
+                      {/* Floating Regenerate Button */}
+                      {selection && !isStreaming && (
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-10">
+                          <Button
+                            size="sm"
+                            onClick={handleRegenerateSelection}
+                            disabled={isRegenerating}
+                            className="gap-1.5 shadow-lg bg-violet-600 hover:bg-violet-700 text-white"
+                          >
+                            {isRegenerating ? (
+                              <>
+                                <AILoader size={14} className="text-white" />
+                                <span>Generiere...</span>
+                              </>
+                            ) : (
+                              <>
+                                <RefreshCw className="size-3.5" />
+                                <span>Neu generieren</span>
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    // View Mode - Mit Variable Labels
+                    <div
+                      className="text-sm leading-relaxed pt-2 cursor-text"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      {renderBodyWithVariables(body)}
+                    </div>
+                  )}
                   {isStreaming && <span className="animate-pulse text-primary">|</span>}
 
-                  {/* Floating Regenerate Button */}
-                  {selection && !isStreaming && (
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-10">
-                      <Button
-                        size="sm"
-                        onClick={handleRegenerateSelection}
-                        disabled={isRegenerating}
-                        className="gap-1.5 shadow-lg bg-violet-600 hover:bg-violet-700 text-white"
-                      >
-                        {isRegenerating ? (
-                          <>
-                            <AILoader size={14} className="text-white" />
-                            <span>Generiere...</span>
-                          </>
-                        ) : (
-                          <>
-                            <RefreshCw className="size-3.5" />
-                            <span>Neu generieren</span>
-                          </>
-                        )}
-                      </Button>
-                    </div>
+                  {/* Edit/Done Button */}
+                  {!isStreaming && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setIsEditing(!isEditing)}
+                      className="absolute top-0 right-0 h-7 px-2 text-muted-foreground hover:text-foreground"
+                    >
+                      {isEditing ? (
+                        <>
+                          <Check className="size-3.5 mr-1" />
+                          <span className="text-xs">Fertig</span>
+                        </>
+                      ) : (
+                        <>
+                          <Pencil className="size-3.5 mr-1" />
+                          <span className="text-xs">Bearbeiten</span>
+                        </>
+                      )}
+                    </Button>
                   )}
                 </div>
               ) : isStreaming ? (
