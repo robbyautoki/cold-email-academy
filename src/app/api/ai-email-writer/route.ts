@@ -91,19 +91,42 @@ HOOK-TYPEN (wähle einen passenden):
 - Observation Hook: "Mir ist aufgefallen, dass..."
 - Question Hook: "Kurze Frage: ..."
 - Compliment Hook: "Ich hab mir [Website] angeschaut..."
-- Pain Hook: Direkt auf den größten Schmerz eingehen
-
-PSYCHOLOGISCHE TRIGGER einbauen:
-- Social Proof: "Andere [Zielgruppe] haben..."
-- Authority: Expertise zeigen ohne anzugeben
-- Scarcity: "Diese Woche hab ich noch Zeit für..."
+- Pain Hook: Direkt auf ein konkretes Problem eingehen
 
 Basierend auf Framework und Erkenntnissen:
 - Welcher Hook passt am besten?
-- Welche 1-2 Trigger sollten rein?
 - Wie klingt ein guter Betreff? (2 Vorschläge)
 
-Schreibe auf Deutsch. (max 120 Wörter).`
+Schreibe auf Deutsch. (max 80 Wörter).`,
+
+  phase7_cta: `Du entwickelst die perfekte CTA-Strategie.
+
+WICHTIG: Wir nutzen Permission-Based CTAs!
+Statt "Lass uns telefonieren" fragst du um Erlaubnis etwas Wertvolles zu schicken.
+
+WÄHLE EINEN CTA-TYP:
+
+1. VIDEO CTA (am besten für komplexe Angebote)
+   - "Ich hab ein 2-Min Video vorbereitet das zeigt wie [Nutzen]. Soll ich es dir schicken?"
+
+2. DOKUMENT CTA (für datengetriebene Zielgruppen)
+   - "Ich hab eine Analyse zu [Thema] erstellt. Interesse?"
+
+3. AUDIT CTA (für Service-Anbieter)
+   - "Ich könnte mir eure [Website/Ads] anschauen und dir 3 Quick-Wins zeigen. Interesse?"
+
+4. CASE STUDY CTA (wenn du Erfolge hast)
+   - "Wir haben einem ähnlichen Unternehmen geholfen [Ergebnis]. Soll ich dir zeigen wie?"
+
+5. QUICK WIN CTA (für skeptische Zielgruppen)
+   - "Ich hab 3 Tipps die du sofort umsetzen kannst. Interesse?"
+
+Basierend auf Zielgruppe und Angebot:
+- Welcher CTA-Typ passt am besten und WARUM?
+- Formuliere 2 konkrete CTA-Beispiele
+
+Der CTA muss eine JA/NEIN Frage sein! KEINE Terminanfrage!
+Schreibe auf Deutsch. (max 100 Wörter)`
 }
 
 // =============================================================================
@@ -111,44 +134,44 @@ Schreibe auf Deutsch. (max 120 Wörter).`
 // =============================================================================
 
 const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
-  'quick-question': `STRUKTUR (4-5 Sätze total):
-1. Kurze Frage wer der richtige Ansprechpartner ist
+  'quick-question': `STRUKTUR (50-100 Wörter):
+1. Anrede + kurze Frage wer der richtige Ansprechpartner ist
 2. Warum du fragst (1 Satz)
 3. Was du anbieten kannst (1 Satz)
-4. Bitte um Antwort`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
-  'third-party': `STRUKTUR (4-5 Sätze total):
-1. Beziehe dich auf jemanden aus dem Unternehmen
+  'third-party': `STRUKTUR (50-100 Wörter):
+1. Anrede + beziehe dich auf jemanden aus dem Unternehmen
 2. Erkläre kurz warum du den Entscheider suchst
 3. Was du anbieten kannst
-4. Frage ob er/sie der richtige Kontakt ist`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
-  'pas': `STRUKTUR (4-5 Sätze total):
-1. PROBLEM: Sprich ein konkretes Problem an (1 Satz)
-2. AGITATE: Was kostet das? (1 Satz)
-3. SOLVE: Deine Lösung kurz (1 Satz)
-4. CTA: Nächster Schritt ohne Druck (1 Satz)`,
+  'pas': `STRUKTUR (50-100 Wörter):
+1. Anrede + PROBLEM: Sprich ein konkretes Problem an (1-2 Sätze)
+2. AGITATE: Was kostet das? Zeit, Geld, Nerven? (1 Satz)
+3. SOLVE: Wie du helfen kannst (1 Satz)
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
-  'aida': `STRUKTUR (4-5 Sätze total):
-1. ATTENTION: Hook mit Beobachtung oder Frage (1 Satz)
+  'aida': `STRUKTUR (50-100 Wörter):
+1. Anrede + ATTENTION: Hook mit Beobachtung oder Frage (1 Satz)
 2. INTEREST: Warum relevant für diese Person (1 Satz)
 3. DESIRE: Wie es besser sein könnte (1 Satz)
-4. ACTION: Konkreter nächster Schritt (1 Satz)`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
-  'straight-business': `STRUKTUR (3-4 Sätze total):
-1. Direkt auf den Punkt: Was du anbietest
-2. Warum interessant für den Empfänger
-3. CTA: Klare nächste Aktion`,
+  'straight-business': `STRUKTUR (50-100 Wörter):
+1. Anrede + direkt auf den Punkt: Was du anbietest
+2. Warum interessant für den Empfänger (1-2 Sätze)
+3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
-  'paint-picture': `STRUKTUR (4-5 Sätze total):
-1. Kurze Vision wie es sein könnte (1-2 Sätze)
+  'paint-picture': `STRUKTUR (50-100 Wörter):
+1. Anrede + kurze Vision wie es sein könnte (1-2 Sätze)
 2. Wie du dabei helfen kannst (1 Satz)
-3. CTA: Einladung zum Gespräch (1 Satz)`,
+3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
 
-  'something-useful': `STRUKTUR (4-5 Sätze total):
-1. Ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
-2. Falls Interesse: mehr zeigen (1 Satz)
-3. Kein Druck (1 Satz)`
+  'something-useful': `STRUKTUR (50-100 Wörter):
+1. Anrede + ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
+2. Falls Interesse: du hast noch mehr (1 Satz)
+3. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken (aus dem Reasoning)`
 }
 
 // Email Generation Prompt - bekommt das komplette Reasoning und Framework als Input
@@ -159,9 +182,20 @@ function getEmailGenerationPrompt(formal: boolean, framework: FrameworkType): st
 
   const frameworkStructure = FRAMEWORK_STRUCTURES[framework]
 
-  return `Du schreibst eine Cold Email. Schreibe wie ein Kollege der einen hilfreichen Tipp gibt.
+  return `Du schreibst eine Cold Email die konvertiert. Schreibe wie ein Kollege der einen hilfreichen Tipp gibt.
 
 ${frameworkStructure}
+
+GOLDENE REGELN:
+1. 50-100 Wörter Body (nicht mehr!)
+2. PERMISSION-BASED CTA am Ende (aus dem Reasoning übernehmen!)
+3. Der CTA ist eine JA/NEIN Frage
+4. KEINE Terminanfrage im ersten Kontakt!
+
+CTA BEISPIELE (nutze den aus dem Reasoning):
+- "Soll ich dir das Video schicken?"
+- "Interesse an der Analyse?"
+- "Darf ich dir die 3 Quick-Wins zeigen?"
 
 TON:
 - Sachlich und freundlich
@@ -171,16 +205,12 @@ TON:
 - Anrede: ${anrede}
 - Nach dem Komma der Anrede IMMER klein weiterschreiben!
 
-WICHTIG:
-- 50-100 Wörter Body (nicht mehr!)
-- KEINE Gedankenstriche
-- Fließender Text, keine Listen
-
-VERBOTEN (Spam-Trigger):
-kostenlos, gratis, umsonst, geschenkt, Angebot, Rabatt, sparen, jetzt, sofort, dringend, garantiert, exklusiv, limitiert
-
-VERBOTEN (zu dramatisch):
-Angst, Stress, Schlaf rauben, Frustration, hilflos, überfordert, Sorgen, Druck, verzweifelt
+VERBOTEN:
+- kostenlos, gratis (Spam!)
+- Angst, Stress, Frustration (zu dramatisch)
+- Gedankenstriche
+- Listen im Email-Body
+- "Hast du Zeit für ein Gespräch?" (zu früh!)
 
 PLATZHALTER: Nutze [Name] als EINZIGEN Platzhalter
 
@@ -302,32 +332,32 @@ const noBrainerKeywords = [
   'erstgespräch', 'erstberatung', 'analyse'
 ]
 
-// No-Brainer Vorschläge für Suggestions (OHNE Spam-Wörter!)
+// No-Brainer Vorschläge für Suggestions - Permission-Based CTAs!
 const noBrainerOffers: Record<string, string[]> = {
   'Google Ads': [
-    'Ich zeige dir 3 Optimierungen die du sofort umsetzen kannst',
-    'Kurzes Telefonat, dann weißt du wo du stehst',
-    'Ich schau mir deine Kampagnen unverbindlich an'
+    'Video CTA: "Ich hab ein 2-Min Video zu euren Ads. Soll ich es schicken?"',
+    'Audit CTA: "Ich zeig dir 3 Quick-Wins für eure Kampagnen. Interesse?"',
+    'Quick Win CTA: "3 Optimierungen die ihr sofort umsetzen könnt. Soll ich sie dir schicken?"'
   ],
   'Facebook/Meta Ads': [
-    'Ich check deinen Account und sag dir was ich sehe',
-    'Ein Blick auf deine Zielgruppen, ob da Potenzial liegt',
-    'Kurzes Gespräch, dann weißt du mehr'
+    'Video CTA: "Ich hab ein kurzes Video zu euren Zielgruppen vorbereitet."',
+    'Audit CTA: "Ich schau mir eure Ads an und zeig dir wo Potenzial liegt."',
+    'Dokument CTA: "Ich hab eine Analyse erstellt. Interesse?"'
   ],
   'SEO': [
-    'Ich schau mir deine Seite an und geb dir 3 Quick-Wins',
-    'Kurzer Blick auf deine Rankings, dann reden wir',
-    'Unverbindlicher Website-Check'
+    'Video CTA: "2-Min Video zu euren Rankings. Soll ich es schicken?"',
+    'Dokument CTA: "Ich hab eine SEO-Analyse eurer Seite erstellt."',
+    'Quick Win CTA: "3 SEO-Fehler die ich gefunden hab. Soll ich sie dir zeigen?"'
   ],
   'Webdesign': [
-    'Ich schau mir deine Seite an und zeig dir Verbesserungen',
-    'Kurzes Konzept wie deine neue Seite aussehen könnte',
-    'Unverbindlicher Blick auf deine aktuelle Website'
+    'Video CTA: "Ich hab ein Konzept-Video für eure neue Seite."',
+    'Dokument CTA: "Ich hab Verbesserungsvorschläge zusammengestellt."',
+    'Audit CTA: "Ich zeig dir 3 Dinge die eure Seite besser machen."'
   ],
   'default': [
-    'Kurzes Kennenlernen, dann sehen wir weiter',
-    'Unverbindlicher Blick auf deine Situation',
-    'Wenn es nicht passt, kein Problem'
+    'Video CTA: "Ich hab ein kurzes Video vorbereitet. Soll ich es schicken?"',
+    'Quick Win CTA: "Ich hab 3 Tipps die du sofort umsetzen kannst."',
+    'Dokument CTA: "Ich hab was vorbereitet. Interesse?"'
   ]
 }
 
@@ -517,11 +547,12 @@ Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
 
   const phaseConfig = [
     { key: 'phase1_analysis', name: 'ANALYSE DER ANFRAGE' },
-    { key: 'phase2_target', name: 'ZIELGRUPPEN DEEP-DIVE' },
-    { key: 'phase3_offer', name: 'WARUM DIESES ANGEBOT PASST' },
+    { key: 'phase2_target', name: 'ZIELGRUPPEN-ANALYSE' },
+    { key: 'phase3_offer', name: 'ANGEBOTS-FIT' },
     { key: 'phase4_framework', name: 'FRAMEWORK-AUSWAHL' },
     { key: 'phase5_nobrainer', name: 'NO-BRAINER STRATEGIE' },
-    { key: 'phase6_composition', name: 'EMAIL-KOMPOSITION' }
+    { key: 'phase6_composition', name: 'EMAIL-KOMPOSITION' },
+    { key: 'phase7_cta', name: 'CTA STRATEGIE' }
   ]
 
   let fullReasoning = ''
