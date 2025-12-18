@@ -447,9 +447,6 @@ export async function POST(request: Request) {
       })
     }
 
-    // Analysiere den Prompt
-    const analysis = analyzePrompt(prompt)
-
     // Create streaming response
     const encoder = new TextEncoder()
     const stream = new ReadableStream({
@@ -458,6 +455,9 @@ export async function POST(request: Request) {
           if (delay > 0) await sleep(delay)
           controller.enqueue(encoder.encode(JSON.stringify(chunk) + '\n'))
         }
+
+        // Analysiere den Prompt mit AI (erkennt JEDE Zielgruppe und JEDES Angebot)
+        const analysis = await analyzePromptWithAI(prompt)
 
         // Prüfe ob alle nötigen Infos vorhanden sind
         if (!analysis.hasTarget || !analysis.hasOffer) {
@@ -724,7 +724,63 @@ function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function analyzePrompt(prompt: string): PromptAnalysis {
+// AI-basierte Prompt-Analyse - erkennt JEDE Zielgruppe und JEDES Angebot
+async function analyzePromptWithAI(prompt: string): Promise<PromptAnalysis> {
+  try {
+    const openai = getOpenAI()
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{
+        role: 'system',
+        content: `Analysiere diesen Cold Email Prompt und extrahiere:
+1. ZIELGRUPPE: An wen soll die Email gehen? (z.B. "Restaurants", "Yoga-Studios", "SaaS-Gründer", "Handwerker")
+2. ANGEBOT: Was wird angeboten/verkauft? (z.B. "Google Ads", "Webdesign", "Buchungssoftware", "SEO")
+
+WICHTIG:
+- hasTarget = true wenn eine Zielgruppe erkennbar ist
+- hasOffer = true wenn ein Angebot/Service/Produkt erkennbar ist
+- Sei großzügig bei der Erkennung - lieber true als false
+
+Antworte NUR als JSON (keine Markdown-Codeblöcke):
+{"hasTarget": true/false, "hasOffer": true/false, "target": "erkannte Zielgruppe oder null", "offer": "erkanntes Angebot oder null"}`
+      }, {
+        role: 'user',
+        content: prompt
+      }],
+      temperature: 0,
+      max_tokens: 150
+    })
+
+    const content = response.choices[0].message.content || '{}'
+    const parsed = JSON.parse(content)
+
+    // No-Brainer weiterhin mit Keyword-Matching (bleibt gleich)
+    const lower = prompt.toLowerCase()
+    let noBrainer: string | undefined
+    if (noBrainerKeywords.some(kw => lower.includes(kw))) {
+      const noBrainerMatch = prompt.match(/(?:kostenlos|gratis|umsonst)[^,.!?]*/i)
+      if (noBrainerMatch) {
+        noBrainer = noBrainerMatch[0].trim()
+      }
+    }
+
+    return {
+      hasTarget: parsed.hasTarget === true,
+      hasOffer: parsed.hasOffer === true,
+      hasNoBrainer: !!noBrainer,
+      target: parsed.target || undefined,
+      offer: parsed.offer || undefined,
+      noBrainer
+    }
+  } catch (error) {
+    console.error('AI Prompt Analysis Error:', error)
+    // Fallback: Wenn AI fehlschlägt, nutze altes Keyword-Matching
+    return analyzePromptFallback(prompt)
+  }
+}
+
+// Fallback-Funktion mit Keyword-Matching (für den Fall dass AI fehlschlägt)
+function analyzePromptFallback(prompt: string): PromptAnalysis {
   const lower = prompt.toLowerCase()
 
   let target: string | undefined
