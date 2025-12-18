@@ -87,23 +87,35 @@ Schreibe auf Deutsch. (max 80 Wörter).`,
 
   phase6_composition: `Du planst die Email-Komposition.
 
-PERSONALISIERTER EINSTIEG mit Variablen-Markup:
-Markiere personalisierte Infos mit diesem Format: {{VAR:Beispieltext}}
-Der User sieht den Text normal mit einem "VARIABLE" Label drüber.
+PERSONALISIERTER HOOK (KRITISCH!):
+Die Variable {{VAR:...}} muss grammatikalisch in den Satz passen!
+Der Satz + Variable = vollständiger deutscher Satz.
 
-BEISPIELE:
-- "Ich hab gesehen, dass ihr {{VAR:Salesforce}} nutzt..."
-- "Mir ist aufgefallen, dass {{VAR:ihr gerade expandiert}}..."
-- "Ich hab euren {{VAR:Blog-Post zu KI}} gelesen..."
-- "Glückwunsch zu {{VAR:eurer Expansion nach München}}..."
+ERLAUBTE HOOK-MUSTER (wähle eines):
 
-HOOK-TYPEN:
-- Tool/Software: "Ich hab gesehen, dass ihr {{VAR:Tool/Software}} nutzt..."
-- Observation: "Mir ist aufgefallen, dass {{VAR:Beobachtung}}..."
-- Content: "Ich hab euren {{VAR:Content-Typ}} gelesen..."
-- Growth: "Glückwunsch zu {{VAR:Erfolg/Neuigkeit}}..."
+1. TECH STACK: "ich hab gesehen, dass ihr {{VAR:HubSpot}} nutzt..."
+   → Variable = Software-Name (Clay: tech_stack)
 
-Welcher Hook-Typ passt am besten? (max 80 Wörter).`,
+2. HIRING: "ich hab gesehen, dass ihr gerade {{VAR:neue Marketing-Leute sucht}}..."
+   → Variable = Job-Beschreibung (Clay: job_openings)
+
+3. GROWTH: "Glückwunsch zu {{VAR:eurem Wachstum auf 50 Mitarbeiter}}..."
+   → Variable = Firmenwachstum (Clay: company_size, funding)
+
+4. WEBSITE: "ich hab mir {{VAR:eure Landingpage}} angeschaut..."
+   → Variable = Website-Element (Clay: website_analysis)
+
+5. ADS: "ich hab mir {{VAR:eure Facebook Ads}} angeschaut..."
+   → Variable = Ad-Typ (Clay: ads_library)
+
+6. SERVICE: "mir ist aufgefallen, dass ihr {{VAR:SEO Services}} anbietet..."
+   → Variable = Dienstleistung (Clay: website_services)
+
+WICHTIG - Der Satz muss VOLLSTÄNDIG sein:
+- FALSCH: "mir ist aufgefallen, dass {{VAR:eure letzten Kampagnen}}" (unvollständig!)
+- RICHTIG: "ich hab mir {{VAR:eure letzten Kampagnen}} angeschaut" (vollständig!)
+
+Welcher Hook-Typ passt am besten zum Angebot? (max 80 Wörter).`,
 
   phase7_cta: `Du entwickelst die perfekte CTA-Strategie.
 
@@ -199,20 +211,24 @@ GOLDENE REGELN:
 4. Der CTA ist eine JA/NEIN Frage
 5. KEINE Terminanfrage im ersten Kontakt!
 
-VARIABLEN-MARKUP (WICHTIG!):
+VARIABLEN-MARKUP (KRITISCH!):
 - Markiere personalisierte Infos mit: {{VAR:Beispieltext}}
-- Der User sieht den Text normal mit einem "VARIABLE" Label drüber
-- Er kann den Text dann pro Lead anpassen
+- Die Variable MUSS grammatikalisch in den Satz passen!
+- Der Satz + Variable = vollständiger deutscher Satz
 
 PLATZHALTER:
 - [Name] - Name des Empfängers
-- {{VAR:Beispieltext}} - Personalisierte Info mit Label
+- {{VAR:...}} - Personalisierte Info (Clay-recherchierbar)
 
-BEISPIELE:
-- "ich hab gesehen, dass ihr {{VAR:Salesforce}} nutzt..."
-- "mir ist aufgefallen, dass {{VAR:ihr gerade expandiert}}..."
-- "ich hab euren {{VAR:Blog-Post zu KI}} gelesen..."
-- "Glückwunsch zu {{VAR:eurer neuen Stelle als CMO}}..."
+CLAY-KOMPATIBLE BEISPIELE (nutze diese Muster!):
+- "ich hab gesehen, dass ihr {{VAR:HubSpot}} nutzt..." ✓
+- "ich hab mir {{VAR:eure Facebook Ads}} angeschaut..." ✓
+- "Glückwunsch zu {{VAR:eurem neuen Office in Berlin}}..." ✓
+- "mir ist aufgefallen, dass ihr {{VAR:Google Ads Management}} anbietet..." ✓
+
+VERBOTEN (unvollständige Sätze):
+- "mir ist aufgefallen, dass {{VAR:eure letzten Kampagnen}}..." ✗ (fehlt Verb!)
+- "ich hab gesehen, dass {{VAR:ihr viel Wert auf Qualität legt}}..." ✗ (kein Objekt!)
 
 TON:
 - Sachlich und freundlich
