@@ -28,19 +28,16 @@ Extrahiere und erkläre:
 
 Sei konkret und beziehe dich auf den Prompt. Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`,
 
-  phase2_target: `Du tauchst tief in die Psyche dieser Zielgruppe ein.
+  phase2_target: `Du analysierst die Zielgruppe sachlich.
 
-Beantworte diese Fragen emotional und spezifisch:
-- Was raubt dieser Zielgruppe den Schlaf?
-- Welche Ängste haben sie, die sie niemandem zugeben würden?
-- Was frustriert sie jeden Tag aufs Neue?
-- Welchen Druck spüren sie von Kunden, Chef, Familie?
-- Worüber machen sie sich Sorgen wenn sie abends im Bett liegen?
-- Was haben sie schon versucht das nicht funktioniert hat?
-- Wann fühlen sie sich überfordert oder hilflos?
-- Was würden sie sofort ändern wenn sie könnten?
+Beantworte kurz und praktisch:
+- Welche konkreten Probleme hat diese Zielgruppe im Alltag?
+- Was nervt sie bei ihrer aktuellen Lösung?
+- Was würden sie gerne verbessern?
+- Welche Ziele haben sie?
 
-Sei spezifisch und emotional. Schreibe auf Deutsch. (max 150 Wörter)`,
+WICHTIG: Sachlich bleiben! Keine dramatischen Wörter wie "Angst", "Stress", "Schlaf rauben", "Frustration".
+Schreibe auf Deutsch. (max 100 Wörter)`,
 
   phase3_offer: `Du analysierst das Angebot im Kontext der emotionalen Situation der Zielgruppe.
 
@@ -114,47 +111,44 @@ Schreibe auf Deutsch. (max 120 Wörter).`
 // =============================================================================
 
 const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
-  'quick-question': `STRUKTUR (Quick Question):
-1. Kurze Frage wer der richtige Ansprechpartner ist (1 Satz)
-2. Kontext warum du fragst (1-2 Sätze)
+  'quick-question': `STRUKTUR (4-5 Sätze total):
+1. Kurze Frage wer der richtige Ansprechpartner ist
+2. Warum du fragst (1 Satz)
 3. Was du anbieten kannst (1 Satz)
-4. Bitte um Weiterleitung oder Antwort (1 Satz)`,
+4. Bitte um Antwort`,
 
-  'third-party': `STRUKTUR (Third Party):
-1. Beziehe dich auf einen Mitarbeiter oder Abteilung (1 Satz)
-2. Erkläre warum du den Entscheider suchst (1-2 Sätze)
-3. Kurz was du anbieten kannst (1 Satz)
-4. Frage ob er/sie der richtige Kontakt ist (1 Satz)`,
+  'third-party': `STRUKTUR (4-5 Sätze total):
+1. Beziehe dich auf jemanden aus dem Unternehmen
+2. Erkläre kurz warum du den Entscheider suchst
+3. Was du anbieten kannst
+4. Frage ob er/sie der richtige Kontakt ist`,
 
-  'pas': `STRUKTUR (PAS):
-1. PROBLEM (2 Sätze): Beschreibe das Problem so dass der Leser denkt "Ja genau das kenne ich!"
-2. AGITATE (2 Sätze): Verschärfe das Unbehagen. Was passiert wenn nichts getan wird? Welche Konsequenzen?
-3. SOLVE (2 Sätze): Deine Lösung als Ausweg aus dem Schmerz. Wie fühlt sich das Leben danach an?
-4. CTA (1 Satz): Kleine konkrete nächste Aktion ohne Druck.`,
+  'pas': `STRUKTUR (4-5 Sätze total):
+1. PROBLEM: Sprich ein konkretes Problem an (1 Satz)
+2. AGITATE: Was kostet das? (1 Satz)
+3. SOLVE: Deine Lösung kurz (1 Satz)
+4. CTA: Nächster Schritt ohne Druck (1 Satz)`,
 
-  'aida': `STRUKTUR (AIDA):
-1. ATTENTION (1 Satz): Hook mit überraschender Beobachtung, Zahl oder Frage
-2. INTEREST (2 Sätze): Warum das für DIESE Person relevant ist, beziehe dich auf ihre Situation
-3. DESIRE (2 Sätze): Male ein Bild wie es sein könnte, emotionale Vorstellung des besseren Zustands
-4. ACTION (1 Satz): Konkrete kleine nächste Aktion, unverbindlich formuliert`,
+  'aida': `STRUKTUR (4-5 Sätze total):
+1. ATTENTION: Hook mit Beobachtung oder Frage (1 Satz)
+2. INTEREST: Warum relevant für diese Person (1 Satz)
+3. DESIRE: Wie es besser sein könnte (1 Satz)
+4. ACTION: Konkreter nächster Schritt (1 Satz)`,
 
-  'straight-business': `STRUKTUR (Straight to Business):
-1. Direkt auf den Punkt (1 Satz): Was du anbietest und warum du schreibst
-2. Relevanz (1-2 Sätze): Warum das für den Empfänger interessant sein könnte
-3. Social Proof oder Ergebnis (1 Satz): Kurzer Beweis dass es funktioniert
-4. CTA (1 Satz): Klare nächste Aktion, respektiert die Zeit des Empfängers`,
+  'straight-business': `STRUKTUR (3-4 Sätze total):
+1. Direkt auf den Punkt: Was du anbietest
+2. Warum interessant für den Empfänger
+3. CTA: Klare nächste Aktion`,
 
-  'paint-picture': `STRUKTUR (Paint a Picture):
-1. Zukunftsvision (2-3 Sätze): Male ein emotionales Bild wie es sein könnte. Nutze sensorische Sprache.
-2. Kontrast zu heute (1-2 Sätze): Wie fühlt sich die aktuelle Situation an?
-3. Brücke (1 Satz): Wie kommst du von hier nach dort?
-4. CTA (1 Satz): Einladung den ersten Schritt zu machen`,
+  'paint-picture': `STRUKTUR (4-5 Sätze total):
+1. Kurze Vision wie es sein könnte (1-2 Sätze)
+2. Wie du dabei helfen kannst (1 Satz)
+3. CTA: Einladung zum Gespräch (1 Satz)`,
 
-  'something-useful': `STRUKTUR (Something Useful):
-1. Wertvoller Tipp (2-3 Sätze): Gib einen konkreten Tipp den der Empfänger sofort umsetzen kann
-2. Warum du das teilst (1 Satz): Zeige dass du helfen willst ohne Gegenleistung
-3. Angebot für mehr (1-2 Sätze): Falls Interesse besteht, kannst du mehr zeigen
-4. Kein Druck (1 Satz): Unverbindlich, freundlich`
+  'something-useful': `STRUKTUR (4-5 Sätze total):
+1. Ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
+2. Falls Interesse: mehr zeigen (1 Satz)
+3. Kein Druck (1 Satz)`
 }
 
 // Email Generation Prompt - bekommt das komplette Reasoning und Framework als Input
@@ -165,27 +159,30 @@ function getEmailGenerationPrompt(formal: boolean, framework: FrameworkType): st
 
   const frameworkStructure = FRAMEWORK_STRUCTURES[framework]
 
-  return `Du schreibst eine Cold Email. Schreibe wie ein Freund der hilft.
+  return `Du schreibst eine Cold Email. Schreibe wie ein Kollege der einen hilfreichen Tipp gibt.
 
 ${frameworkStructure}
 
-SCHREIBSTIL:
+TON:
+- Sachlich und freundlich
+- Wie ein Kollege, NICHT wie ein Therapeut oder Verkäufer
+- Kurze Sätze, einfache Worte
 - ${formal ? 'Sie' : 'Du'}-Form verwenden
 - Anrede: ${anrede}
 - Nach dem Komma der Anrede IMMER klein weiterschreiben!
-- Sei direkt und ehrlich
-- Zeige echtes Interesse an der Person
-- Kurze Sätze, einfache Worte
-- KEINE Gedankenstriche verwenden
-- Fließender Text, keine Aufzählungen oder Listen in der Email
-- Menschlich und natürlich, kein Verkäufer-Sprech
-- Max 150 Wörter Body
 
-VERBOTEN (Spam-Trigger, NIEMALS benutzen!):
-kostenlos, gratis, umsonst, geschenkt, Angebot, Rabatt, sparen, jetzt, sofort, dringend, garantiert, versprochen, exklusiv, limitiert
+WICHTIG:
+- 50-100 Wörter Body (nicht mehr!)
+- KEINE Gedankenstriche
+- Fließender Text, keine Listen
 
-PLATZHALTER:
-- Nutze [Name] als EINZIGEN Platzhalter
+VERBOTEN (Spam-Trigger):
+kostenlos, gratis, umsonst, geschenkt, Angebot, Rabatt, sparen, jetzt, sofort, dringend, garantiert, exklusiv, limitiert
+
+VERBOTEN (zu dramatisch):
+Angst, Stress, Schlaf rauben, Frustration, hilflos, überfordert, Sorgen, Druck, verzweifelt
+
+PLATZHALTER: Nutze [Name] als EINZIGEN Platzhalter
 
 Antworte NUR als JSON (keine Markdown-Codeblöcke):
 {"subject": "Betreff hier", "body": "Email-Text mit Zeilenumbrüchen als \\n"}`
@@ -537,6 +534,9 @@ Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
     await sendChunk({ type: 'reasoning', content: fullReasoning }, 0)
 
     // OpenAI Call für diese Phase
+    // Phase 2 bekommt weniger Tokens um Dramatik zu begrenzen
+    const maxTokens = phase.key === 'phase2_target' ? 250 : 400
+
     const response = await getOpenAI().chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -544,7 +544,7 @@ Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
         { role: 'user', content: context }
       ],
       temperature: 0.85,
-      max_tokens: 400
+      max_tokens: maxTokens
     })
 
     const phaseContent = response.choices[0]?.message?.content || ''
