@@ -71,6 +71,36 @@ Basierend auf den Pain Points und Ängsten:
 
 Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`,
 
+  phase3a_offer_explanation: `Du erklärst WAS das Angebot KONKRET macht.
+
+WICHTIG: Der Empfänger kennt dein Produkt/Service NICHT!
+Du musst in 1-2 Sätzen KLAR MACHEN was es ist und was der Kunde davon hat.
+
+STRUKTUR:
+1. WAS IST ES? (Was machst du konkret? Nicht nur den Namen nennen!)
+2. WAS BEKOMMT DER KUNDE? (Welches konkrete Ergebnis?)
+
+BEISPIELE:
+
+❌ SCHLECHT (zu vage - VERBOTEN!):
+- "Wir helfen bei Performance Marketing"
+- "verbesserte Transparenz und Effizienz"
+- "optimierte Prozesse"
+- "Wir bieten Lösungen für X"
+
+✅ GUT (konkret - SO MUSS ES SEIN!):
+- "Wir schalten und optimieren eure Google/Facebook Ads - ihr bekommt mehr Leads für weniger Budget"
+- "Wir übernehmen eure Paid Ads komplett und liefern jeden Monat einen Report was funktioniert"
+- "Wir analysieren eure Kampagnen und zeigen euch wo ihr Geld verbrennt"
+- "Wir bauen Landing Pages die konvertieren - im Schnitt 30% mehr Anfragen"
+
+Formuliere JETZT in 1-2 klaren Sätzen:
+- Was GENAU macht dieses Angebot?
+- Was bekommt der Kunde KONKRET? (Mehr Leads? Weniger Aufwand? Zeitersparnis? Bessere Ergebnisse?)
+
+Diese Erklärung wird später in der Email verwendet! Sie muss für einen Fremden sofort verständlich sein.
+(max 60 Wörter)`,
+
   phase4_framework: `Du wählst das Framework basierend auf der SITUATION:
 
 FRAMEWORK-REGELN (befolge diese strikt!):
@@ -199,41 +229,42 @@ const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
   'quick-question': `STRUKTUR (50-100 Wörter):
 1. Anrede + HOOK mit {{VAR:personalisierte Info}}
 2. Kurze Frage wer der richtige Ansprechpartner ist
-3. Was du anbieten kannst (1 Satz)
+3. PFLICHT - KONKRETER NUTZEN: Nutze die Angebotserkärung aus dem Reasoning! Erkläre WAS du machst und WELCHES Ergebnis der Kunde bekommt (NICHT vage wie "wir helfen bei X"!)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'third-party': `STRUKTUR (50-100 Wörter):
 1. Anrede + HOOK mit {{VAR:personalisierte Info}}
 2. Beziehe dich auf jemanden aus dem Unternehmen
-3. Was du anbieten kannst
+3. PFLICHT - KONKRETER NUTZEN: Nutze die Angebotserkärung aus dem Reasoning! Erkläre WAS du machst und WELCHES Ergebnis der Kunde bekommt
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'pas': `STRUKTUR (50-100 Wörter):
 1. Anrede + HOOK mit {{VAR:personalisierte Info}}
 2. PROBLEM: Verbinde das mit einem konkreten Problem (1 Satz)
-3. SOLVE: Wie du helfen kannst (1 Satz)
+3. PFLICHT - SOLVE mit KONKRETEM NUTZEN: Nutze die Angebotserkärung! WAS du machst + WELCHES Ergebnis (NICHT vage!)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'aida': `STRUKTUR (50-100 Wörter):
 1. Anrede + ATTENTION mit {{VAR:personalisierte Info}}
 2. INTEREST: Warum relevant für diese Person (1 Satz)
-3. DESIRE: Wie es besser sein könnte (1 Satz)
+3. PFLICHT - DESIRE mit KONKRETEM NUTZEN: Nutze die Angebotserkärung! WAS du machst + WELCHES Ergebnis
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'straight-business': `STRUKTUR (50-100 Wörter):
 1. Anrede + HOOK mit {{VAR:personalisierte Info}}
-2. Direkt auf den Punkt: Was du anbietest und warum relevant
+2. PFLICHT - KONKRETER NUTZEN: Nutze die Angebotserkärung aus dem Reasoning! Was du GENAU machst und welches ERGEBNIS der Kunde bekommt (z.B. "Wir schalten eure Google Ads und liefern jeden Monat mehr Leads für weniger Budget" - NICHT "wir helfen bei Performance Marketing"!)
 3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'paint-picture': `STRUKTUR (50-100 Wörter):
 1. Anrede + HOOK mit {{VAR:personalisierte Info}}
-2. Kurze Vision wie es sein könnte (1-2 Sätze)
+2. PFLICHT - Vision mit KONKRETEM NUTZEN: Nutze die Angebotserkärung! Male eine konkrete Vision WIE es mit deinem Angebot sein könnte (nicht vage!)
 3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'something-useful': `STRUKTUR (50-100 Wörter):
 1. Anrede + HOOK mit {{VAR:personalisierte Info}}
 2. Ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
-3. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken`
+3. PFLICHT - Verbinde mit Angebot: Nutze die Angebotserkärung! WAS du machst + WELCHES Ergebnis
+4. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken`
 }
 
 // Email Generation Prompt - bekommt das komplette Reasoning und Framework als Input
@@ -254,6 +285,38 @@ GOLDENE REGELN:
 3. PERMISSION-BASED CTA am Ende (aus dem Reasoning übernehmen!)
 4. Der CTA ist eine JA/NEIN Frage
 5. KEINE Terminanfrage im ersten Kontakt!
+
+PFLICHT - MINDESTENS 1 VARIABLE:
+Jede Email MUSS mindestens eine {{VAR:...}} Variable enthalten!
+- Mindestens 1 Variable ist PFLICHT - ohne Variable ist die Email UNGÜLTIG!
+- Mehrere Variablen sind erlaubt und sogar erwünscht
+- Variablen machen die Email personalisierbar für Clay/Outreach-Tools
+
+Gute Positionen für Variablen:
+- Im Hook: "ich hab mir {{VAR:eure Website}} angeschaut..."
+- Im Kontext: "bei {{VAR:eurer Expansion nach München}}..."
+- Bei Referenzen: "wie {{VAR:Firma XY aus eurer Branche}}..."
+- Bei News: "Glückwunsch zu {{VAR:eurem neuen Produkt}}..."
+
+KRITISCH - ANGEBOTS-NUTZEN (das Wichtigste!):
+Der Empfänger kennt dein Produkt/Service NICHT!
+Du MUSST in der Email erklären:
+1. WAS du konkret machst (nicht nur den Namen nennen!)
+2. WELCHES Ergebnis der Kunde bekommt
+
+Nutze die ANGEBOTSERKÄRUNG aus dem Reasoning! Da steht genau was du schreiben sollst.
+
+❌ VERBOTEN (zu vage - wird sofort gelöscht):
+- "Wir helfen bei Performance Marketing"
+- "verbesserte Transparenz und Effizienz"
+- "optimierte Ergebnisse"
+- "Wir bieten Lösungen für X"
+- "Wir unterstützen bei Y"
+
+✅ PFLICHT (konkret - so muss es sein):
+- "Wir schalten eure Google/Facebook Ads und liefern jeden Monat mehr Leads"
+- "Wir übernehmen komplett die Paid Ads - ihr bekommt nur noch Reports was funktioniert"
+- "Wir analysieren eure Kampagnen und zeigen wo ihr Geld verbrennt"
 
 VARIABLEN-MARKUP (KRITISCH!):
 - Markiere personalisierte Infos mit: {{VAR:Beispieltext}}
@@ -652,6 +715,7 @@ WICHTIG: Nutze NICHT immer den gleichen Einstieg!`
     { key: 'phase1_analysis', name: 'ANALYSE DER ANFRAGE' },
     { key: 'phase2_target', name: 'ZIELGRUPPEN-ANALYSE' },
     { key: 'phase3_offer', name: 'ANGEBOTS-FIT' },
+    { key: 'phase3a_offer_explanation', name: 'ANGEBOTS-ERKLÄRUNG' },
     { key: 'phase4_framework', name: 'FRAMEWORK-AUSWAHL' },
     { key: 'phase5_nobrainer', name: 'NO-BRAINER STRATEGIE' },
     { key: 'phase6_composition', name: 'EMAIL-KOMPOSITION' },
