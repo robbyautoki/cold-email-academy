@@ -21,121 +21,174 @@ const PHASE_PROMPTS: Record<string, string> = {
   phase1_analysis: `Du analysierst einen Cold Email Prompt.
 
 Extrahiere und erkläre:
-• Wer ist die Zielgruppe?
-• Was wird angeboten?
-• Gibt es einen No-Brainer?
-• Was sind besondere Wünsche/Anforderungen?
+- Wer ist die Zielgruppe?
+- Was wird angeboten?
+- Gibt es einen No-Brainer?
+- Was sind besondere Wünsche/Anforderungen?
 
 Sei konkret und beziehe dich auf den Prompt. Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`,
 
-  phase2_target: `Du bist Experte für die genannte Zielgruppe.
+  phase2_target: `Du tauchst tief in die Psyche dieser Zielgruppe ein.
 
-Basierend auf der vorherigen Analyse, erkläre:
-• Was sind die typischen Probleme dieser Branche?
-• Wer sind die Entscheidungsträger?
-• Was sind ihre größten Pain Points?
-• Was wollen sie wirklich erreichen?
+Beantworte diese Fragen emotional und spezifisch:
+- Was raubt dieser Zielgruppe den Schlaf?
+- Welche Ängste haben sie, die sie niemandem zugeben würden?
+- Was frustriert sie jeden Tag aufs Neue?
+- Welchen Druck spüren sie von Kunden, Chef, Familie?
+- Worüber machen sie sich Sorgen wenn sie abends im Bett liegen?
+- Was haben sie schon versucht das nicht funktioniert hat?
+- Wann fühlen sie sich überfordert oder hilflos?
+- Was würden sie sofort ändern wenn sie könnten?
 
-Sei spezifisch für DIESE Zielgruppe. Schreibe auf Deutsch. Kurz und prägnant (max 120 Wörter).`,
+Sei spezifisch und emotional. Schreibe auf Deutsch. (max 150 Wörter)`,
 
-  phase3_offer: `Du analysierst das Angebot im Kontext der Zielgruppe.
+  phase3_offer: `Du analysierst das Angebot im Kontext der emotionalen Situation der Zielgruppe.
 
-Basierend auf den vorherigen Erkenntnissen:
-• Warum passt dieses Angebot perfekt?
-• Welche konkreten Vorteile hat die Zielgruppe?
-• Welche USPs sollten betont werden?
-• Welche Einwände könnten kommen?
+Basierend auf den Pain Points und Ängsten:
+- Welches konkrete Problem löst dieses Angebot?
+- Wie fühlt sich die Zielgruppe NACH der Lösung?
+- Welche Last fällt von ihren Schultern?
+- Warum ist JETZT der richtige Zeitpunkt?
 
 Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`,
 
   phase4_framework: `Du wählst das beste Cold Email Framework.
 
 Verfügbare Frameworks:
-1. Quick Question - Für unklare Ansprechpartner, fragt nach dem richtigen Kontakt
-2. Third-Party - Über Mitarbeiter an Entscheider kommen
-3. PAS - Problem aufzeigen, Schmerz verstärken, Lösung präsentieren
-4. AIDA - Aufmerksamkeit durch konkrete Zahlen und Erfolge
-5. Straight to Business - Direkt, effizient, keine Zeit verschwenden
-6. Paint a Picture - Emotionale Zukunftsvision malen
-7. Something Useful - Beziehungsaufbau durch hilfreiche Tipps
+1. Quick Question: Für unklare Ansprechpartner, fragt nach dem richtigen Kontakt
+2. Third Party: Über Mitarbeiter an Entscheider kommen
+3. PAS: Problem emotional aufzeigen, Schmerz verstärken, Lösung als Erlösung
+4. AIDA: Aufmerksamkeit durch Hook, Interesse wecken, Verlangen erzeugen, Aktion
+5. Straight to Business: Direkt, effizient, respektiert die Zeit des Empfängers
+6. Paint a Picture: Emotionale Zukunftsvision malen, Kontrast zu heute
+7. Something Useful: Beziehungsaufbau durch hilfreiche Tipps ohne Gegenleistung
 
-Basierend auf Zielgruppe + Angebot:
-• Welches Framework passt am besten? (NUR EINS wählen!)
-• WARUM genau dieses Framework?
-• Wie sollte es angewendet werden?
+Basierend auf Zielgruppe und emotionaler Situation:
+- Welches Framework passt am besten? (NUR EINS wählen!)
+- WARUM genau dieses Framework für diese emotionale Lage?
 
 Nenne das Framework explizit beim Namen. Schreibe auf Deutsch. (max 100 Wörter).`,
 
   phase5_nobrainer: `Du entwickelst die No-Brainer Strategie.
 
-Basierend auf allem Vorherigen:
-• Welches unwiderstehliche Angebot senkt die Hemmschwelle?
-• Warum funktioniert es bei dieser Zielgruppe?
-• Wie sollte es formuliert werden?
-• Welches Risiko nimmt es dem Empfänger?
+WICHTIG: Nutze NIEMALS diese Spam-Wörter:
+- kostenlos, gratis, umsonst, geschenkt
+- Angebot, Rabatt, sparen
+- jetzt, sofort, dringend
 
-Falls der User keinen No-Brainer genannt hat, schlage einen passenden vor.
-Schreibe auf Deutsch. Kurz und prägnant (max 80 Wörter).`,
+Stattdessen formuliere unverbindlich und wertvoll:
+- "Ich zeige dir 3 Dinge die du sofort umsetzen kannst"
+- "Lass uns kurz telefonieren, dann weißt du mehr"
+- "Ich schau mir das unverbindlich an"
+- "Wenn es nicht passt, kein Problem"
+
+Basierend auf allem Vorherigen:
+- Welcher No-Brainer senkt die Hemmschwelle ohne Spam-Wörter?
+- Wie formulierst du ihn natürlich und menschlich?
+
+Schreibe auf Deutsch. (max 80 Wörter).`,
 
   phase6_composition: `Du planst die Email-Komposition.
 
-Basierend auf dem gewählten Framework und allen Erkenntnissen:
-• Wie sollte der Betreff lauten? (2-3 konkrete Vorschläge)
-• Welcher emotionale Hook funktioniert am Anfang?
-• Wie wird der CTA formuliert?
-• Welcher Ton passt zur Zielgruppe?
+HOOK-TYPEN (wähle einen passenden):
+- Observation Hook: "Mir ist aufgefallen, dass..."
+- Question Hook: "Kurze Frage: ..."
+- Compliment Hook: "Ich hab mir [Website] angeschaut..."
+- Pain Hook: Direkt auf den größten Schmerz eingehen
 
-Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`
+PSYCHOLOGISCHE TRIGGER einbauen:
+- Social Proof: "Andere [Zielgruppe] haben..."
+- Authority: Expertise zeigen ohne anzugeben
+- Scarcity: "Diese Woche hab ich noch Zeit für..."
+
+Basierend auf Framework und Erkenntnissen:
+- Welcher Hook passt am besten?
+- Welche 1-2 Trigger sollten rein?
+- Wie klingt ein guter Betreff? (2 Vorschläge)
+
+Schreibe auf Deutsch. (max 120 Wörter).`
 }
 
-// Email Generation Prompt - bekommt das komplette Reasoning als Input
-function getEmailGenerationPrompt(formal: boolean): string {
+// =============================================================================
+// FRAMEWORK STRUCTURES - Konkrete Email-Strukturen für jedes Framework
+// =============================================================================
+
+const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
+  'quick-question': `STRUKTUR (Quick Question):
+1. Kurze Frage wer der richtige Ansprechpartner ist (1 Satz)
+2. Kontext warum du fragst (1-2 Sätze)
+3. Was du anbieten kannst (1 Satz)
+4. Bitte um Weiterleitung oder Antwort (1 Satz)`,
+
+  'third-party': `STRUKTUR (Third Party):
+1. Beziehe dich auf einen Mitarbeiter oder Abteilung (1 Satz)
+2. Erkläre warum du den Entscheider suchst (1-2 Sätze)
+3. Kurz was du anbieten kannst (1 Satz)
+4. Frage ob er/sie der richtige Kontakt ist (1 Satz)`,
+
+  'pas': `STRUKTUR (PAS):
+1. PROBLEM (2 Sätze): Beschreibe das Problem so dass der Leser denkt "Ja genau das kenne ich!"
+2. AGITATE (2 Sätze): Verschärfe das Unbehagen. Was passiert wenn nichts getan wird? Welche Konsequenzen?
+3. SOLVE (2 Sätze): Deine Lösung als Ausweg aus dem Schmerz. Wie fühlt sich das Leben danach an?
+4. CTA (1 Satz): Kleine konkrete nächste Aktion ohne Druck.`,
+
+  'aida': `STRUKTUR (AIDA):
+1. ATTENTION (1 Satz): Hook mit überraschender Beobachtung, Zahl oder Frage
+2. INTEREST (2 Sätze): Warum das für DIESE Person relevant ist, beziehe dich auf ihre Situation
+3. DESIRE (2 Sätze): Male ein Bild wie es sein könnte, emotionale Vorstellung des besseren Zustands
+4. ACTION (1 Satz): Konkrete kleine nächste Aktion, unverbindlich formuliert`,
+
+  'straight-business': `STRUKTUR (Straight to Business):
+1. Direkt auf den Punkt (1 Satz): Was du anbietest und warum du schreibst
+2. Relevanz (1-2 Sätze): Warum das für den Empfänger interessant sein könnte
+3. Social Proof oder Ergebnis (1 Satz): Kurzer Beweis dass es funktioniert
+4. CTA (1 Satz): Klare nächste Aktion, respektiert die Zeit des Empfängers`,
+
+  'paint-picture': `STRUKTUR (Paint a Picture):
+1. Zukunftsvision (2-3 Sätze): Male ein emotionales Bild wie es sein könnte. Nutze sensorische Sprache.
+2. Kontrast zu heute (1-2 Sätze): Wie fühlt sich die aktuelle Situation an?
+3. Brücke (1 Satz): Wie kommst du von hier nach dort?
+4. CTA (1 Satz): Einladung den ersten Schritt zu machen`,
+
+  'something-useful': `STRUKTUR (Something Useful):
+1. Wertvoller Tipp (2-3 Sätze): Gib einen konkreten Tipp den der Empfänger sofort umsetzen kann
+2. Warum du das teilst (1 Satz): Zeige dass du helfen willst ohne Gegenleistung
+3. Angebot für mehr (1-2 Sätze): Falls Interesse besteht, kannst du mehr zeigen
+4. Kein Druck (1 Satz): Unverbindlich, freundlich`
+}
+
+// Email Generation Prompt - bekommt das komplette Reasoning und Framework als Input
+function getEmailGenerationPrompt(formal: boolean, framework: FrameworkType): string {
   const anrede = formal
-    ? 'Nutze "Sehr geehrter Herr [Name]," oder "Sehr geehrte Frau [Name],"'
-    : 'Nutze "Lieber Herr [Name]," oder "Liebe Frau [Name],"'
+    ? '"Sehr geehrter Herr [Name]," oder "Sehr geehrte Frau [Name],"'
+    : '"Lieber Herr [Name]," oder "Liebe Frau [Name],"'
 
-  return `Du bist ein Cold Email Copywriter. Schreibe basierend auf dem Reasoning eine KOMPLETT NEUE Cold Email.
+  const frameworkStructure = FRAMEWORK_STRUCTURES[framework]
 
-WICHTIGE REGELN:
+  return `Du schreibst eine Cold Email. Schreibe wie ein Freund der hilft.
 
-1. ANREDE:
-   - ${anrede}
-   - NIEMALS "Hey", "Hi", "Hallo" als Anrede!
-   - Nach dem Komma der Anrede wird IMMER KLEIN weitergeschrieben!
-   - Richtig: "Lieber Herr [Name], ich wollte..."
-   - Falsch: "Lieber Herr [Name], Ich wollte..."
+${frameworkStructure}
 
-2. SPAM-WÖRTER VERMEIDEN (diese Wörter NIEMALS benutzen!):
-   - "kostenlos", "gratis", "umsonst", "geschenkt"
-   - "Angebot", "Rabatt", "Preisnachlass", "sparen"
-   - "Geld", "verdienen", "gewinnen", "Gewinn"
-   - "garantiert", "versprochen", "100%"
-   - "jetzt", "sofort", "dringend", "schnell"
-   - "klicken", "hier klicken"
-   - "exklusiv", "einmalig", "limitiert"
+SCHREIBSTIL:
+- ${formal ? 'Sie' : 'Du'}-Form verwenden
+- Anrede: ${anrede}
+- Nach dem Komma der Anrede IMMER klein weiterschreiben!
+- Sei direkt und ehrlich
+- Zeige echtes Interesse an der Person
+- Kurze Sätze, einfache Worte
+- KEINE Gedankenstriche verwenden
+- Fließender Text, keine Aufzählungen oder Listen in der Email
+- Menschlich und natürlich, kein Verkäufer-Sprech
+- Max 150 Wörter Body
 
-   Stattdessen nutze natürliche Formulierungen:
-   - Statt "kostenloses Erstgespräch" → "ein kurzes Kennenlernen"
-   - Statt "gratis Analyse" → "unverbindlicher Blick auf Ihre Situation"
-   - Statt "Angebot" → "Vorschlag", "Idee", "Gedanke"
-   - Statt "jetzt" → "bei Gelegenheit", "wenn es passt"
+VERBOTEN (Spam-Trigger, NIEMALS benutzen!):
+kostenlos, gratis, umsonst, geschenkt, Angebot, Rabatt, sparen, jetzt, sofort, dringend, garantiert, versprochen, exklusiv, limitiert
 
-3. SCHREIBSTIL:
-   - Schreibe im ${formal ? 'Sie' : 'Du'}-Stil
-   - Menschlich und natürlich, wie ein echter Mensch schreiben würde
-   - Umgangssprachlich aber grammatikalisch korrekt
-   - Keine Marketing-Floskeln oder Verkäufer-Sprache
-   - Kurze Sätze, einfache Sprache
-   - Authentisch und persönlich
+PLATZHALTER:
+- Nutze [Name] als EINZIGEN Platzhalter
 
-4. STRUKTUR:
-   - Nutze [Name] als EINZIGEN Platzhalter
-   - Halte die Email KURZ (max 100 Wörter Body)
-   - Kein Bullshit, direkt auf den Punkt
-   - Wende das gewählte Framework korrekt an
-
-Antworte NUR im folgenden JSON-Format (keine Markdown-Codeblöcke, nur raw JSON):
-{"subject": "Der Betreff hier", "body": "Der komplette Email-Text hier mit Zeilenumbrüchen als \\n"}`
+Antworte NUR als JSON (keine Markdown-Codeblöcke):
+{"subject": "Betreff hier", "body": "Email-Text mit Zeilenumbrüchen als \\n"}`
 }
 
 // Regenerate Prompt - für kontextuelle Text-Ersetzung
@@ -145,12 +198,13 @@ function getRegeneratePrompt(formal: boolean): string {
 REGELN:
 1. Schreibe einen NEUEN Text der den markierten ersetzt
 2. Der neue Text MUSS nahtlos zum Text davor und danach passen
-3. Ähnliche Länge wie der Original-Text (nicht viel länger oder kürzer)
+3. Ähnliche Länge wie der Original-Text
 4. Gleicher Stil und Ton wie der Rest der Email
-5. KEINE Spam-Wörter (kostenlos, gratis, Angebot, jetzt, etc.)
-6. ${formal ? 'Sie' : 'Du'}-Form beibehalten
-7. Nach Komma immer klein weiterschreiben
-8. Menschlich und natürlich klingen
+5. KEINE Spam-Wörter (kostenlos, gratis, Angebot, jetzt, sofort, dringend, etc.)
+6. KEINE Gedankenstriche verwenden
+7. ${formal ? 'Sie' : 'Du'}-Form beibehalten
+8. Nach Komma immer klein weiterschreiben
+9. Menschlich und natürlich klingen, wie ein Freund der hilft
 
 Antworte NUR mit dem Ersatztext, nichts anderes. Keine Anführungszeichen, keine Erklärungen.`
 }
@@ -251,32 +305,32 @@ const noBrainerKeywords = [
   'erstgespräch', 'erstberatung', 'analyse'
 ]
 
-// No-Brainer Vorschläge für Suggestions
+// No-Brainer Vorschläge für Suggestions (OHNE Spam-Wörter!)
 const noBrainerOffers: Record<string, string[]> = {
   'Google Ads': [
-    'Kostenlose Google Ads Analyse deiner Kampagnen',
-    'Gratis 30-Minuten Strategiegespräch',
-    '100€ Google Ads Guthaben als Startbonus'
+    'Ich zeige dir 3 Optimierungen die du sofort umsetzen kannst',
+    'Kurzes Telefonat, dann weißt du wo du stehst',
+    'Ich schau mir deine Kampagnen unverbindlich an'
   ],
   'Facebook/Meta Ads': [
-    'Kostenloser Ads-Account Check',
-    'Gratis Zielgruppen-Analyse',
-    'Erste Kampagne zum halben Preis'
+    'Ich check deinen Account und sag dir was ich sehe',
+    'Ein Blick auf deine Zielgruppen, ob da Potenzial liegt',
+    'Kurzes Gespräch, dann weißt du mehr'
   ],
   'SEO': [
-    'Kostenloses SEO-Audit deiner Website',
-    'Gratis Keyword-Analyse',
-    'Unverbindlicher Ranking-Check'
+    'Ich schau mir deine Seite an und geb dir 3 Quick-Wins',
+    'Kurzer Blick auf deine Rankings, dann reden wir',
+    'Unverbindlicher Website-Check'
   ],
   'Webdesign': [
-    'Kostenloser Website-Check mit konkreten Verbesserungen',
-    'Gratis Mockup/Konzept für deine neue Seite',
-    'Unverbindliches Designkonzept'
+    'Ich schau mir deine Seite an und zeig dir Verbesserungen',
+    'Kurzes Konzept wie deine neue Seite aussehen könnte',
+    'Unverbindlicher Blick auf deine aktuelle Website'
   ],
   'default': [
-    'Kostenloses Erstgespräch',
-    'Unverbindliche Analyse',
-    'Test-Angebot ohne Risiko'
+    'Kurzes Kennenlernen, dann sehen wir weiter',
+    'Unverbindlicher Blick auf deine Situation',
+    'Wenn es nicht passt, kein Problem'
   ]
 }
 
@@ -382,7 +436,7 @@ export async function POST(request: Request) {
           // =================================================================
           // DYNAMIC EMAIL GENERATION
           // =================================================================
-          const email = await generateEmailWithAI(fullReasoning, formal)
+          const email = await generateEmailWithAI(fullReasoning, formal, framework)
 
           await sleep(300)
           await sendChunk({ type: 'framework', content: frameworkNames[framework] })
@@ -465,12 +519,12 @@ No-Brainer: ${analysis.noBrainer || 'nicht angegeben'}
 Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
 
   const phaseConfig = [
-    { key: 'phase1_analysis', name: '🔍 ANALYSE DER ANFRAGE' },
-    { key: 'phase2_target', name: '👥 ZIELGRUPPEN-DEEP-DIVE' },
-    { key: 'phase3_offer', name: '🎯 WARUM DIESES ANGEBOT PASST' },
-    { key: 'phase4_framework', name: '📧 FRAMEWORK-AUSWAHL' },
-    { key: 'phase5_nobrainer', name: '💎 NO-BRAINER STRATEGIE' },
-    { key: 'phase6_composition', name: '✍️ EMAIL-KOMPOSITION' }
+    { key: 'phase1_analysis', name: 'ANALYSE DER ANFRAGE' },
+    { key: 'phase2_target', name: 'ZIELGRUPPEN DEEP-DIVE' },
+    { key: 'phase3_offer', name: 'WARUM DIESES ANGEBOT PASST' },
+    { key: 'phase4_framework', name: 'FRAMEWORK-AUSWAHL' },
+    { key: 'phase5_nobrainer', name: 'NO-BRAINER STRATEGIE' },
+    { key: 'phase6_composition', name: 'EMAIL-KOMPOSITION' }
   ]
 
   let fullReasoning = ''
@@ -489,8 +543,8 @@ Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
         { role: 'system', content: PHASE_PROMPTS[phase.key] },
         { role: 'user', content: context }
       ],
-      temperature: 0.7,
-      max_tokens: 300
+      temperature: 0.85,
+      max_tokens: 400
     })
 
     const phaseContent = response.choices[0]?.message?.content || ''
@@ -558,16 +612,17 @@ Text NACH der Auswahl: "${textAfter}"`
 
 async function generateEmailWithAI(
   reasoningContext: string,
-  formal: boolean
+  formal: boolean,
+  framework: FrameworkType
 ): Promise<{ subject: string; body: string }> {
   const response = await getOpenAI().chat.completions.create({
     model: 'gpt-4o-mini',
     messages: [
-      { role: 'system', content: getEmailGenerationPrompt(formal) },
-      { role: 'user', content: `Hier ist das komplette Reasoning:\n\n${reasoningContext}\n\nGeneriere jetzt die Cold Email basierend auf diesem Reasoning.` }
+      { role: 'system', content: getEmailGenerationPrompt(formal, framework) },
+      { role: 'user', content: `Hier ist das komplette Reasoning:\n\n${reasoningContext}\n\nGeneriere jetzt die Cold Email basierend auf diesem Reasoning. Wende das ${frameworkNames[framework]} Framework korrekt an.` }
     ],
-    temperature: 0.8,
-    max_tokens: 600
+    temperature: 0.9,
+    max_tokens: 800
   })
 
   const content = response.choices[0]?.message?.content || ''
