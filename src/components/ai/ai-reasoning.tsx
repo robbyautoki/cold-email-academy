@@ -16,6 +16,7 @@ export function AIReasoning({ isStreaming, reasoning, className }: AIReasoningPr
   const [duration, setDuration] = useState(0)
   const startTimeRef = useRef<number | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   // Auto-open when streaming starts, track duration
   useEffect(() => {
@@ -53,6 +54,13 @@ export function AIReasoning({ isStreaming, reasoning, className }: AIReasoningPr
     }
   }, [isStreaming])
 
+  // Auto-scroll when reasoning updates during streaming
+  useEffect(() => {
+    if (isStreaming && contentRef.current) {
+      contentRef.current.scrollTop = contentRef.current.scrollHeight
+    }
+  }, [reasoning, isStreaming])
+
   // Don't render if no reasoning content and not streaming
   if (!reasoning && !isStreaming) return null
 
@@ -88,7 +96,10 @@ export function AIReasoning({ isStreaming, reasoning, className }: AIReasoningPr
       >
         <div className="overflow-hidden">
           <div className="px-3 pb-3 pt-0">
-            <div className="rounded-md bg-background/50 p-3 text-sm text-muted-foreground whitespace-pre-wrap max-h-48 overflow-y-auto">
+            <div
+              ref={contentRef}
+              className="rounded-md bg-background/50 p-3 text-sm text-muted-foreground whitespace-pre-wrap max-h-48 overflow-y-auto"
+            >
               {reasoning || 'Analysiere Anfrage...'}
               {isStreaming && <span className="animate-pulse">|</span>}
             </div>

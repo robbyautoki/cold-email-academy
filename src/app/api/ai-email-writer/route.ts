@@ -18,6 +18,28 @@ function getOpenAI(): OpenAI {
 // =============================================================================
 
 const PHASE_PROMPTS: Record<string, string> = {
+  phase0_context: `Du analysierst den KONTEXT dieser Cold Email.
+
+PRÜFE FOLGENDE PUNKTE:
+
+1. WETTBEWERBER-CHECK:
+   - Nutzt die Zielgruppe bereits ein ähnliches Produkt? (z.B. HubSpot, Salesforce, Mailchimp)
+   - Wenn JA: Das ist ein WECHSEL-Szenario! Warum sollten sie wechseln?
+   - Wenn NEIN: Das ist ein NEU-Szenario. Was ist der Hauptnutzen?
+
+2. PRODUKT-TYP (wichtig für den CTA!):
+   - SERVICE/AGENTUR: Google Ads, SEO, Webdesign, Beratung → CTA: "Quick-Wins", "Audit"
+   - SOFTWARE/SAAS: CRM, Buchungssoftware, Tools → CTA: "Test-Zugang", "Demo-Video"
+   - PHYSISCHES PRODUKT: Waren, Geräte → CTA: "Muster", "Katalog"
+
+3. WECHSEL-STRATEGIE (falls Wettbewerber):
+   - Was nervt typischerweise beim Wettbewerber?
+   - Was macht DEIN Angebot besser/anders?
+   - Wie kannst du einen Vergleich ermöglichen?
+
+Was ist der KONTEXT? Klassifiziere: [WECHSEL/NEU] + [SERVICE/SOFTWARE/PRODUKT]
+(max 100 Wörter)`,
+
   phase1_analysis: `Du analysierst einen Cold Email Prompt.
 
 Extrahiere und erkläre:
@@ -68,22 +90,31 @@ Nenne das Framework explizit beim Namen. Schreibe auf Deutsch. (max 100 Wörter)
 
   phase5_nobrainer: `Du entwickelst die No-Brainer Strategie.
 
-WICHTIG: Nutze NIEMALS diese Spam-Wörter:
-- kostenlos, gratis, umsonst, geschenkt
-- Angebot, Rabatt, sparen
-- jetzt, sofort, dringend
+BASIEREND AUF DEM PRODUKT-TYP (aus Kontext-Analyse):
 
-Stattdessen formuliere unverbindlich und wertvoll:
-- "Ich zeige dir 3 Dinge die du sofort umsetzen kannst"
-- "Lass uns kurz telefonieren, dann weißt du mehr"
-- "Ich schau mir das unverbindlich an"
-- "Wenn es nicht passt, kein Problem"
+FÜR SOFTWARE/SAAS:
+- "1 Monat Test mit allen Funktionen"
+- "Kurzes Demo-Video wie es funktioniert"
+- "Live-Demo in 15 Minuten"
+- "Ich zeig dir den Unterschied zu [Wettbewerber]"
 
-Basierend auf allem Vorherigen:
-- Welcher No-Brainer senkt die Hemmschwelle ohne Spam-Wörter?
-- Wie formulierst du ihn natürlich und menschlich?
+FÜR SERVICES/AGENTUREN:
+- "Ich zeig dir 3 Quick-Wins"
+- "Kurzes Audit eurer [Website/Ads/etc.]"
+- "Ich hab ein Video vorbereitet"
 
-Schreibe auf Deutsch. (max 80 Wörter).`,
+FÜR PHYSISCHE PRODUKTE:
+- "Musterbestellung"
+- "Katalog zusenden"
+
+BEI WETTBEWERBER-WECHSEL (z.B. HubSpot → dein CRM):
+- Fokus auf UNTERSCHIED zum aktuellen Anbieter
+- Test-Angebot um Vergleich zu ermöglichen
+- "Soll ich dir zeigen wo der Unterschied liegt?"
+
+VERBOTEN: kostenlos, gratis, Angebot, Rabatt, jetzt, sofort, dringend
+
+Welcher No-Brainer passt zum PRODUKT-TYP? (max 80 Wörter).`,
 
   phase6_composition: `Du planst die Email-Komposition.
 
@@ -577,6 +608,7 @@ No-Brainer: ${analysis.noBrainer || 'nicht angegeben'}
 Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
 
   const phaseConfig = [
+    { key: 'phase0_context', name: 'KONTEXT-ANALYSE' },
     { key: 'phase1_analysis', name: 'ANALYSE DER ANFRAGE' },
     { key: 'phase2_target', name: 'ZIELGRUPPEN-ANALYSE' },
     { key: 'phase3_offer', name: 'ANGEBOTS-FIT' },
