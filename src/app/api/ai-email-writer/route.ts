@@ -71,22 +71,35 @@ Basierend auf den Pain Points und Ängsten:
 
 Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`,
 
-  phase4_framework: `Du wählst das beste Cold Email Framework.
+  phase4_framework: `Du wählst das Framework basierend auf der SITUATION:
 
-Verfügbare Frameworks:
-1. Quick Question: Für unklare Ansprechpartner, fragt nach dem richtigen Kontakt
-2. Third Party: Über Mitarbeiter an Entscheider kommen
-3. PAS: Problem emotional aufzeigen, Schmerz verstärken, Lösung als Erlösung
-4. AIDA: Aufmerksamkeit durch Hook, Interesse wecken, Verlangen erzeugen, Aktion
-5. Straight to Business: Direkt, effizient, respektiert die Zeit des Empfängers
-6. Paint a Picture: Emotionale Zukunftsvision malen, Kontrast zu heute
-7. Something Useful: Beziehungsaufbau durch hilfreiche Tipps ohne Gegenleistung
+FRAMEWORK-REGELN (befolge diese strikt!):
 
-Basierend auf Zielgruppe und emotionaler Situation:
-- Welches Framework passt am besten? (NUR EINS wählen!)
-- WARUM genau dieses Framework für diese emotionale Lage?
+WENN Zielgruppe das Problem NOCH NICHT kennt (z.B. kleine Firmen ohne Marketing):
+→ "Paint a Picture" (zeige Vision) ODER "Something Useful" (gib konkreten Tipp)
 
-Nenne das Framework explizit beim Namen. Schreibe auf Deutsch. (max 100 Wörter).`,
+WENN Zielgruppe das Problem KENNT und aktiv Lösung sucht:
+→ "PAS" (Problem verstärken → Lösung) ODER "Straight to Business" (direkt)
+
+WENN du an Entscheider über Mitarbeiter ranwillst (große Firmen):
+→ "Third Party" ODER "Quick Question"
+
+WENN Wettbewerber-Wechsel (z.B. von HubSpot zu deinem Tool):
+→ "PAS" (zeige Schwächen des Wettbewerbers) ODER "Paint a Picture" (zeige bessere Zukunft)
+
+WENN du einen konkreten Tipp hast der SOFORT hilft:
+→ "Something Useful" (baue Vertrauen auf)
+
+WENN du nicht weißt wer zuständig ist:
+→ "Quick Question" (frag nach richtigem Ansprechpartner)
+
+VARIATION BEACHTEN (aus dem Kontext oben):
+- Befolge den Framework-Hint wenn er zur Situation passt!
+- NICHT immer das gleiche wählen!
+
+Analysiere die Situation und wähle das PASSENDE Framework.
+Begründe WARUM dieses Framework für DIESE Situation passt.
+(max 100 Wörter)`,
 
   phase5_nobrainer: `Du entwickelst die No-Brainer Strategie.
 
@@ -116,37 +129,37 @@ VERBOTEN: kostenlos, gratis, Angebot, Rabatt, jetzt, sofort, dringend
 
 Welcher No-Brainer passt zum PRODUKT-TYP? (max 80 Wörter).`,
 
-  phase6_composition: `Du planst die Email-Komposition.
+  phase6_composition: `Du wählst den HOOK basierend auf deinem ANGEBOT:
 
-PERSONALISIERTER HOOK (KRITISCH!):
-Die Variable {{VAR:...}} muss grammatikalisch in den Satz passen!
-Der Satz + Variable = vollständiger deutscher Satz.
+HOOK-REGELN (wähle passend zur Situation!):
 
-ERLAUBTE HOOK-MUSTER (wähle eines):
+DU BIETEST EINEN SERVICE AN (z.B. Google Ads, SEO, Webdesign):
+→ VARIANTE 1: "ich hab mir {{VAR:eure Website}} angeschaut..."
+→ VARIANTE 2: "ich hab mir {{VAR:eure Facebook Ads}} angeschaut..."
+→ VARIANTE 3: "mir ist aufgefallen, dass ihr {{VAR:SEO}} anbietet..."
 
-1. TECH STACK: "ich hab gesehen, dass ihr {{VAR:HubSpot}} nutzt..."
-   → Variable = Software-Name (Clay: tech_stack)
+DU BIETEST SOFTWARE AN (z.B. CRM, Tool, SaaS):
+→ VARIANTE 1: "ich hab gesehen, dass ihr {{VAR:HubSpot}} nutzt..."
+→ VARIANTE 2: "Glückwunsch zu {{VAR:eurem Wachstum auf 50 Mitarbeiter}}..."
+→ VARIANTE 3: "ich hab gelesen, dass {{VAR:ihr gerade expandiert}}..."
 
-2. HIRING: "ich hab gesehen, dass ihr gerade {{VAR:neue Marketing-Leute sucht}}..."
-   → Variable = Job-Beschreibung (Clay: job_openings)
+WACHSTUM/NEWS ALS TRIGGER:
+→ "Glückwunsch zu {{VAR:eurer Series A}}..."
+→ "ich hab gelesen, dass {{VAR:ihr nach Berlin expandiert}}..."
 
-3. GROWTH: "Glückwunsch zu {{VAR:eurem Wachstum auf 50 Mitarbeiter}}..."
-   → Variable = Firmenwachstum (Clay: company_size, funding)
+HIRING ALS TRIGGER:
+→ "ich hab gesehen, dass ihr gerade {{VAR:neue Marketing-Leute sucht}}..."
 
-4. WEBSITE: "ich hab mir {{VAR:eure Landingpage}} angeschaut..."
-   → Variable = Website-Element (Clay: website_analysis)
-
-5. ADS: "ich hab mir {{VAR:eure Facebook Ads}} angeschaut..."
-   → Variable = Ad-Typ (Clay: ads_library)
-
-6. SERVICE: "mir ist aufgefallen, dass ihr {{VAR:SEO Services}} anbietet..."
-   → Variable = Dienstleistung (Clay: website_services)
+VARIATION BEACHTEN:
+- Hook-Stil aus Kontext: Nutze die angegebene Variante!
+- NICHT immer "ich hab gesehen" - variiere den Einstieg!
+- Nutze "Glückwunsch", "mir ist aufgefallen", "ich hab mir angeschaut" als Alternativen!
 
 WICHTIG - Der Satz muss VOLLSTÄNDIG sein:
 - FALSCH: "mir ist aufgefallen, dass {{VAR:eure letzten Kampagnen}}" (unvollständig!)
 - RICHTIG: "ich hab mir {{VAR:eure letzten Kampagnen}} angeschaut" (vollständig!)
 
-Welcher Hook-Typ passt am besten zum Angebot? (max 80 Wörter).`,
+Welcher Hook passt zu diesem ANGEBOT und dieser ZIELGRUPPE? (max 80 Wörter).`,
 
   phase7_cta: `Du entwickelst die perfekte CTA-Strategie.
 
@@ -592,6 +605,24 @@ export async function POST(request: Request) {
 // CHAIN-OF-THOUGHT REASONING
 // =============================================================================
 
+// Generiert Zufallsvariationen für mehr Abwechslung
+function generateVariations(): { hookStyle: number, toneVariation: 'direct' | 'curious', frameworkHint: string } {
+  const hookStyle = Math.floor(Math.random() * 3) // 0, 1, oder 2
+  const toneVariation = Math.random() > 0.5 ? 'direct' : 'curious'
+
+  // Zufälliger Framework-Hint um Variation zu erzwingen
+  const frameworkHints = [
+    'Bevorzuge heute: PAS oder Paint a Picture',
+    'Bevorzuge heute: Something Useful oder AIDA',
+    'Bevorzuge heute: Straight to Business oder Quick Question',
+    'Bevorzuge heute: Third Party oder Something Useful',
+    'Wähle frei basierend auf der Situation'
+  ]
+  const frameworkHint = frameworkHints[Math.floor(Math.random() * frameworkHints.length)]
+
+  return { hookStyle, toneVariation, frameworkHint }
+}
+
 async function chainOfThoughtReasoning(
   prompt: string,
   analysis: PromptAnalysis,
@@ -600,12 +631,21 @@ async function chainOfThoughtReasoning(
 ): Promise<{ phases: ReasoningPhase[], framework: FrameworkType, fullReasoning: string }> {
   const phases: ReasoningPhase[] = []
 
-  // Initial context für Phase 1
+  // Generiere Zufallsvariationen für diese Email
+  const variations = generateVariations()
+
+  // Initial context für Phase 1 - mit Variation-Hint
   let context = `User Prompt: "${prompt}"
 Erkannte Zielgruppe: ${analysis.target || 'nicht spezifiziert'}
 Erkanntes Angebot: ${analysis.offer || 'nicht spezifiziert'}
 No-Brainer: ${analysis.noBrainer || 'nicht angegeben'}
-Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
+Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}
+
+VARIATION FÜR DIESE EMAIL (für Abwechslung!):
+- Hook-Stil: Variante ${variations.hookStyle + 1} bevorzugen
+- Ton: ${variations.toneVariation === 'direct' ? 'Direkt und selbstbewusst' : 'Neugierig und fragend'}
+- Framework: ${variations.frameworkHint}
+WICHTIG: Nutze NICHT immer den gleichen Einstieg!`
 
   const phaseConfig = [
     { key: 'phase0_context', name: 'KONTEXT-ANALYSE' },
