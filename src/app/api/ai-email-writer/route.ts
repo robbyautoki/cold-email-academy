@@ -1,9 +1,17 @@
 import { auth } from '@clerk/nextjs/server'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+// Lazy initialization to avoid build-time errors when API key is not available
+let openai: OpenAI | null = null
+
+function getOpenAI(): OpenAI {
+  if (!openai) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    })
+  }
+  return openai
+}
 
 // =============================================================================
 // PHASE PROMPTS - Jede Phase hat ihren eigenen System-Prompt
@@ -82,20 +90,69 @@ Schreibe auf Deutsch. Kurz und prägnant (max 100 Wörter).`
 
 // Email Generation Prompt - bekommt das komplette Reasoning als Input
 function getEmailGenerationPrompt(formal: boolean): string {
+  const anrede = formal
+    ? 'Nutze "Sehr geehrter Herr [Name]," oder "Sehr geehrte Frau [Name],"'
+    : 'Nutze "Lieber Herr [Name]," oder "Liebe Frau [Name],"'
+
   return `Du bist ein Cold Email Copywriter. Schreibe basierend auf dem Reasoning eine KOMPLETT NEUE Cold Email.
 
 WICHTIGE REGELN:
-- Nutze [Name] als EINZIGEN Platzhalter
-- Schreibe im ${formal ? 'Sie' : 'Du'}-Stil (${formal ? 'formell' : 'informell'})
-- Die Email MUSS einzigartig sein - KEINE Templates!
-- Wende das gewählte Framework korrekt an
-- Baue den No-Brainer natürlich ein
-- Halte die Email KURZ (max 120 Wörter Body)
-- Deutscher Text, natürlich klingend
-- Kein Bullshit, direkt auf den Punkt
+
+1. ANREDE:
+   - ${anrede}
+   - NIEMALS "Hey", "Hi", "Hallo" als Anrede!
+   - Nach dem Komma der Anrede wird IMMER KLEIN weitergeschrieben!
+   - Richtig: "Lieber Herr [Name], ich wollte..."
+   - Falsch: "Lieber Herr [Name], Ich wollte..."
+
+2. SPAM-WÖRTER VERMEIDEN (diese Wörter NIEMALS benutzen!):
+   - "kostenlos", "gratis", "umsonst", "geschenkt"
+   - "Angebot", "Rabatt", "Preisnachlass", "sparen"
+   - "Geld", "verdienen", "gewinnen", "Gewinn"
+   - "garantiert", "versprochen", "100%"
+   - "jetzt", "sofort", "dringend", "schnell"
+   - "klicken", "hier klicken"
+   - "exklusiv", "einmalig", "limitiert"
+
+   Stattdessen nutze natürliche Formulierungen:
+   - Statt "kostenloses Erstgespräch" → "ein kurzes Kennenlernen"
+   - Statt "gratis Analyse" → "unverbindlicher Blick auf Ihre Situation"
+   - Statt "Angebot" → "Vorschlag", "Idee", "Gedanke"
+   - Statt "jetzt" → "bei Gelegenheit", "wenn es passt"
+
+3. SCHREIBSTIL:
+   - Schreibe im ${formal ? 'Sie' : 'Du'}-Stil
+   - Menschlich und natürlich, wie ein echter Mensch schreiben würde
+   - Umgangssprachlich aber grammatikalisch korrekt
+   - Keine Marketing-Floskeln oder Verkäufer-Sprache
+   - Kurze Sätze, einfache Sprache
+   - Authentisch und persönlich
+
+4. STRUKTUR:
+   - Nutze [Name] als EINZIGEN Platzhalter
+   - Halte die Email KURZ (max 100 Wörter Body)
+   - Kein Bullshit, direkt auf den Punkt
+   - Wende das gewählte Framework korrekt an
 
 Antworte NUR im folgenden JSON-Format (keine Markdown-Codeblöcke, nur raw JSON):
 {"subject": "Der Betreff hier", "body": "Der komplette Email-Text hier mit Zeilenumbrüchen als \\n"}`
+}
+
+// Regenerate Prompt - für kontextuelle Text-Ersetzung
+function getRegeneratePrompt(formal: boolean): string {
+  return `Du ersetzt einen markierten Textabschnitt in einer Cold Email.
+
+REGELN:
+1. Schreibe einen NEUEN Text der den markierten ersetzt
+2. Der neue Text MUSS nahtlos zum Text davor und danach passen
+3. Ähnliche Länge wie der Original-Text (nicht viel länger oder kürzer)
+4. Gleicher Stil und Ton wie der Rest der Email
+5. KEINE Spam-Wörter (kostenlos, gratis, Angebot, jetzt, etc.)
+6. ${formal ? 'Sie' : 'Du'}-Form beibehalten
+7. Nach Komma immer klein weiterschreiben
+8. Menschlich und natürlich klingen
+
+Antworte NUR mit dem Ersatztext, nichts anderes. Keine Anführungszeichen, keine Erklärungen.`
 }
 
 // =============================================================================
@@ -112,7 +169,7 @@ type FrameworkType =
   | 'something-useful'
 
 interface StreamChunk {
-  type: 'reasoning' | 'subject' | 'body' | 'signature' | 'framework' | 'suggestions' | 'question' | 'done'
+  type: 'reasoning' | 'subject' | 'body' | 'signature' | 'framework' | 'suggestions' | 'question' | 'done' | 'regenerated'
   content: string | string[]
 }
 
@@ -128,6 +185,14 @@ interface PromptAnalysis {
 interface ReasoningPhase {
   name: string
   content: string
+}
+
+interface RegenerateRequest {
+  mode: 'regenerate'
+  textBefore: string
+  selectedText: string
+  textAfter: string
+  formal: boolean
 }
 
 // =============================================================================
@@ -231,8 +296,38 @@ export async function POST(request: Request) {
     }
 
     const reqBody = await request.json()
-    const { prompt, formal = false } = reqBody
+    const { prompt, formal = false, mode, textBefore, selectedText, textAfter } = reqBody
 
+    // =================================================================
+    // REGENERATE MODE - Inline Text Replacement
+    // =================================================================
+    if (mode === 'regenerate') {
+      if (!selectedText) {
+        return new Response(JSON.stringify({ error: 'selectedText ist erforderlich' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
+
+      const regeneratedText = await regenerateSelectedText(
+        textBefore || '',
+        selectedText,
+        textAfter || '',
+        formal
+      )
+
+      return new Response(JSON.stringify({
+        success: true,
+        regeneratedText
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
+
+    // =================================================================
+    // NORMAL MODE - Full Email Generation
+    // =================================================================
     if (!prompt) {
       return new Response(JSON.stringify({ error: 'Prompt ist erforderlich' }), {
         status: 400,
@@ -388,7 +483,7 @@ Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
     await sendChunk({ type: 'reasoning', content: fullReasoning }, 0)
 
     // OpenAI Call für diese Phase
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: PHASE_PROMPTS[phase.key] },
@@ -427,6 +522,37 @@ Anrede-Stil: ${formal ? 'Sie (formell)' : 'Du (informell)'}`
 }
 
 // =============================================================================
+// REGENERATE SELECTED TEXT
+// =============================================================================
+
+async function regenerateSelectedText(
+  textBefore: string,
+  selectedText: string,
+  textAfter: string,
+  formal: boolean
+): Promise<string> {
+  const contextPrompt = `KONTEXT DER EMAIL:
+Text VOR der Auswahl: "${textBefore}"
+AUSGEWÄHLTER TEXT (zu ersetzen): "${selectedText}"
+Text NACH der Auswahl: "${textAfter}"`
+
+  const response = await getOpenAI().chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      { role: 'system', content: getRegeneratePrompt(formal) },
+      { role: 'user', content: contextPrompt }
+    ],
+    temperature: 0.8,
+    max_tokens: 200
+  })
+
+  const result = response.choices[0]?.message?.content || selectedText
+
+  // Clean up: Remove quotes if the model wrapped the text
+  return result.replace(/^["']|["']$/g, '').trim()
+}
+
+// =============================================================================
 // EMAIL GENERATION
 // =============================================================================
 
@@ -434,7 +560,7 @@ async function generateEmailWithAI(
   reasoningContext: string,
   formal: boolean
 ): Promise<{ subject: string; body: string }> {
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: 'gpt-4o-mini',
     messages: [
       { role: 'system', content: getEmailGenerationPrompt(formal) },

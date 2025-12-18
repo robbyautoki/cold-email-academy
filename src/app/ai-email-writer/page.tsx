@@ -5,12 +5,14 @@ import {
   MailIcon,
   ChevronDown,
   Sparkles,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  RefreshCw
 } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,6 +43,12 @@ interface StreamChunk {
   content: string | string[]
 }
 
+interface Selection {
+  start: number
+  end: number
+  text: string
+}
+
 const STORAGE_KEY = 'ai-email-writer-versions'
 const MAX_VERSIONS = 10
 
@@ -64,6 +72,11 @@ export default function AIEmailWriterPage() {
   const [isStreaming, setIsStreaming] = useState(false)
   const [isFormal, setIsFormal] = useState(false)
   const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Selection state for inline regeneration
+  const [selection, setSelection] = useState<Selection | null>(null)
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const bodyTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Voice recording
   const [isRecording, setIsRecording] = useState(false)
@@ -338,6 +351,71 @@ export default function AIEmailWriterPage() {
     }
   }
 
+  // Handle text selection in body textarea
+  const handleTextSelection = () => {
+    const textarea = bodyTextareaRef.current
+    if (!textarea) return
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+
+    if (start !== end && end - start > 0) {
+      setSelection({
+        start,
+        end,
+        text: body.slice(start, end)
+      })
+    } else {
+      setSelection(null)
+    }
+  }
+
+  // Handle body text change (editable)
+  const handleBodyChange = (newBody: string) => {
+    setBody(newBody)
+    setSelection(null)
+  }
+
+  // Regenerate selected text
+  const handleRegenerateSelection = async () => {
+    if (!selection || isRegenerating) return
+
+    const textBefore = body.slice(0, selection.start)
+    const selectedText = selection.text
+    const textAfter = body.slice(selection.end)
+
+    setIsRegenerating(true)
+
+    try {
+      const response = await fetch('/api/ai-email-writer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'regenerate',
+          textBefore,
+          selectedText,
+          textAfter,
+          formal: isFormal
+        })
+      })
+
+      if (!response.ok) throw new Error('Regeneration failed')
+
+      const data = await response.json()
+
+      if (data.success && data.regeneratedText) {
+        // Replace selected text with regenerated text
+        const newBody = textBefore + data.regeneratedText + textAfter
+        setBody(newBody)
+        setSelection(null)
+      }
+    } catch (error) {
+      console.error('Regeneration error:', error)
+    } finally {
+      setIsRegenerating(false)
+    }
+  }
+
   // Handle suggestion click
   const handleSuggestionClick = (suggestion: string) => {
     const improvementPrompt = `${prompt}\n\nVerbesserung: ${suggestion}`
@@ -446,12 +524,46 @@ export default function AIEmailWriterPage() {
               </div>
             </div>
 
-            {/* Email Body */}
-            <CardContent className='p-6 min-h-[200px]'>
+            {/* Email Body - Editable */}
+            <CardContent className='p-6 min-h-[200px] relative'>
               {body ? (
-                <div className='whitespace-pre-wrap text-sm leading-relaxed'>
-                  {body}
-                  {isStreaming && <span className="animate-pulse">|</span>}
+                <div className="relative">
+                  <Textarea
+                    ref={bodyTextareaRef}
+                    value={body}
+                    onChange={(e) => handleBodyChange(e.target.value)}
+                    onSelect={handleTextSelection}
+                    onMouseUp={handleTextSelection}
+                    onKeyUp={handleTextSelection}
+                    disabled={isStreaming || isRegenerating}
+                    className="min-h-[200px] resize-none border-0 p-0 text-sm leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
+                    placeholder="Email-Text..."
+                  />
+                  {isStreaming && <span className="animate-pulse text-primary">|</span>}
+
+                  {/* Floating Regenerate Button */}
+                  {selection && !isStreaming && (
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-10">
+                      <Button
+                        size="sm"
+                        onClick={handleRegenerateSelection}
+                        disabled={isRegenerating}
+                        className="gap-1.5 shadow-lg bg-violet-600 hover:bg-violet-700 text-white"
+                      >
+                        {isRegenerating ? (
+                          <>
+                            <AILoader size={14} className="text-white" />
+                            <span>Generiere...</span>
+                          </>
+                        ) : (
+                          <>
+                            <RefreshCw className="size-3.5" />
+                            <span>Neu generieren</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ) : isStreaming ? (
                 <div className="flex items-center gap-2 text-muted-foreground">
