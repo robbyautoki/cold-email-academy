@@ -87,23 +87,25 @@ Schreibe auf Deutsch. (max 80 Wörter).`,
 
   phase6_composition: `Du planst die Email-Komposition.
 
-PERSONALISIERTER EINSTIEG (WICHTIG!):
-Jede Email muss mit einer personalisierten Beobachtung starten.
-Nutze dafür die Variable [RECHERCHE: z.B. ...] mit einem Beispiel.
+PERSONALISIERTER EINSTIEG - VARIABLE BEHALTEN (KRITISCH!):
+Die Email MUSS mit der Variable [RECHERCHE: z.B. ...] starten.
+Diese Variable wird NICHT ausgefüllt, sondern WÖRTLICH so geschrieben!
 
-HOOK-TYPEN mit Recherche-Variable:
-- Tool/Software: "Ich hab gesehen, dass ihr [RECHERCHE: z.B. Salesforce nutzt]..."
-- Observation: "Mir ist aufgefallen, dass [RECHERCHE: z.B. ihr gerade expandiert]..."
+RICHTIG (Variable bleibt erhalten):
+- "Ich hab gesehen, dass ihr [RECHERCHE: z.B. Salesforce nutzt]..."
+- "Mir ist aufgefallen, dass [RECHERCHE: z.B. ihr gerade expandiert]..."
+
+FALSCH (Variable wurde ausgefüllt - VERBOTEN!):
+- "Ich hab gesehen, dass ihr euch mit Digital Marketing beschäftigt..." ← FALSCH!
+- "Mir ist aufgefallen, dass ihr viel Wert auf Qualität legt..." ← FALSCH!
+
+HOOK-TYPEN (immer mit Variable schreiben!):
+- Tool/Software: "Ich hab gesehen, dass ihr [RECHERCHE: z.B. Hubspot nutzt]..."
+- Observation: "Mir ist aufgefallen, dass [RECHERCHE: z.B. ihr neue Stellen ausschreibt]..."
 - Content: "Ich hab euren [RECHERCHE: z.B. Blog-Post zu KI] gelesen..."
-- Growth: "Glückwunsch zu [RECHERCHE: z.B. der neuen Stelle als Head of Marketing]..."
+- Growth: "Glückwunsch zu [RECHERCHE: z.B. der Expansion nach München]..."
 
-Das "z.B." zeigt dem User was er dort pro Lead recherchieren soll.
-
-Basierend auf Framework und Erkenntnissen:
-- Welcher Hook-Typ passt am besten?
-- Wie klingt ein guter Betreff? (2 Vorschläge)
-
-Schreibe auf Deutsch. (max 100 Wörter).`,
+Welcher Hook-Typ passt am besten? (max 80 Wörter).`,
 
   phase7_cta: `Du entwickelst die perfekte CTA-Strategie.
 
@@ -141,43 +143,43 @@ Schreibe auf Deutsch. (max 100 Wörter)`
 
 const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
   'quick-question': `STRUKTUR (50-100 Wörter):
-1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + HOOK mit Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. Kurze Frage wer der richtige Ansprechpartner ist
 3. Was du anbieten kannst (1 Satz)
-4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'third-party': `STRUKTUR (50-100 Wörter):
-1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + HOOK mit Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. Beziehe dich auf jemanden aus dem Unternehmen
 3. Was du anbieten kannst
-4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'pas': `STRUKTUR (50-100 Wörter):
-1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + HOOK mit Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. PROBLEM: Verbinde das mit einem konkreten Problem (1 Satz)
 3. SOLVE: Wie du helfen kannst (1 Satz)
-4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'aida': `STRUKTUR (50-100 Wörter):
-1. Anrede + ATTENTION: PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + ATTENTION: Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. INTEREST: Warum relevant für diese Person (1 Satz)
 3. DESIRE: Wie es besser sein könnte (1 Satz)
-4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
+4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'straight-business': `STRUKTUR (50-100 Wörter):
-1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + HOOK mit Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. Direkt auf den Punkt: Was du anbietest und warum relevant
-3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
+3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'paint-picture': `STRUKTUR (50-100 Wörter):
-1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + HOOK mit Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. Kurze Vision wie es sein könnte (1-2 Sätze)
-3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken (aus dem Reasoning)`,
+3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'something-useful': `STRUKTUR (50-100 Wörter):
-1. Anrede + PERSONALISIERTER HOOK mit [RECHERCHE: z.B. ...]
+1. Anrede + HOOK mit Variable [RECHERCHE: z.B. ...] - WÖRTLICH so schreiben, NICHT ausfüllen!
 2. Ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
-3. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken (aus dem Reasoning)`
+3. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken`
 }
 
 // Email Generation Prompt - bekommt das komplette Reasoning und Framework als Input
@@ -194,21 +196,28 @@ ${frameworkStructure}
 
 GOLDENE REGELN:
 1. 50-100 Wörter Body (nicht mehr!)
-2. PERSONALISIERTER HOOK am Anfang mit [RECHERCHE: z.B. ...]
+2. PERSONALISIERTER HOOK am Anfang - WÖRTLICH die Variable [RECHERCHE: z.B. ...] verwenden!
 3. PERMISSION-BASED CTA am Ende (aus dem Reasoning übernehmen!)
 4. Der CTA ist eine JA/NEIN Frage
 5. KEINE Terminanfrage im ersten Kontakt!
 
+KRITISCH - VARIABLE NICHT AUSFÜLLEN:
+- Schreibe WÖRTLICH [RECHERCHE: z.B. Salesforce nutzt] in den Email-Text
+- NICHT "Digital Marketing" oder ähnliche generische Begriffe einsetzen!
+- Die Variable muss EXAKT so im Output erscheinen: [RECHERCHE: z.B. ...]
+- Der User ersetzt das später selbst mit recherchierten Infos pro Lead
+
 PLATZHALTER (werden vom User pro Lead ersetzt):
 - [Name] - Name des Empfängers
-- [RECHERCHE: z.B. Beispiel] - Personalisierte Info die man pro Lead recherchiert
-  Das "z.B." zeigt dem User was für eine Art Info gemeint ist
-  Beispiele: "Salesforce nutzt", "gerade expandiert", "neue Mitarbeiter sucht"
+- [RECHERCHE: z.B. Beispiel] - WÖRTLICH so schreiben! Wird vom User ersetzt.
 
-PERSONALISIERUNGS-BEISPIELE:
+RICHTIGE Beispiele (Variable bleibt erhalten):
 - "Ich hab gesehen, dass ihr [RECHERCHE: z.B. Hubspot fürs CRM nutzt]..."
 - "Mir ist aufgefallen, dass [RECHERCHE: z.B. ihr gerade 3 neue Stellen ausschreibt]..."
-- "Ich hab euren [RECHERCHE: z.B. LinkedIn-Post zu eurem neuen Produkt] gesehen..."
+
+FALSCHE Beispiele (Variable wurde ausgefüllt - VERBOTEN!):
+- "Ich hab gesehen, dass ihr euch mit Digital Marketing beschäftigt..." ← FALSCH!
+- "Mir ist aufgefallen, dass ihr viel Wert auf Qualität legt..." ← FALSCH!
 
 TON:
 - Sachlich und freundlich
