@@ -227,41 +227,41 @@ Schreibe auf Deutsch. (max 100 Wörter)`
 
 const FRAMEWORK_STRUCTURES: Record<FrameworkType, string> = {
   'quick-question': `STRUKTUR (50-100 Wörter):
-1. Anrede + HOOK mit {{VAR:personalisierte Info}}
+1. Anrede + HOOK mit {{VAR:...}} ← PFLICHT! z.B. "ich hab mir {{VAR:eure Website}} angeschaut..."
 2. Kurze Frage wer der richtige Ansprechpartner ist
 3. PFLICHT - KONKRETER NUTZEN: Nutze die Angebotserkärung aus dem Reasoning! Erkläre WAS du machst und WELCHES Ergebnis der Kunde bekommt (NICHT vage wie "wir helfen bei X"!)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'third-party': `STRUKTUR (50-100 Wörter):
-1. Anrede + HOOK mit {{VAR:personalisierte Info}}
+1. Anrede + HOOK mit {{VAR:...}} ← PFLICHT! z.B. "ich hab gesehen, dass {{VAR:euer Marketing-Team}} wächst..."
 2. Beziehe dich auf jemanden aus dem Unternehmen
 3. PFLICHT - KONKRETER NUTZEN: Nutze die Angebotserkärung aus dem Reasoning! Erkläre WAS du machst und WELCHES Ergebnis der Kunde bekommt
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'pas': `STRUKTUR (50-100 Wörter):
-1. Anrede + HOOK mit {{VAR:personalisierte Info}}
+1. Anrede + HOOK mit {{VAR:...}} ← PFLICHT! z.B. "ich hab mir {{VAR:eure Google Ads}} angeschaut..."
 2. PROBLEM: Verbinde das mit einem konkreten Problem (1 Satz)
 3. PFLICHT - SOLVE mit KONKRETEM NUTZEN: Nutze die Angebotserkärung! WAS du machst + WELCHES Ergebnis (NICHT vage!)
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'aida': `STRUKTUR (50-100 Wörter):
-1. Anrede + ATTENTION mit {{VAR:personalisierte Info}}
+1. Anrede + ATTENTION mit {{VAR:...}} ← PFLICHT! z.B. "Glückwunsch zu {{VAR:eurer Expansion}}..."
 2. INTEREST: Warum relevant für diese Person (1 Satz)
 3. PFLICHT - DESIRE mit KONKRETEM NUTZEN: Nutze die Angebotserkärung! WAS du machst + WELCHES Ergebnis
 4. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'straight-business': `STRUKTUR (50-100 Wörter):
-1. Anrede + HOOK mit {{VAR:personalisierte Info}}
+1. Anrede + HOOK mit {{VAR:...}} ← PFLICHT! z.B. "ich hab mir {{VAR:eure Kampagnen}} angeschaut..."
 2. PFLICHT - KONKRETER NUTZEN: Nutze die Angebotserkärung aus dem Reasoning! Was du GENAU machst und welches ERGEBNIS der Kunde bekommt (z.B. "Wir schalten eure Google Ads und liefern jeden Monat mehr Leads für weniger Budget" - NICHT "wir helfen bei Performance Marketing"!)
 3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'paint-picture': `STRUKTUR (50-100 Wörter):
-1. Anrede + HOOK mit {{VAR:personalisierte Info}}
+1. Anrede + HOOK mit {{VAR:...}} ← PFLICHT! z.B. "ich hab gesehen, dass ihr {{VAR:HubSpot}} nutzt..."
 2. PFLICHT - Vision mit KONKRETEM NUTZEN: Nutze die Angebotserkärung! Male eine konkrete Vision WIE es mit deinem Angebot sein könnte (nicht vage!)
 3. PERMISSION CTA: Frag um Erlaubnis etwas zu schicken`,
 
   'something-useful': `STRUKTUR (50-100 Wörter):
-1. Anrede + HOOK mit {{VAR:personalisierte Info}}
+1. Anrede + HOOK mit {{VAR:...}} ← PFLICHT! z.B. "ich hab mir {{VAR:eure SEO}} angeschaut..."
 2. Ein konkreter Tipp den der Empfänger umsetzen kann (1-2 Sätze)
 3. PFLICHT - Verbinde mit Angebot: Nutze die Angebotserkärung! WAS du machst + WELCHES Ergebnis
 4. PERMISSION CTA: Frag um Erlaubnis mehr zu schicken`
@@ -275,28 +275,35 @@ function getEmailGenerationPrompt(formal: boolean, framework: FrameworkType): st
 
   const frameworkStructure = FRAMEWORK_STRUCTURES[framework]
 
-  return `Du schreibst eine Cold Email die konvertiert. Schreibe wie ein Kollege der einen hilfreichen Tipp gibt.
+  return `Du schreibst eine Cold Email die konvertiert.
+
+🚨🚨🚨 ALLERWICHTIGSTE REGEL - VARIABLE PFLICHT 🚨🚨🚨
+Die Email ist UNGÜLTIG und wird ABGELEHNT ohne {{VAR:...}} Variable!
+
+Der ERSTE Satz nach der Anrede MUSS eine {{VAR:...}} Variable enthalten!
+
+SO MUSS der erste Satz aussehen (mit Variable):
+✅ "ich hab mir {{VAR:eure Website}} angeschaut und..."
+✅ "ich hab gesehen, dass ihr {{VAR:HubSpot}} nutzt..."
+✅ "Glückwunsch zu {{VAR:eurer Series A}}..."
+✅ "ich hab mir {{VAR:eure Google Ads}} angeschaut..."
+
+❌ NIEMALS so anfangen (VERBOTEN - ohne Variable):
+❌ "mir ist aufgefallen, dass viele Unternehmen..."
+❌ "Hast du schon mal darüber nachgedacht..."
+❌ "ich wollte mich kurz vorstellen..."
+
+PRÜFE: Enthält dein erster Satz {{VAR:...}}? Wenn NEIN → STOPP und füge Variable hinzu!
+🚨🚨🚨 ENDE WICHTIGSTE REGEL 🚨🚨🚨
 
 ${frameworkStructure}
 
 GOLDENE REGELN:
 1. 50-100 Wörter Body (nicht mehr!)
-2. PERSONALISIERTER HOOK am Anfang mit {{VAR:...}} Markup
+2. ERSTER SATZ MUSS {{VAR:...}} enthalten! (siehe oben)
 3. PERMISSION-BASED CTA am Ende (aus dem Reasoning übernehmen!)
 4. Der CTA ist eine JA/NEIN Frage
 5. KEINE Terminanfrage im ersten Kontakt!
-
-PFLICHT - MINDESTENS 1 VARIABLE:
-Jede Email MUSS mindestens eine {{VAR:...}} Variable enthalten!
-- Mindestens 1 Variable ist PFLICHT - ohne Variable ist die Email UNGÜLTIG!
-- Mehrere Variablen sind erlaubt und sogar erwünscht
-- Variablen machen die Email personalisierbar für Clay/Outreach-Tools
-
-Gute Positionen für Variablen:
-- Im Hook: "ich hab mir {{VAR:eure Website}} angeschaut..."
-- Im Kontext: "bei {{VAR:eurer Expansion nach München}}..."
-- Bei Referenzen: "wie {{VAR:Firma XY aus eurer Branche}}..."
-- Bei News: "Glückwunsch zu {{VAR:eurem neuen Produkt}}..."
 
 KRITISCH - ANGEBOTS-NUTZEN (das Wichtigste!):
 Der Empfänger kennt dein Produkt/Service NICHT!
